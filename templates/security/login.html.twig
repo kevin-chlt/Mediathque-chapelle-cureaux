@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    {% if error %}
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    {% endif %}
+        <form class="col s4 center" method="post">
+            <h1 class="">Connexion</h1>
+            <div class="input-field">
+                <input id="email" value="{{ last_username }}" name="email" required autofocus type="email"  />
+                <label for="email">Email</label>
+            </div>
+            <div class="input-field">
+                <input id="password" type="password" name="password" required  />
+                <label for="password" >Mot de passe</label>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Connexion
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+{% endblock %}
