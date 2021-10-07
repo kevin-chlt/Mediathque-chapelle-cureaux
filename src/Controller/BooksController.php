@@ -23,6 +23,7 @@ class BooksController extends AbstractController
         ]);
     }
 
+    #Add new book method
     #[Route('/new', name: 'books_new', methods: ['GET','POST'])]
     public function new(Request $request, ImgUploader $uploader): Response
     {
@@ -58,6 +59,7 @@ class BooksController extends AbstractController
             'book' => $book,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'books_edit', methods: ['GET','POST'])]
     public function edit(Request $request, Books $book): Response

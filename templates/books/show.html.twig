@@ -1,42 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Books{% endblock %}
+{% block title %}{{ book.title }} - Médiathèque La Chapelle-Curreaux{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/showBook.css') }}" rel="stylesheet" />
+{% endblock %}
+
 
 {% block body %}
-    <h1>Books</h1>
+    {% include('headers/header-employee.html.twig') %}
+    <main >
+        <div class="container z-depth-2">
+            <div class="title-container row center">
+                <h1>{{ book.title }}</h1>
+            </div>
+            <div class="row">
+                <div class="book-img-container left">
+                    <img class="responsive-img" src="{{ asset(book.cover) }}" />
+                </div>
+                <div class="book-text-container">
+                    <p class="">
+                        <u>Synopsis:</u>
+                        {{ book.description }}
+                    </p>
+                    <p class="">
+                        <u>Date de parution:</u>
+                        {{ book.parutedAt|date('d/m/Y') }}
+                    </p>
+                    <p class="">
+                        <u>Auteur(s):</u>
+                        {% for author in book.authors %}
+                            {{ author.name }}
+                        {% endfor %}
+                    </p>
+                    <p class="">
+                        <u>Genre:</u>
+                        {% for category in book.categories %}
+                            {{ category.name }}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+            <div class="btn-container">
+                {{ include('books/_delete_form.html.twig') }}
+                <a class="btn" href="#">Emprunter</a>
+            </div>
+        </div>
+    </main>
+    {% include('./_footer.html.twig') %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ book.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ book.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ book.description }}</td>
-            </tr>
-            <tr>
-                <th>ParutedAt</th>
-                <td>{{ book.parutedAt ? book.parutedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>IsFree</th>
-                <td>{{ book.isFree ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Cover</th>
-                <td>{{ book.cover }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('books_index') }}">back to list</a>
-
-    <a href="{{ path('books_edit', {'id': book.id}) }}">edit</a>
-
-    {{ include('books/_delete_form.html.twig') }}
 {% endblock %}

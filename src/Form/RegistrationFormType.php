@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\Type;
@@ -108,6 +109,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new GreaterThan([
                         'value' => '-120 years',
+                        'message' => 'Date de naissance incorrect.'
+                    ]),
+                    new LessThan([
+                        'value' => '+5 years',
                         'message' => 'Date de naissance incorrect.'
                     ])
                 ]

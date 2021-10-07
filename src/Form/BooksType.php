@@ -15,7 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BooksType extends AbstractType
@@ -50,6 +52,10 @@ class BooksType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Vous devez remplir ce champ.'
+                    ]),
+                    new LessThan([
+                        'value' => '+5 years',
+                        'message' => 'Date incorrect.'
                     ])
                 ]
             ])
@@ -57,7 +63,8 @@ class BooksType extends AbstractType
                 'label' => 'Disponible ?',
                 'choices' => [
                     'Oui' => true,
-                    'Non' => false,
+                    'Non' => 0,
+                    'Veuillez choisir une disponibilité' => null
                 ],
                 'constraints' => [
                     new NotBlank([

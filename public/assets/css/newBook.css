@@ -54,6 +54,11 @@ ul{
     margin: 0;
 }
 
+form li {
+    color: red;
+    font-size: 0.8rem;
+    font-style: italic;
+}
 
 @media screen and (max-width: 1450px){
     form{
@@ -75,4 +80,13 @@ ul{
         overflow: inherit;
         margin: 0;
     }
+
+    form h1{
+        font-size: 1.8rem;
+    }
+
+    form{
+        margin-top: 20px;
+    }
+
 }
