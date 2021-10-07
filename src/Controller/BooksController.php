@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Books;
 use App\Form\BooksType;
 use App\Repository\BooksRepository;
+use App\Services\ImgUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,13 +24,20 @@ class BooksController extends AbstractController
     }
 
     #[Route('/new', name: 'books_new', methods: ['GET','POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, ImgUploader $uploader): Response
     {
         $book = new Books();
         $form = $this->createForm(BooksType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Give new name if an image has been uploaded //
+            $file = $form['cover']->getData();
+            if($file instanceof UploadedFile){
+                $filename = $uploader->getFileName($file);
+                $book->setCover("uploads/$filename");
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();

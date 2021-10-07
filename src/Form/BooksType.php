@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -67,7 +68,19 @@ class BooksType extends AbstractType
             ->add('cover', FileType::class, [
                 'label' => 'Couverture',
                 'required' => false,
-                'label_attr' => ['style' => 'color: #FFFFFF']
+                'label_attr' => ['style' => 'color: #FFFFFF'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5096k',
+                        'maxSizeMessage' => 'Taille de photo maximum autorisé: {{ limit }}' ,
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg+xml'
+                        ],
+                        'mimeTypesMessage' => 'Type d\'images acceptées: PNG, JPG, SVG',
+                    ])
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categories::class,
