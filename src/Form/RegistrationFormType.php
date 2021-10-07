@@ -9,9 +9,11 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints\Type;
 
 class RegistrationFormType extends AbstractType
 {
@@ -19,16 +21,15 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-
                 'constraints' => [
                     new notBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Vous devez remplir ce champ.',
                     ]),
                     new Length([
                         'min' => 4,
-                        'minMessage' => 'Votre email doit contenir au moins {{ limit }} caractères',
+                        'minMessage' => 'Votre email doit contenir au moins {{ limit }} caractères.',
                         'max' => 255,
-                        'maxMessage' => 'Votre email doit contenir au moins {{ limit }} caractères'
+                        'maxMessage' => 'Votre email doit contenir au moins {{ limit }} caractères.'
                     ]),
                 ],
             ])
@@ -38,12 +39,13 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Vous devez remplir ce champ',
+                        'message' => 'Vous devez remplir ce champ.',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
                         'max' => 255,
+                        'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.',
                     ]),
                 ],
             ])
@@ -51,11 +53,17 @@ class RegistrationFormType extends AbstractType
             'label' => 'Prenom',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Vous devez remplir ce champ'
+                    'message' => 'Vous devez remplir ce champ.'
                 ]),
                 new Length([
                     'min' => 2,
-                    'max' => 255
+                    'minMessage' => 'Votre prénom doit contenir au moins {{ limit }} caractères.',
+                    'max' => 255,
+                    'maxMessage' => 'Votre prénom doit contenir au maximum {{ limit }} caractères.',
+                ]),
+                new Type([
+                    'type' => 'alpha',
+                    'message' => 'Votre prénom doit être composé uniquement de lettre.',
                 ])
             ]
         ])
@@ -63,11 +71,17 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Nom',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Vous devez remplir ce champ'
+                        'message' => 'Vous devez remplir ce champ.'
                     ]),
                     new Length([
                         'min' => 2,
-                        'max' => 255
+                        'minMessage' => 'Votre nom doit contenir au moins {{ limit }} caractères.',
+                        'max' => 255,
+                        'maxMessage' => 'Votre nom doit contenir au maximum {{ limit }} caractères.',
+                    ]),
+                    new Type([
+                        'type' => 'alpha',
+                        'message' => 'Votre nom doit être composé uniquement de lettre.',
                     ])
                 ]
             ])
@@ -75,11 +89,13 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Adresse',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Vous devez remplir ce champ'
+                        'message' => 'Vous devez remplir ce champ.'
                     ]),
                     new Length([
                         'min' => 2,
-                        'max' => 255
+                        'minMessage' => 'Votre adresse doit contenir au moins {{ limit }} caractères.',
+                        'max' => 255,
+                        'maxMessage' => 'Votre adresse doit contenir au maximum {{ limit }} caractères.',
                     ])
                 ]
             ])
@@ -88,8 +104,12 @@ class RegistrationFormType extends AbstractType
                 'widget'=> 'single_text',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Vous devez remplir ce champ'
+                        'message' => 'Vous devez remplir ce champ.'
                     ]),
+                    new GreaterThan([
+                        'value' => '-120 years',
+                        'message' => 'Date de naissance incorrect.'
+                    ])
                 ]
             ])
         ;

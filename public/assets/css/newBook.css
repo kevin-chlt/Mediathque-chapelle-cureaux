@@ -8,18 +8,14 @@
     src: url("../fonts/Overlock-Regular.ttf");
 }
 
-a {
-    text-decoration: none;
-    color: #FFFFFF;
-}
-
-body{
+main{
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    width: 100%;
     background: rgba(87, 193, 188, 0.1);
-    position: relative;
+    padding: 20px 0;
 }
 
 
@@ -36,9 +32,10 @@ form{
 h1{
     color: #57C1BC;
     text-decoration: underline #57C1BC;
-    font-size: 3rem;
+    font-size: 2.5rem;
     padding: 10px;
     margin-top: 20px;
+    text-align: center;
 }
 
 h1, .btn {
@@ -49,25 +46,19 @@ input,label {
     font-family: Overlock, sans-serif;
 }
 
-
 .btn{
     margin: 15px auto;
-}
-
-.back-btn{
-    position: absolute;
-    top: 0;
-    left: 10px;
 }
 
 ul{
     margin: 0;
 }
 
-.error-msg, li{
-    font-size: 0.8rem;
-    margin-top: 10px;
-    color: red;
+
+@media screen and (max-width: 1450px){
+    form{
+        width: 60%;
+    }
 }
 
 @media screen and (max-width: 950px) {
@@ -82,6 +73,6 @@ ul{
 @media screen and (max-width: 400px){
     .btn{
         overflow: inherit;
+        margin: 0;
     }
-
 }

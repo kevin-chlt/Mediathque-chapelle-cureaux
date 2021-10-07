@@ -1,0 +1,45 @@
+{{ form_start(form, {'attr':{'class': 'z-depth-3'} }) }}
+<h1>Ajouter un livre dans le catalogue</h1>
+<div class="input-field">
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+    {{ form_errors(form.title) }}
+</div>
+<div class="input-field">
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description) }}
+    {{ form_errors(form.description) }}
+</div>
+<div>
+    {{ form_label(form.parutedAt) }}
+    {{ form_widget(form.parutedAt) }}
+    {{ form_errors(form.parutedAt) }}
+</div>
+<div class="input-field">
+    {{ form_widget(form.authors) }}
+    {{ form_label(form.authors) }}
+    {{ form_errors(form.authors) }}
+</div>
+<div class="input-field">
+    {{ form_widget(form.categories) }}
+    {{ form_label(form.categories) }}
+    {{ form_errors(form.categories) }}
+</div>
+<div class="input-field">
+    {{ form_widget(form.isFree) }}
+    {{ form_label(form.isFree) }}
+    {{ form_errors(form.isFree) }}
+</div>
+<div class="file-field input-field">
+    <div class="btn">
+        {{ form_label(form.cover) }}
+        {{ form_widget(form.cover) }}
+    </div>
+    <div class="file-path-wrapper">
+        <input class="file-path" type="text">
+    </div>
+    {{ form_errors(form.cover) }}
+</div>
+
+<button type="submit" class="btn"><i class="material-icons right">add</i> Ajouter</button>
+{{ form_end(form) }}

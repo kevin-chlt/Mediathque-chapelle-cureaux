@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block body %}
+        <button class="btn back-btn"> <a href="#"> Accueil </a><i class="material-icons left">arrow_back</i></button>
 
         {{ form_start(registrationForm, {'attr': {'class': 'z-depth-3'} }) }}
         <h1 class="center">Inscription</h1>
@@ -40,7 +41,7 @@
                 {{ form_errors(registrationForm.birthdate) }}
         </div>
 
-        <button type="submit" class="btn"> Enregistrer <i class="material-icons right ">send</i></button>
+        <button type="submit" class="btn"> Enregistrer <i class="material-icons right">send</i></button>
 
         {{ form_end(registrationForm) }}
 
