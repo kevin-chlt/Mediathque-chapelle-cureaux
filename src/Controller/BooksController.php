@@ -12,9 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/books")
+ */
 #[Route('/books')]
 class BooksController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="books_index")
+     */
     #[Route('/', name: 'books_index', methods: ['GET'])]
     public function index(BooksRepository $booksRepository): Response
     {
@@ -23,6 +30,9 @@ class BooksController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/new", name="books_new")
+     */
     #Add new book method
     #[Route('/new', name: 'books_new', methods: ['GET','POST'])]
     public function new(Request $request, ImgUploader $uploader): Response
@@ -52,6 +62,9 @@ class BooksController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}", name="books_show")
+     */
     #[Route('/{id}', name: 'books_show', methods: ['GET'])]
     public function show(Books $book): Response
     {
@@ -60,7 +73,9 @@ class BooksController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/{id}/edit", name="books_edit")
+     */
     #[Route('/{id}/edit', name: 'books_edit', methods: ['GET','POST'])]
     public function edit(Request $request, Books $book): Response
     {

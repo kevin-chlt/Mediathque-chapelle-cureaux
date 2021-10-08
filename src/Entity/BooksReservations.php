@@ -39,6 +39,12 @@ class BooksReservations
      */
     private $isCollected = false;
 
+    public function __construct()
+    {
+        $this->reservedAt = new \DateTime();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

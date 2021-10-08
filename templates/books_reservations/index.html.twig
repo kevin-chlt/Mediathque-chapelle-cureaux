@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BooksReservations index{% endblock %}
+
+{% block body %}
+    <h1>BooksReservations index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ReservedAt</th>
+                <th>IsCollected</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for books_reservation in books_reservations %}
+            <tr>
+                <td>{{ books_reservation.id }}</td>
+                <td>{{ books_reservation.reservedAt ? books_reservation.reservedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ books_reservation.isCollected ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('books_reservations_show', {'id': books_reservation.id}) }}">show</a>
+                    <a href="{{ path('books_reservations_edit', {'id': books_reservation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('books_reservations_new') }}">Create new</a>
+{% endblock %}

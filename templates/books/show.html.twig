@@ -16,7 +16,11 @@
             </div>
             <div class="row">
                 <div class="book-img-container left">
-                    <img class="responsive-img" src="{{ asset(book.cover) }}" />
+                    {% if book.cover %}
+                        <img class="responsive-img" src="{{ asset(book.cover) }}" />
+                    {% else %}
+                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}" />
+                    {% endif %}
                 </div>
                 <div class="book-text-container">
 
@@ -46,7 +50,7 @@
                 {% if (is_granted("ROLE_EMPLOYEE")) %}
                 {{ include('books/_delete_form.html.twig') }}
                 {% endif %}
-                <a class="btn waves-effect waves-light {{ book.isFree ? '' : 'disabled'}} " href="#">
+                <a class="btn waves-effect waves-light {{ book.isFree ? '' : 'disabled'}} " href="{{ path('books_reservations_new', {'id': book.id }) }}">
                     <i class="material-icons right">add</i>
                     Emprunter</a>
             </div>
