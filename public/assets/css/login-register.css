@@ -18,7 +18,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: rgba(87, 193, 188, 0.1);
+    background: rgba(38, 166, 154, 0.1);
     position: relative;
 }
 
@@ -28,14 +28,14 @@ form{
     flex-direction: column;
     width: 40%;
     padding: 10px 30px 20px;
-    border: 2px #57C1BC solid;
+    border: 2px #26a69a solid;
     border-radius: 15px;
 }
 
 
 h1{
-    color: #57C1BC;
-    text-decoration: underline #57C1BC;
+    color: #26a69a;
+    text-decoration: underline #26a69a;
     font-size: 3rem;
     padding: 10px;
     margin-top: 20px;

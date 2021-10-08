@@ -1,4 +1,6 @@
 <form method="post" action="{{ path('books_delete', {'id': book.id}) }}" onsubmit="return confirm('Cette action est irréversible, êtes vous sûr ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
-    <button class="btn delete-btn">Supprimer</button>
+    <button class="btn delete-btn waves-effect waves-light">
+        <i class="material-icons left">clear</i>
+        Supprimer</button>
 </form>

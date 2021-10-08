@@ -1,0 +1,13 @@
+{% if book.isFree %}
+    <div class="btn-dispo-container">
+        <span>Disponible</span>
+        <div class="btn-dispo dispo z-depth-1"></div>
+    </div>
+{% else %}
+    <div class="btn-dispo-container">
+        <span>Non disponible</span>
+        <div class="btn-dispo no-dispo z-depth-1"></div>
+    </div>
+{% endif %}
+
+
