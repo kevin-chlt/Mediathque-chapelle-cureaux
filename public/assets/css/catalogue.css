@@ -1,0 +1,116 @@
+
+@font-face {
+    font-family: Righteous;
+    src: url("../fonts/Righteous-Regular.ttf");
+}
+
+@font-face {
+    font-family: Overlock;
+    src: url("../fonts/Overlock-Regular.ttf");
+}
+
+main{
+    background: rgba(38, 166, 154, 0.1);
+    padding: 30px 0;
+}
+
+.row{
+    display: flex;
+    min-height: 150px;
+}
+
+.container{
+    padding: 10px 30px 0;
+    border: 2px #26a69a solid;
+    position: relative;
+    margin: 20px auto;
+}
+
+.btn-dispo-container{
+    position: absolute;
+    right: 10px;
+    display: flex;
+}
+
+.btn-dispo-container span{
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.btn-dispo{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.dispo{
+    background: #26a69a;
+}
+
+.no-dispo{
+    background: rgba(255, 0, 43, 0.75);
+}
+
+.book-img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img.responsive-img{
+    min-width: 80%;
+    min-height: 80%;
+}
+
+.book-text-container h1{
+    color: #26a69a;
+    font-size: 2.2rem;
+    padding: 5px 0;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    margin: 5px 0;
+}
+
+.book-text-container p{
+    overflow-wrap: break-word;
+    font-size: 1.2rem;
+}
+
+.book-text-container p, .book-text-container h1, .btn-dispo-container span{
+    font-family: Overlock, sans-serif;
+}
+
+.btn-container{
+    display: flex;
+    margin: 10px 0;
+
+    justify-content: flex-end;
+}
+
+.btn{
+    background: #26a69a;
+}
+
+@media screen and (max-width: 950px) {
+    .container {
+        width: 100%;
+        border-left: 0;
+        border-right: 0;
+        padding: 10px 15px 0;
+    }
+
+    .book-text-container h1 {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+
+    .book-text-container p{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 624px) {
+}
+
+

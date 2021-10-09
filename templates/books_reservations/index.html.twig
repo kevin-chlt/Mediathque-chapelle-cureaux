@@ -20,10 +20,6 @@
                 <td>{{ books_reservation.id }}</td>
                 <td>{{ books_reservation.reservedAt ? books_reservation.reservedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ books_reservation.isCollected ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('books_reservations_show', {'id': books_reservation.id}) }}">show</a>
-                    <a href="{{ path('books_reservations_edit', {'id': books_reservation.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -33,5 +29,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('books_reservations_new') }}">Create new</a>
+
 {% endblock %}

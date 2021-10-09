@@ -1,43 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Books index{% endblock %}
+{% block title %}Catalogue{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/catalogue.css') }}" rel="stylesheet" />
+{% endblock %}
+
 
 {% block body %}
-    <h1>Books index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>ParutedAt</th>
-                <th>IsFree</th>
-                <th>Cover</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    {% include('headers/_header-anonymous.html.twig') %}
+    <main>
         {% for book in books %}
-            <tr>
-                <td>{{ book.id }}</td>
-                <td>{{ book.title }}</td>
-                <td>{{ book.description }}</td>
-                <td>{{ book.parutedAt ? book.parutedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ book.isFree ? 'Yes' : 'No' }}</td>
-                <td>{{ book.cover }}</td>
-                <td>
-                    <a href="{{ path('books_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('books_edit', {'id': book.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+        <div class="container z-depth-2">
+            {% include('books/_btn-dispo-book.html.twig') %}
+            <div class="row">
+                <div class="col l3 s4 book-img-container">
+                    {% if book.cover %}
+                        <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture"/>
+                    {% else %}
+                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}" alt="image couverture par defaut" />
+                    {% endif %}
+                </div>
+                <div class="book-text-container col l9  s8">
+                    <h1>{{ book.title }}</h1>
+                    <p>{{ book.description }}</p>
+                </div>
+            </div>
+            <div class="btn-container">
+                <a class="btn" href="{{ path('books_show', {'id': book.id}) }}">Voir le livre</a>
+            </div>
+        </div>
         {% endfor %}
-        </tbody>
-    </table>
+        </main>
 
-    <a href="{{ path('books_new') }}">Create new</a>
+    {% include('./_footer.html.twig') %}
 {% endblock %}

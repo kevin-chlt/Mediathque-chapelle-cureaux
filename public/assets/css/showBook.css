@@ -54,7 +54,8 @@ main{
     text-decoration: underline #26a69a;
     font-size: 3rem;
     padding: 10px;
-    margin: 0;
+    margin: 10px 0;
+    overflow-wrap: break-word;
 }
 
 .book-img-container{
@@ -64,12 +65,12 @@ main{
 
 .book-text-container p{
     font-size: 1.2rem;
+    overflow-wrap: break-word;
 }
 
 .book-text-container p, .title-container h1, .btn-dispo-container span{
     font-family: Overlock, sans-serif;
 }
-
 
 .btn-container{
     display: flex;
