@@ -1,0 +1,13 @@
+{% if reservation.isCollected %}
+        Collecté
+        {% if reservation.reservedAt|date_modify('+3 weeks') > date() %}
+            (En cours)
+        {% else %}
+            (Dépassement)
+        {% endif %}
+{% else %}
+    Non collecté
+{% endif %}
+
+
+

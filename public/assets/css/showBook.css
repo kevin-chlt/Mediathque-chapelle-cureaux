@@ -63,6 +63,11 @@ main{
     margin-right: 20px;
 }
 
+.book-text-container{
+    width: 50%;
+    display: inline-block;
+}
+
 .book-text-container p{
     font-size: 1.2rem;
     overflow-wrap: break-word;
@@ -90,5 +95,21 @@ main{
     .book-img-container{
         width: 100%;
         margin-right: initial;
+    }
+
+    .book-text-container{
+        width: 100%;
+    }
+
+    .title-container h1{
+        font-size: 1.5rem;
+    }
+
+    .book-text-container p{
+        font-size: 1rem;
+    }
+
+    .row{
+        margin-bottom: 0;
     }
 }

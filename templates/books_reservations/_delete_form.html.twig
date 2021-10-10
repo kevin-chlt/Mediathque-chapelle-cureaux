@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('books_reservations_delete', {'id': books_reservation.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ books_reservation.id) }}">
-    <button class="btn">Delete</button>
+<form method="post" action="{{ path('books_reservations_delete', {'id': reservation.id}) }}" onsubmit="return confirm('Vous allez cloturer cette emprunt, cette action est irréversible' );">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+    <button type="submit" class="btn-small {{ reservation.isCollected ? '' : 'disabled'}}"> Rendu client </button>
 </form>

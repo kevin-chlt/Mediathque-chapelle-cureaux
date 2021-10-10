@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ book.title }} - Médiathèque La Chapelle-Curreaux{% endblock %}
+{% block title %} {{ book.title }} - Médiathèque La Chapelle-Curreaux{% endblock %}
 {% block stylesheets %}
     <link href="{{ asset('assets/css/showBook.css') }}" rel="stylesheet" />
 {% endblock %}
 
 
 {% block body %}
-    {% include('headers/header-employee.html.twig') %}
+    {% if (is_granted("ROLE_EMPLOYEE")) %}
+        {% include('headers/header-employee.html.twig') %}
+    {% else %}
+        {% include('headers/header-user.html.twig') %}
+    {% endif %}
+
     <main>
         <div class="container z-depth-2">
             {% include('books/_btn-dispo-book.html.twig') %}
@@ -17,9 +22,9 @@
             <div class="row">
                 <div class="book-img-container left">
                     {% if book.cover %}
-                        <img class="responsive-img" src="{{ asset(book.cover) }}" />
+                        <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture livre"/>
                     {% else %}
-                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}" />
+                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}"  alt="image couverture livre par defaut"/>
                     {% endif %}
                 </div>
                 <div class="book-text-container">

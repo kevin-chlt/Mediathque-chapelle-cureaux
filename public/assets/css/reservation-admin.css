@@ -1,0 +1,86 @@
+@font-face {
+    font-family: Righteous;
+    src: url("../fonts/Righteous-Regular.ttf");
+}
+
+@font-face {
+    font-family: Overlock;
+    src: url("../fonts/Overlock-Regular.ttf");
+}
+
+main{
+    min-height: 85vh;
+    background: rgba(38, 166, 154, 0.1);
+    padding: 20px 0;
+}
+
+.responsive-main{
+    display: none;
+}
+
+.container, .large-main{
+    padding: 10px 30px;
+    margin: 20px auto;
+}
+
+.large-main{
+    width: 95%;
+}
+
+h1{
+    color: #26a69a;
+    font-size: 2.2rem;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    margin: 5px 0;
+    text-decoration: underline #26a69a;
+}
+
+.actions{
+    display: flex;
+    flex-direction: column;
+}
+
+.actions a{
+    width: 65%;
+    margin: 2px auto;
+}
+
+td, p{
+    overflow-wrap: anywhere;
+}
+
+.table, h1{
+    font-family: Overlock, sans-serif;
+}
+
+
+
+@media screen and (max-width: 992px) {
+    main{
+        padding-top: 60px;
+    }
+
+    .large-main{
+        display: none;
+    }
+
+    .responsive-main{
+        display: block;
+    }
+
+    .btn-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-container .btn{
+        margin: 4px 0;
+    }
+
+    .row{
+        margin-bottom: 0;
+    }
+}

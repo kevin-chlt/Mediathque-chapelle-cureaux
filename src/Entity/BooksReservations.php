@@ -24,7 +24,7 @@ class BooksReservations
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=Books::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Books::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $books;
@@ -38,6 +38,7 @@ class BooksReservations
      * @ORM\Column(type="boolean")
      */
     private $isCollected = false;
+
 
     public function __construct()
     {

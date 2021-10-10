@@ -1,33 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BooksReservations index{% endblock %}
+{% block title %}Emprunts Utilisateurs{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('assets/css/reservation-admin.css') }}" rel="stylesheet" />
+{% endblock %}
+
 
 {% block body %}
-    <h1>BooksReservations index</h1>
+    {% if (is_granted("ROLE_EMPLOYEE")) %}
+        {% include('headers/header-employee.html.twig') %}
+    {% else %}
+        {% include('headers/header-user.html.twig') %}
+    {% endif %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>ReservedAt</th>
-                <th>IsCollected</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for books_reservation in books_reservations %}
-            <tr>
-                <td>{{ books_reservation.id }}</td>
-                <td>{{ books_reservation.reservedAt ? books_reservation.reservedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ books_reservation.isCollected ? 'Yes' : 'No' }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
+    <main>
+        {% include('./_app-flashes.html.twig') %}
+        <div class="large-main">
+            <div class="row center">
+                <h1>Liste des emprunts</h1>
+            </div>
+            <div class="row">
+                <table class="table centered">
+                    <thead>
+                    <tr>
+                        <th>Statut</th>
+                        <th>Livre</th>
+                        <th>Utilisateur</th>
+                        <th>Date de réservation</th>
+                        <th>Date d'emprunt maximum</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            {% include('books_reservations/_status-text.html.twig') %}
+                            <td style="width: 20%;"> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }} </a> </td>
+                            <td style="width: 20%;"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}} </td>
+                            <td style="width: 10%;">{{ reservation.reservedAt|date('d/m/Y H:m:s')}}</td>
+                            <td style="width: 10%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y')}}</td>
+                            <td class="actions">
+                                <a href="{{ path('books-update-collect', {'id': reservation.id}) }}" class="btn waves-effect waves-light">{{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }}</a>
+                                {% include('books_reservations/_delete_form.html.twig') %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="responsive-main">
+            <div class="row center">
+                <h1>Liste des emprunts</h1>
+            </div>
+        {% for reservation in reservations %}
+            <div class="container z-depth-2">
+                <div class="row">
+                    <p><u><b>Statut:</b></u> {% include('books_reservations/_status-text-responsive.html.twig') %} </p>
+                    <p><u><b>Livre:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }}</a></p>
+                    <p><u><b>Utilisateur:</b></u> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}}</p>
+                    <p><u><b>Date d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m:s')}}</p>
+                    <p><u><b>Date d'emprunt maximum:</b></u> {{ reservation.reservedAt|date_modify("+3 months")|date('d/m/Y à H:m:s') }}</p>
+                </div>
+                <div class="btn-container row">
+                    <a href="{{ path('books-update-collect', {'id': reservation.id}) }}" class="btn waves-effect waves-light">{{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }}</a>
+                    {% include('books_reservations/_delete_form.html.twig') %}
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+        </div>
 
-
+    </main>
+    {% include('./_footer.html.twig') %}
 {% endblock %}

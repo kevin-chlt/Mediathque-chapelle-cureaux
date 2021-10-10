@@ -7,8 +7,13 @@
 
 
 {% block body %}
-    {% include('headers/_header-anonymous.html.twig') %}
+    {% if (is_granted("ROLE_EMPLOYEE")) %}
+        {% include('headers/header-employee.html.twig') %}
+    {% else %}
+        {% include('headers/header-user.html.twig') %}
+    {% endif %}
     <main>
+        {% include('./_app-flashes.html.twig') %}
         {% for book in books %}
         <div class="container z-depth-2">
             {% include('books/_btn-dispo-book.html.twig') %}

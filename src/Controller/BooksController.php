@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Books;
 use App\Form\BooksType;
 use App\Repository\BooksRepository;
+use App\Repository\BooksReservationsRepository;
 use App\Services\ImgUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,14 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/books")
  */
-#[Route('/books')]
 class BooksController extends AbstractController
 {
 
     /**
      * @Route("/", name="books_index")
      */
-    #[Route('/', name: 'books_index', methods: ['GET'])]
     public function index(BooksRepository $booksRepository): Response
     {
         return $this->render('books/index.html.twig', [
@@ -34,7 +34,6 @@ class BooksController extends AbstractController
      * @Route("/new", name="books_new")
      */
     #Add new book method
-    #[Route('/new', name: 'books_new', methods: ['GET','POST'])]
     public function new(Request $request, ImgUploader $uploader): Response
     {
         $book = new Books();
@@ -53,10 +52,11 @@ class BooksController extends AbstractController
             $entityManager->persist($book);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Livre ajouté au catalogue avec succès');
             return $this->redirectToRoute('books_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('books/new.html.twig', [
+        return $this->render('books/new.html.twig', [
             'book' => $book,
             'form' => $form,
         ]);
@@ -65,7 +65,6 @@ class BooksController extends AbstractController
     /**
      * @Route("/{id}", name="books_show")
      */
-    #[Route('/{id}', name: 'books_show', methods: ['GET'])]
     public function show(Books $book): Response
     {
         return $this->render('books/show.html.twig', [
@@ -74,33 +73,20 @@ class BooksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="books_edit")
+     * @Route("/remove/{id}", name="books_delete", methods={"POST"})
      */
-    #[Route('/{id}/edit', name: 'books_edit', methods: ['GET','POST'])]
-    public function edit(Request $request, Books $book): Response
+    public function delete(Request $request, Books $book, BooksReservationsRepository $reservationsRepository): Response
     {
-        $form = $this->createForm(BooksType::class, $book);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('books_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('books/edit.html.twig', [
-            'book' => $book,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'books_delete', methods: ['POST'])]
-    public function delete(Request $request, Books $book): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
+        $reservations = $reservationsRepository->findOneBy(['books' => $book->getId()]);
+        if($reservations) {
+            $this->addFlash('errors', 'Un emprunt est en cours pour ce livre, veuillez le supprimer avant de supprimer ce livre');
+        } elseif ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($book);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Livre effacé du catalogue avec succès');
         }
 
         return $this->redirectToRoute('books_index', [], Response::HTTP_SEE_OTHER);
