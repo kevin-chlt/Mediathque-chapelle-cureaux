@@ -1,6 +1,6 @@
 {% for message in app.flashes('success') %}
-    {{ message }}
+    <p class="center" style="font-style: italic; color: #26a69a;">{{ message }}</p>
 {% endfor %}
 {% for message in app.flashes('errors') %}
-    {{ message }}
+    <p class="center" style="font-style: italic; color: crimson;">{{ message }}</p>
 {% endfor %}

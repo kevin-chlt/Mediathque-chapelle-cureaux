@@ -7,8 +7,8 @@ use App\Form\BooksType;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Services\ImgUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,6 +32,7 @@ class BooksController extends AbstractController
 
     /**
      * @Route("/new", name="books_new")
+     * @IsGranted("ROLE_EMPLOYEE", message="Vous n'êtes pas autorisé à acceder à cette page")
      */
     #Add new book method
     public function new(Request $request, ImgUploader $uploader): Response
@@ -58,7 +59,7 @@ class BooksController extends AbstractController
 
         return $this->render('books/new.html.twig', [
             'book' => $book,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -67,7 +68,7 @@ class BooksController extends AbstractController
      */
     public function show(Books $book): Response
     {
-        return $this->render('books/show.html.twig', [
+        return $this->render('books/user-index.html.twig', [
             'book' => $book,
         ]);
     }

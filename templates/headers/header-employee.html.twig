@@ -16,7 +16,7 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a class="dropdown-trigger nav-link" href="#!" data-target="dropdown-admin">Administration<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a class="nav-link" href="{{ path('books_index') }}">Catalogue</a></li>
-                <li><a class="nav-link" href="">Emprunts</a></li>
+                <li><a class="nav-link" href="{{ path('user_books_reservations') }}">Emprunts</a></li>
                 <li><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
             </ul>
 
@@ -26,10 +26,14 @@
                 Menu
             </a>
             <ul id='dropdown-menu' class='dropdown-content'>
-                <li><a href="{{ path('books_new') }}">Ajouter</a></li>
+
+                <li><a href="{{ path('books_new') }}">Ajouter nouveau livre</a></li>
+                <li class="divider" tabindex="-1"></li>
+                <li><a href="{{ path('books_reservations_index') }}">Emprunts utilisateur</a></li>
+                <li class="divider" tabindex="-1"></li>
                 <li><a href="{{ path('books_index') }}">Catalogue</a></li>
                 <li class="divider" tabindex="-1"></li>
-                <li><a href="">Emprunts</a></li>
+                <li><a href="{{ path('user_books_reservations') }}">Mes Emprunts</a></li>
                 <li class="divider" tabindex="-1"></li>
                 <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
             </ul>

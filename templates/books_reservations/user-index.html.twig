@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Emprunt utilisateurs {% endblock %}
+
+{% block body %}
+    {% if (is_granted("ROLE_EMPLOYEE")) %}
+        {% include('headers/header-employee.html.twig') %}
+    {% else %}
+        {% include('headers/header-user.html.twig') %}
+    {% endif %}
+    {% include('./_app-flashes.html.twig') %}
+
+    <main>
+        <div class="large-main">
+            <div class="container">
+                <div class="row">
+                    <h1>Mes Emprunts</h1>
+                </div>
+                <div class="row">
+                    <table class="table centered">
+                        <thead>
+                        <tr>
+                            <th>Livre</th>
+                            <th>Date de réservation</th>
+                            <th>Date d'emprunt maximum</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            {% for reservation in reservations %}
+                            <td style="width: 25%;">{{ reservation.books.title }}</td>
+                            <td style="width: 20%;">{{ reservation.reservedAt|date('d/m/Y H:i:s') }}</td>
+                            <td style="width: 20%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y H:i:s') }}</td>
+                            <td class="actions">
+                                <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Annuler l'emprunt</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="responsive-main">
+            <div class="row center">
+                <h1>Mes emprunts</h1>
+            </div>
+            {% for reservation in reservations %}
+                <div class="container z-depth-2">
+                    <div class="row">
+                        <p><u><b>Livre:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }}</a></p>
+                        <p><u><b>Date d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m:s')}}</p>
+                        <p><u><b>Date d'emprunt maximum:</b></u> {{ reservation.reservedAt|date_modify("+3 months")|date('d/m/Y à H:m:s') }}</p>
+                    </div>
+                    <div class="btn-container row">
+                        <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Annuler l'emprunt</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    {% include('./_footer.html.twig') %}
+{% endblock %}
