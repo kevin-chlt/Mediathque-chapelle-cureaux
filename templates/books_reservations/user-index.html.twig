@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} Emprunt utilisateurs {% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/reservations.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/modal.css') }}" rel="stylesheet" />
+{% endblock %}
+
 
 {% block body %}
     {% if (is_granted("ROLE_EMPLOYEE")) %}
@@ -8,12 +13,11 @@
     {% else %}
         {% include('headers/header-user.html.twig') %}
     {% endif %}
-    {% include('./_app-flashes.html.twig') %}
-
     <main>
+        {% include('./_app-flashes.html.twig') %}
         <div class="large-main">
             <div class="container">
-                <div class="row">
+                <div class="row center">
                     <h1>Mes Emprunts</h1>
                 </div>
                 <div class="row">
@@ -23,19 +27,34 @@
                             <th>Livre</th>
                             <th>Date de réservation</th>
                             <th>Date d'emprunt maximum</th>
-                            <th>Actions</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             {% for reservation in reservations %}
-                            <td style="width: 25%;">{{ reservation.books.title }}</td>
+                            <td style="width: 30%;">{{ reservation.books.title }}</td>
                             <td style="width: 20%;">{{ reservation.reservedAt|date('d/m/Y H:i:s') }}</td>
                             <td style="width: 20%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y H:i:s') }}</td>
                             <td class="actions">
-                                <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Annuler l'emprunt</a>
+                                <a class="waves-effect waves-light btn modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" href="#cancel-modal">Annuler l'emprunt</a>
                             </td>
                         </tr>
+
+                        <div id="cancel-modal" class="modal">
+                            <div class="modal-content">
+                                <h4>Annulation d'emprunt</h4>
+                                <p>Cette action est irréversible. Êtes-vous sûr d'annuler cette emprunt ? </p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Confirmer</a>
+                                <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
+                            </div>
+                        </div>
+                        {% else %}
+
+                                <td colspan="4">Vous n'avez pas d'emprunt en cours</td>
+
                         {% endfor %}
                         </tbody>
                     </table>
@@ -56,12 +75,39 @@
                         <p><u><b>Date d'emprunt maximum:</b></u> {{ reservation.reservedAt|date_modify("+3 months")|date('d/m/Y à H:m:s') }}</p>
                     </div>
                     <div class="btn-container row">
-                        <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Annuler l'emprunt</a>
+                        <a class="waves-effect waves-light btn modal-trigger" href="#cancel-modal"> Annuler l'emprunt </a>
                     </div>
                 </div>
+
+                <div id="cancel-modal" class="modal">
+                    <div class="modal-content">
+                        <h4>Annulation d'emprunt</h4>
+                        <p>Cette action est irréversible. Êtes-vous sûr d'annuler cette emprunt ? </p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Confirmer</a>
+                        <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
+                    </div>
+                </div>
+                {% else %}
+                    <div class="row center">
+                        <span class="">Vous n'avez pas d'emprunt</span>
+                    </div>
+
             {% endfor %}
         </div>
     </main>
 
     {% include('./_footer.html.twig') %}
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elems = document.querySelectorAll('.modal');
+            const options = {}
+
+            const instances = M.Modal.init(elems, options);
+        });
+
+    </script>
+
 {% endblock %}

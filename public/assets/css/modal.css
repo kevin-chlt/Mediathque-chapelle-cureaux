@@ -1,0 +1,23 @@
+.modal, .modal-footer{
+    background-color: #26a69a !important;
+}
+
+.modal h4, .modal p, .modal a{
+    font-family: Overlock, sans-serif;
+    color: #FFFFFF;
+}
+
+.modal h4, .modal p{
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.modal-footer a {
+    background: #FFFFFF;
+    color: #26a69a;
+}
+
+.modal-footer a:hover{
+    color: #FFFFFF;
+    border: #FFFFFF 1px solid;
+}

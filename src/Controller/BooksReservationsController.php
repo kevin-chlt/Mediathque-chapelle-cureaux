@@ -10,6 +10,7 @@ use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,7 +50,7 @@ class BooksReservationsController extends AbstractController
             $this->addFlash('success', 'Vous pouvez venir chercher votre livre dès maintenant à la médiathèque');
         }
 
-        return $this->render('books/admin-index.html.twig', [
+        return $this->render('books/index.html.twig', [
             'books' => $booksRepository->findAll()
         ]);
     }
@@ -67,14 +68,27 @@ class BooksReservationsController extends AbstractController
     }
 
     /**
-     * @Route("/cancel-reservation", name="cancel-reservation")
+     * @Route("/cancel-reservation/{id}", name="cancel-reservation")
      */
-    public function cancelReservationByUser (BooksReservationsRepository $reservationsRepository) : Response
+    public function cancelReservationByUser (BooksReservations $booksReservations, BooksReservationsRepository $reservationsRepository, BooksRepository $booksRepository) : Response
     {
-        $reservations = $reservationsRepository->findBy(['user' => $this->getUser()->getId()]);
+        $book = $booksRepository->find($booksReservations->getBooks()->getId());
+
+        if (($this->getUser()->getId() === $booksReservations->getUser()->getId()) && !$booksReservations->getIsCollected() ) {
+            $book->setIsFree(true);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($booksReservations);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre emprunt à bien été annulé');
+        } else {
+            throw new AccessDeniedException("Vous n'avez pas le droit d'annuler cette emprunt");
+        }
+
 
         return $this->redirectToRoute('user_books_reservations', [
-            'reservations' => $reservations
+            'reservations' => $reservationsRepository->findBy(['user' => $this->getUser()->getId()])
         ]);
     }
 

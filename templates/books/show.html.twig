@@ -2,6 +2,7 @@
 
 {% block title %} {{ book.title }} - Médiathèque La Chapelle-Curreaux{% endblock %}
 {% block stylesheets %}
+    <link href="{{ asset('assets/css/modal.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/showBook.css') }}" rel="stylesheet" />
 {% endblock %}
 
@@ -55,12 +56,31 @@
                 {% if (is_granted("ROLE_EMPLOYEE")) %}
                 {{ include('books/_delete_form.html.twig') }}
                 {% endif %}
-                <a class="btn waves-effect waves-light {{ book.isFree ? '' : 'disabled'}} " href="{{ path('books_reservations_new', {'id': book.id }) }}">
-                    <i class="material-icons right">add</i>
-                    Emprunter</a>
+                <a class="waves-effect waves-light btn modal-trigger {{ book.isFree ? '' : 'disabled' }}" href="#emprunte-modal"><i class="material-icons right">add</i>Emprunter</a>
             </div>
         </div>
     </main>
     {% include('./_footer.html.twig') %}
 
+    <div id="emprunte-modal" class="modal">
+        <div class="modal-content">
+            <h4>Confirmation d'emprunt</h4>
+            <p> NOTE: Vous vous engagez à récupérer le livre dans un délai de 3 jours sous peine d'annulation de votre emprunt. </p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn waves-effect waves-light" href="{{ path('books_reservations_new', {'id': book.id }) }}">
+                Je confirme</a>
+            <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
+        </div>
+    </div>
+
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elems = document.querySelectorAll('.modal');
+            const options = {}
+
+            const instances = M.Modal.init(elems, options);
+        });
+    </script>
 {% endblock %}
