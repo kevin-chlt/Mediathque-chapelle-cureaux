@@ -19,22 +19,19 @@ class BooksReservationsRepository extends ServiceEntityRepository
         parent::__construct($registry, BooksReservations::class);
     }
 
-    // /**
-    //  * @return BooksReservations[] Returns an array of BooksReservations objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getReservationOutdated(\DateTime $dateMax) : ?array
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where('b.reservedAt >= :dateMax')
+            ->setParameter('val', $dateMax)
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?BooksReservations

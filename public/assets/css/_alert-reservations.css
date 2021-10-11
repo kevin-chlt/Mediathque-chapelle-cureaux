@@ -1,0 +1,40 @@
+
+.row ul, .row ul:not(.browser-default) > li{
+    margin: 0 15px;
+    list-style-type: initial;
+    color: #FFFFFF;
+    font-family: Overlock, sans-serif;
+    font-size: 1.2rem;
+}
+
+.alert-container{
+    display: flex;
+    padding: 10px;
+    background: #26a69a;
+    max-width: 1000px;
+}
+
+.alert-container h2{
+    font-family: Overlock, sans-serif;
+    color: #FFFFFF;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.alert-img-container{
+    display: flex;
+    align-items: center;
+    background: transparent;
+}
+.alert-container img{
+    width: 100px;
+    margin-right: 15px;
+}
+
+@media screen and (max-width: 992px) {
+    .alert-container h2{
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+
+    }
+}

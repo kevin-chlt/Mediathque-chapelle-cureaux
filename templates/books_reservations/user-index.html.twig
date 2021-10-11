@@ -2,8 +2,9 @@
 
 {% block title %} Emprunt utilisateurs {% endblock %}
 {% block stylesheets %}
+    <link href="{{ asset('assets/css/_modal.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/_alert-reservations.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/reservations.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/modal.css') }}" rel="stylesheet" />
 {% endblock %}
 
 
@@ -20,6 +21,21 @@
                 <div class="row center">
                     <h1>Mes Emprunts</h1>
                 </div>
+                {% if outdatedReservations %}
+                    {% for reservation in outdatedReservations %}
+                        <div class="row alert-container">
+                            <div class="alert-img-container">
+                                <img src="{{ asset('assets/images/caution.png') }}" class=" responsive-img" />
+                            </div>
+                            <div>
+                                <h2>Vous avez dépasser le délai de garde de :</h2>
+                                <ul>
+                                    <li class="">{{ reservation.books.title }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <div class="row">
                     <table class="table centered">
                         <thead>
@@ -67,6 +83,21 @@
             <div class="row center">
                 <h1>Mes emprunts</h1>
             </div>
+            {% if outdatedReservations %}
+                {% for reservation in outdatedReservations %}
+                    <div class="row alert-container">
+                        <div class="alert-img-container">
+                            <img src="{{ asset('assets/images/caution.png') }}" class=" responsive-img" />
+                        </div>
+                        <div>
+                            <h2>Vous avez dépasser le délai de garde de :</h2>
+                            <ul>
+                                <li> {{ reservation.books.title}} </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
             {% for reservation in reservations %}
                 <div class="container z-depth-2">
                     <div class="row">

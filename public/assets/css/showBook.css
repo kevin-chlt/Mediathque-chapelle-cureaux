@@ -92,6 +92,10 @@ main{
 }
 
 @media screen and (max-width: 800px) {
+    .container{
+        padding: 10px 15px 20px;
+    }
+
     .book-img-container{
         width: 100%;
         margin-right: initial;

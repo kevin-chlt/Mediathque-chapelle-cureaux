@@ -40,10 +40,12 @@
                             <td style="width: 10%;">{{ reservation.reservedAt|date('d/m/Y H:m:s')}}</td>
                             <td style="width: 10%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y')}}</td>
                             <td class="actions">
-                                <a href="{{ path('books-update-collect', {'id': reservation.id}) }}" class="btn waves-effect waves-light">{{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }}</a>
+                                <a href="{{ path('books-update-collect', {'id': reservation.id}) }}" class="btn waves-effect waves-light {{ reservation.reservedAt|date_modify('+3 days') > date() ? '' : 'disabled' }} ">{{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }}</a>
                                 {% include('books_reservations/_delete_form.html.twig') %}
                             </td>
                         </tr>
+                        {% else %}
+                        <td colspan="6">Aucun emprunt n'est en cours</td>
                     {% endfor %}
                     </tbody>
                 </table>
