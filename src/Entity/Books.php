@@ -39,7 +39,7 @@ class Books
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isFree;
+    private $isFree = true;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

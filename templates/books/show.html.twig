@@ -75,12 +75,6 @@
     </div>
 
 
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function() {
-            const elems = document.querySelectorAll('.modal');
-            const options = {}
-
-            const instances = M.Modal.init(elems, options);
-        });
-    </script>
+    <script src="{{ 'assets/js/init-modal.js' }}" defer></script>
+    <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
 {% endblock %}

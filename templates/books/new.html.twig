@@ -16,13 +16,6 @@
 
     {% include('./_footer.html.twig') %}
 
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function() {
-            const elems = document.querySelectorAll('select');
-            const options = {
-                'isMultiple' : true,
-            }
-            const instances = M.FormSelect.init(elems, options);
-        });
-    </script>
+    <script  src="{{ asset('assets/js/init-multipleSelect.js') }}" defer></script>
+    <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
 {% endblock %}
