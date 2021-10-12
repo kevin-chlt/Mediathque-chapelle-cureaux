@@ -15,18 +15,7 @@
     {% endif %}
     <main>
         {% include('./_app-flashes.html.twig') %}
-        <div class="filters-container">
-            {{ form_start(filterForm) }}
-            <div class="input-field search-book">
-                <i class="material-icons icon_prefix">search</i>
-                {{ form_row((filterForm.searchBook)) }}
-            </div>
-            <div class="category-filter">
-                {{ form_row(filterForm.filterByGenre) }}
-                <button type="submit" class="btn"> <i class="material-icons">search</i> </button>
-            </div>
-            {{ form_end(filterForm) }}
-        </div>
+        {% include('books/_filters-book.html.twig') %}
 
         {% for book in books %}
         <div class="container z-depth-2">
@@ -54,32 +43,5 @@
     {% include('./_footer.html.twig') %}
     <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
     <script  src="{{ asset('assets/js/init-multipleSelect.js') }}" defer></script>
-
-    <script defer>
-        const select = document.querySelector('#filters_filterByGenre');
-        const value = document.createElement('option')
-        value.textContent = 'Genre'
-        value.setAttribute('selected', '') ;
-        value.setAttribute('disabled', '') ;
-        value.setAttribute('value', '') ;
-
-        select.append(value);
-
-        select.addEventListener('change', (e) => {
-            console.log(e.target.length)
-            if(e.target < 1) {
-                const value = document.createElement('option')
-                value.textContent = 'Genre'
-                value.setAttribute('selected', '') ;
-                value.setAttribute('disabled', '') ;
-                value.setAttribute('value', '') ;
-
-                select.append(value);
-            } else {
-                value.remove();
-            }
-        })
-
-        value.remove()
-    </script>
+    <script src="{{ asset('assets/js/addPlaceholderSelect.js') }}" defer></script>
 {% endblock %}

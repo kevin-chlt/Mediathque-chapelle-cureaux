@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Data\FiltersBooks;
 use App\Entity\Books;
+use App\Entity\Categories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,22 +21,23 @@ class BooksRepository extends ServiceEntityRepository
         parent::__construct($registry, Books::class);
     }
 
-    // /**
-    //  * @return Books[] Returns an array of Books objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getBookByCategory(FiltersBooks $filtersBooks)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $query = $this->createQueryBuilder('b')
+                ->select('c', 'b')
+                ->join('b.categories', 'c');
+
+            if(!empty($filtersBooks->getCategory())){
+                $query = $query
+                    ->andWhere('c.id IN (:categories)')
+                    ->setParameter('categories', $filtersBooks->category)
+                    ->orderBy('b.id', 'DESC');
+            }
+        return $query->getQuery()->getResult();
+
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Books

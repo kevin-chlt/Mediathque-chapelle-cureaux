@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\FiltersBooks;
 use App\Entity\Books;
 use App\Form\BooksType;
 use App\Form\FiltersType;
@@ -26,11 +27,17 @@ class BooksController extends AbstractController
      */
     public function index(BooksRepository $booksRepository, Request $request): Response
     {
-        $filterForm = $this->createForm(FiltersType::class);
+        $filterBooks = new FiltersBooks();
+        $filterForm = $this->createForm(FiltersType::class, $filterBooks);
         $filterForm->handleRequest($request);
 
         if($filterForm->isSubmitted() && $filterForm->isValid()) {
-            dd($filterForm->getData());
+           $result = $booksRepository->getBookByCategory($filterBooks);
+
+           return $this->render('books/index.html.twig', [
+                'books' => $result,
+                'filterForm' => $filterForm->createView()
+            ]);
         }
 
         return $this->render('books/index.html.twig', [
