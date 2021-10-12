@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Books;
 use App\Form\BooksType;
+use App\Form\FiltersType;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Services\ImgUploader;
@@ -23,10 +24,18 @@ class BooksController extends AbstractController
     /**
      * @Route("/", name="books_index")
      */
-    public function index(BooksRepository $booksRepository): Response
+    public function index(BooksRepository $booksRepository, Request $request): Response
     {
+        $filterForm = $this->createForm(FiltersType::class);
+        $filterForm->handleRequest($request);
+
+        if($filterForm->isSubmitted() && $filterForm->isValid()) {
+            dd($filterForm->getData());
+        }
+
         return $this->render('books/index.html.twig', [
             'books' => $booksRepository->findAll(),
+            'filterForm' => $filterForm->createView()
         ]);
     }
 

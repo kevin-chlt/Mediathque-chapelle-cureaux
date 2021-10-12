@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BooksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"})
  * @ORM\Entity(repositoryClass=BooksRepository::class)
  * @UniqueEntity(fields={"title"}, message="Un livre avec ce titre existe déjà.")
  */
