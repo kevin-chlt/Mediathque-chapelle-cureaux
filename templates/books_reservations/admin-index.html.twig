@@ -71,10 +71,16 @@
                     {% include('books_reservations/_delete_form.html.twig') %}
                 </div>
             </div>
+        {% else %}
+            <div class="row center">
+                <span>Aucun emprunt n'est en cours</span>
+            </div>
+
         {% endfor %}
         </div>
 
     </main>
     {% include('./_footer.html.twig') %}
-    <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+    <script src="{{ asset('assets/js/background-reservation-alert.js') }}" defer></script>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block title %} {{ book.title }} - Médiathèque La Chapelle-Curreaux{% endblock %}
 {% block stylesheets %}
-    <link href="{{ asset('assets/css/modal.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/_modal.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/showBook.css') }}" rel="stylesheet" />
 {% endblock %}
 
@@ -75,6 +75,6 @@
     </div>
 
 
-    <script src="{{ 'assets/js/init-modal.js' }}" defer></script>
-    <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-modal.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
 {% endblock %}

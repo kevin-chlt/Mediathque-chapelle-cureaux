@@ -53,11 +53,11 @@
                             <td style="width: 20%;">{{ reservation.reservedAt|date('d/m/Y H:i:s') }}</td>
                             <td style="width: 20%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y H:i:s') }}</td>
                             <td class="actions">
-                                <a class="waves-effect waves-light btn modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" href="#cancel-modal">Annuler l'emprunt</a>
+                                <a class="waves-effect waves-light btn modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" href="#cancel-modal-large">Annuler l'emprunt</a>
                             </td>
                         </tr>
 
-                        <div id="cancel-modal" class="modal">
+                        <div id="cancel-modal-large" class="modal">
                             <div class="modal-content">
                                 <h4>Annulation d'emprunt</h4>
                                 <p>Cette action est irréversible. Êtes-vous sûr d'annuler cette emprunt ? </p>
@@ -68,9 +68,7 @@
                             </div>
                         </div>
                         {% else %}
-
                                 <td colspan="4">Vous n'avez pas d'emprunt en cours</td>
-
                         {% endfor %}
                         </tbody>
                     </table>
@@ -106,11 +104,11 @@
                         <p><u><b>Date d'emprunt maximum:</b></u> {{ reservation.reservedAt|date_modify("+3 months")|date('d/m/Y à H:m:s') }}</p>
                     </div>
                     <div class="btn-container row">
-                        <a class="waves-effect waves-light btn modal-trigger" href="#cancel-modal"> Annuler l'emprunt </a>
+                        <a class="waves-effect waves-light btn modal-trigger" href="#cancel-modal-responsive"> Annuler l'emprunt </a>
                     </div>
                 </div>
 
-                <div id="cancel-modal" class="modal">
+                <div id="cancel-modal-responsive" class="modal">
                     <div class="modal-content">
                         <h4>Annulation d'emprunt</h4>
                         <p>Cette action est irréversible. Êtes-vous sûr d'annuler cette emprunt ? </p>
@@ -131,6 +129,6 @@
 
     {% include('./_footer.html.twig') %}
 
-    <script src="{{ 'assets/js/init-modal.js' }}" defer></script>
-    <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-modal.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
 {% endblock %}

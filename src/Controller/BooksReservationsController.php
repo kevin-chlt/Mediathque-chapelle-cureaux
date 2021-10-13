@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Books;
 use App\Entity\BooksReservations;
+use App\Form\FiltersType;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Repository\UsersRepository;
@@ -29,6 +30,7 @@ class BooksReservationsController extends AbstractController
     public function new(Books $book, UsersRepository $usersRepository, BooksRepository $booksRepository): Response
     {
         $user = $usersRepository->find($this->getUser()->getId());
+        $filterForm = $this->createForm(FiltersType::class);
 
         if(!$book->getIsFree()) {
             $this->addFlash('errors', 'Le livre n\'est pas disponible');
@@ -53,7 +55,8 @@ class BooksReservationsController extends AbstractController
         }
 
         return $this->render('books/index.html.twig', [
-            'books' => $booksRepository->findAll()
+            'books' => $booksRepository->findAll(),
+            'filterForm' => $filterForm->createView()
         ]);
     }
 
@@ -103,7 +106,7 @@ class BooksReservationsController extends AbstractController
      * @IsGranted("ROLE_EMPLOYEE", message="Vous n'êtes pas autorisé à acceder à cette page")
      */
     // Get all the reservation | Admin panel
-    public function index(BooksReservationsRepository $booksReservationsRepository, OutdatedReservations $outdatedReservations): Response
+    public function index(BooksRepository $booksRepository, BooksReservationsRepository $booksReservationsRepository, OutdatedReservations $outdatedReservations): Response
     {
         // Check the date and delete the reservation not recolted since 3 days
         $reservations = $booksReservationsRepository->findAll();
@@ -112,6 +115,7 @@ class BooksReservationsController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         foreach($outdatedReservation as $reservation) {
+                $reservation->getBooks()->setIsFree(true);
                 $entityManager->remove($reservation);
                 $entityManager->flush();
         }

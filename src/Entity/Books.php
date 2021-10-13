@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"})
+ * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"}, formats={"json"})
  * @ORM\Entity(repositoryClass=BooksRepository::class)
  * @UniqueEntity(fields={"title"}, message="Un livre avec ce titre existe déjà.")
  */

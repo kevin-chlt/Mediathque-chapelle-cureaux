@@ -1,12 +1,20 @@
 <div class="filters-container">
-    <div class="input-field search-book">
-        <i class="material-icons icon_prefix">search</i>
-        <input type="search" id="search-input" placeholder="Rechercher un livre" />
-    </div>
     {{ form_start(filterForm) }}
     <div class="category-filter">
         {{ form_row(filterForm.category) }}
         <button type="submit" class="btn"> <i class="material-icons">search</i> </button>
     </div>
     {{ form_end(filterForm) }}
+    <div>
+
+        <div class="input-field search-book">
+            <i class="material-icons icon_prefix">search</i>
+            <input type="search" id="search-input" placeholder="Rechercher un livre" />
+        </div>
+        <div class="dropdown-search-container">
+            <ul id="dropdown-search">
+            </ul>
+        </div>
+
+    </div>
 </div>

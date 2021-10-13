@@ -1,5 +1,5 @@
 {% if reservation.isCollected %}
-    <td style="width: 15%;">
+    <td id="status" style="width: 15%;">
         Collecté <br/>
         {% if reservation.reservedAt|date_modify('+3 weeks') > date() %}
             (En cours)

@@ -64,7 +64,7 @@ class BooksType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
-                        'maxSizeMessage' => 'Taille de photo maximum autorisé: 2MO' ,
+                        'maxSizeMessage' => 'Taille de fichier maximum autorisé: 2MO' ,
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
