@@ -41,7 +41,7 @@ class BooksController extends AbstractController
         }
 
         return $this->render('books/index.html.twig', [
-            'books' => $booksRepository->findAll(),
+            'books' => $booksRepository->getBooksByIsFree(),
             'filterForm' => $filterForm->createView()
         ]);
     }

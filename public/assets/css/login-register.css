@@ -20,6 +20,7 @@ body{
     min-height: 100vh;
     background: rgba(38, 166, 154, 0.1);
     position: relative;
+    flex-direction: column;
 }
 
 

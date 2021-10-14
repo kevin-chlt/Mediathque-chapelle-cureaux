@@ -32,6 +32,15 @@ class BooksReservationsRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getReservationByDate () : array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b')
+            ->orderBy('b.reservedAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     /*
     public function findOneBySomeField($value): ?BooksReservations

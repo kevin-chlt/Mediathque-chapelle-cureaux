@@ -15,6 +15,10 @@ main{
     min-height: 85vh;
 }
 
+.row .col{
+    padding: 10px;
+}
+
 .row{
     display: flex;
     min-height: 150px;

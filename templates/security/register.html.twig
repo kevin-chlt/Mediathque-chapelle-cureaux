@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-        <button class="btn back-btn"> <a href="#"> Accueil </a><i class="material-icons left">arrow_back</i></button>
+        <button class="btn back-btn"> <a href="{{ path('app_login') }}"> Connexion </a><i class="material-icons left">supervisor_account</i></button>
 
         {{ form_start(registrationForm, {'attr': {'class': 'z-depth-3'} }) }}
         <h1 class="center">Inscription</h1>

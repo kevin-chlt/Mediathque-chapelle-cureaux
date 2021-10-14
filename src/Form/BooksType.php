@@ -75,6 +75,7 @@ class BooksType extends AbstractType
                 ],
             ])
             ->add('categories', EntityType::class, [
+                'label' => 'Type(s) de livre',
                 'class' => Categories::class,
                 'choice_label' => 'name',
                 'multiple' => true,
@@ -86,6 +87,7 @@ class BooksType extends AbstractType
                 ]
             ])
             ->add('authors', EntityType::class, [
+                'label' => 'Auteur(s)',
                 'class' => Authors::class,
                 'choice_label' => 'name',
                 'multiple' => true,

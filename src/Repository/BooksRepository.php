@@ -35,7 +35,15 @@ class BooksRepository extends ServiceEntityRepository
                     ->orderBy('b.id', 'DESC');
             }
         return $query->getQuery()->getResult();
+    }
 
+    public function getBooksByIsFree () : array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b')
+            ->orderBy('b.isFree', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 

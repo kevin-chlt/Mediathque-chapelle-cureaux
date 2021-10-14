@@ -55,7 +55,7 @@ class BooksReservationsController extends AbstractController
         }
 
         return $this->render('books/index.html.twig', [
-            'books' => $booksRepository->findAll(),
+            'books' => $booksRepository->getBooksByIsFree(),
             'filterForm' => $filterForm->createView()
         ]);
     }
@@ -66,7 +66,7 @@ class BooksReservationsController extends AbstractController
     // Get user reservations
     public function getUserReservation (BooksReservationsRepository $reservationsRepository, OutdatedReservations $outdatedReservations) : Response
     {
-        $reservations = $reservationsRepository->findBy(['user' => $this->getUser()->getId()]);
+        $reservations = $reservationsRepository->findBy(['user' => $this->getUser()->getId()], ['reservedAt' => 'ASC']);
         $outdatedReservations = $outdatedReservations->getOutdatedReservation($reservations);
 
         return $this->render('books_reservations/user-index.html.twig', [
@@ -78,7 +78,7 @@ class BooksReservationsController extends AbstractController
     /**
      * @Route("/cancel-reservation/{id}", name="cancel-reservation")
      */
-    // Cancel reservation if user doesn't collect his book
+    // Remove reservation if user doesn't collect his book
     public function cancelReservationByUser (BooksReservations $booksReservations, BooksReservationsRepository $reservationsRepository, BooksRepository $booksRepository) : Response
     {
         $book = $booksRepository->find($booksReservations->getBooks()->getId());
@@ -121,7 +121,7 @@ class BooksReservationsController extends AbstractController
         }
 
         return $this->render('books_reservations/admin-index.html.twig', [
-            'reservations' => $booksReservationsRepository->findAll(),
+            'reservations' => $booksReservationsRepository->getReservationByDate(),
         ]);
     }
 

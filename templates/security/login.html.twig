@@ -7,7 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <button class="btn back-btn"> <a href="#"> Accueil </a><i class="material-icons left">arrow_back</i></button>
+    <div class="center">
+        {% include('./_app-flashes.html.twig') %}
+    </div>
+
+    <button class="btn back-btn"> <a href={{ path('app_register') }}> Inscription </a><i class="material-icons left">create</i></button>
 
         <form class="center z-depth-3" method="POST">
             <h1 class="">Connexion</h1>

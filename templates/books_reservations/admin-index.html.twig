@@ -60,7 +60,7 @@
         {% for reservation in reservations %}
             <div class="container z-depth-2">
                 <div class="row">
-                    <p><u><b>Statut:</b></u> {% include('books_reservations/_status-text-responsive.html.twig') %} </p>
+                    <p id="status"><u><b>Statut:</b></u> {% include('books_reservations/_status-text-responsive.html.twig') %} </p>
                     <p><u><b>Livre:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }}</a></p>
                     <p><u><b>Utilisateur:</b></u> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}}</p>
                     <p><u><b>Date d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m:s')}}</p>
