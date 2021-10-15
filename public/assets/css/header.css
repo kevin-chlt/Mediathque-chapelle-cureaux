@@ -4,13 +4,17 @@
 }
 
 nav{
-    background: #26a69a;
+    background: #0DC9C9;
     font-family: Righteous, sans-serif;
     padding: 0 15px;
 }
 
 .nav-link{
     font-size: 1.15rem;
+}
+
+#dropdown-admin .nav-link{
+    color: #0DC9C9;
 }
 
 @media screen and (max-width: 992px) {
@@ -20,10 +24,14 @@ nav{
         font-size: 1.5rem;
         width: 100%;
     }
+
     .dropdown-trigger{
-        background: #26a69a;
+        background: #0DC9C9;
     }
 
+    #dropdown-menu li a{
+        color: #0DC9C9;
+    }
 }
 
 @media screen and (max-width: 700px) {

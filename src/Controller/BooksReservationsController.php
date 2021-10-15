@@ -9,14 +9,12 @@ use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Repository\UsersRepository;
 use App\Services\OutdatedReservations;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @Route("/reservations")

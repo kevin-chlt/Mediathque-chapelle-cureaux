@@ -4,7 +4,7 @@ namespace App\Services;
 
 class OutdatedReservations
 {
-    #Select reservation outdated since 3 months, used for user panel.
+    #Select reservation outdated since 3 weeks, used for user panel.
     public function getOutdatedReservation (array $reservations) : array
     {
         $outdatedReservations = [];
@@ -12,7 +12,7 @@ class OutdatedReservations
         foreach ($reservations as $reservation) {
             $reservedAt = new \DateTime($reservation->getReservedAt()->format('Y-m-d H:m:s'));
             $date_now = new \DateTime();
-            if($reservation->getIsCollected() && ($reservedAt->add(new \DateInterval('P3M')) < $date_now) ) {
+            if($reservation->getIsCollected() && ($reservedAt->add(new \DateInterval('P3W')) < $date_now) ) {
                 $outdatedReservations[] = $reservation;
             }
         }

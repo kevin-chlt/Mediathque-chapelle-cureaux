@@ -29,14 +29,14 @@ form{
     flex-direction: column;
     width: 40%;
     padding: 10px 30px 20px;
-    border: 2px #26a69a solid;
+    border: 2px #0DC9C9 solid;
     border-radius: 15px;
 }
 
 
 h1{
-    color: #26a69a;
-    text-decoration: underline #26a69a;
+    color: #0DC9C9;
+    text-decoration: underline #0DC9C9;
     font-size: 3rem;
     padding: 10px;
     margin-top: 20px;
@@ -53,6 +53,7 @@ input,label {
 
 .btn{
     margin: 15px auto;
+    background: #0DC9C9;
 }
 
 .back-btn{

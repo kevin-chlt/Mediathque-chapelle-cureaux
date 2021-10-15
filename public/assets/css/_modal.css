@@ -1,5 +1,5 @@
 .modal, .modal-footer{
-    background-color: #26a69a !important;
+    background-color: #0DC9C9 !important;
 }
 
 .modal h4, .modal p, .modal a{
@@ -14,7 +14,7 @@
 
 .modal-footer a {
     background: #FFFFFF;
-    color: #26a69a;
+    color: #0DC9C9;
 }
 
 .modal-footer a:hover{

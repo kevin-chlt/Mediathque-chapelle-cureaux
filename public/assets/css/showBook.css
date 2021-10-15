@@ -17,7 +17,7 @@ main{
 
 .container{
     padding: 10px 30px 20px;
-    border: 2px #26a69a solid;
+    border: 2px #57C1BC solid;
     border-radius: 15px;
     position: relative;
 }
@@ -31,7 +31,6 @@ main{
 .btn-dispo-container span{
     font-size: 0.9rem;
     font-style: italic;
-
 }
 
 .btn-dispo{
@@ -41,8 +40,8 @@ main{
     margin-left: 10px;
 }
 
-.dispo{
-    background: #26a69a;
+.dispo, .btn{
+    background: #0DC9C9;
 }
 
 .no-dispo{
@@ -50,8 +49,8 @@ main{
 }
 
 .title-container h1{
-    color: #26a69a;
-    text-decoration: underline #26a69a;
+    color: #0DC9C9;
+    text-decoration: underline #0DC9C9;
     font-size: 3rem;
     padding: 10px;
     margin: 10px 0;
@@ -81,10 +80,6 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.btn{
-    background: #26a69a;
 }
 
 .delete-btn{

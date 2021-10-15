@@ -28,12 +28,12 @@ main{
 }
 
 h1{
-    color: #26a69a;
+    color: #0DC9C9;
     font-size: 2.2rem;
     font-weight: bold;
     overflow-wrap: break-word;
     margin: 5px 0;
-    text-decoration: underline #26a69a;
+    text-decoration: underline #0DC9C9;
 }
 
 .actions{
@@ -54,6 +54,9 @@ td, p{
     font-family: Overlock, sans-serif;
 }
 
+.btn{
+    background: #0DC9C9;
+}
 
 
 @media screen and (max-width: 992px) {
