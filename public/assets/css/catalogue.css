@@ -65,7 +65,6 @@ main{
 
 img.responsive-img{
     min-width: 80%;
-    min-height: 80%;
 }
 
 .book-text-container h1{
@@ -82,7 +81,7 @@ img.responsive-img{
     font-size: 1.2rem;
 }
 
-.book-text-container p, .book-text-container h1, .btn-dispo-container span{
+.book-text-container p, .book-text-container h1, .btn-dispo-container span, .pagination li a{
     font-family: Overlock, sans-serif;
 }
 
@@ -90,6 +89,15 @@ img.responsive-img{
     display: flex;
     margin: 10px 0;
     justify-content: flex-end;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+}
+
+.pagination li.active{
+    background: #0DC9C9;
 }
 
 @media screen and (max-width: 950px) {

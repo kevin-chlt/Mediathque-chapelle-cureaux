@@ -9,6 +9,7 @@ use App\Form\FiltersType;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Services\ImgUploader;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -25,14 +26,14 @@ class BooksController extends AbstractController
     /**
      * @Route("/", name="books_index")
      */
-    public function index(BooksRepository $booksRepository, Request $request): Response
+    public function index(BooksRepository $booksRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $filterBooks = new FiltersBooks();
         $filterForm = $this->createForm(FiltersType::class, $filterBooks);
         $filterForm->handleRequest($request);
 
         if($filterForm->isSubmitted() && $filterForm->isValid()) {
-           $result = $booksRepository->getBookByCategory($filterBooks);
+           $result = $paginator->paginate($booksRepository->getBookByCategory($filterBooks), $request->query->getInt('page', 1), 3);
 
            return $this->render('books/index.html.twig', [
                 'books' => $result,
@@ -41,7 +42,7 @@ class BooksController extends AbstractController
         }
 
         return $this->render('books/index.html.twig', [
-            'books' => $booksRepository->getBooksByIsFree(),
+            'books' => $paginator->paginate($booksRepository->getBooksByIsFree(), $request->query->getInt('page', 1), 3),
             'filterForm' => $filterForm->createView()
         ]);
     }

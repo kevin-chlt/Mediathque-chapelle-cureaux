@@ -111,4 +111,8 @@ main{
     .row{
         margin-bottom: 0;
     }
+
+    .material-icons {
+        display: none;
+    }
 }

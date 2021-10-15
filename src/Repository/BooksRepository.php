@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Data\FiltersBooks;
 use App\Entity\Books;
-use App\Entity\Categories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,8 +21,7 @@ class BooksRepository extends ServiceEntityRepository
         parent::__construct($registry, Books::class);
     }
 
-
-    public function getBookByCategory(FiltersBooks $filtersBooks)
+    public function getBookByCategory(FiltersBooks $filtersBooks) : Query
     {
         $query = $this->createQueryBuilder('b')
                 ->select('c', 'b')
@@ -34,16 +33,15 @@ class BooksRepository extends ServiceEntityRepository
                     ->setParameter('categories', $filtersBooks->category)
                     ->orderBy('b.id', 'DESC');
             }
-        return $query->getQuery()->getResult();
+        return $query->getQuery();
     }
 
-    public function getBooksByIsFree () : array
+    public function getBooksByIsFree () : Query
     {
         return $this->createQueryBuilder('b')
             ->select('b')
             ->orderBy('b.isFree', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 
 
