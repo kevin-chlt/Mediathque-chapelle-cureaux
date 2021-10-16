@@ -45,7 +45,7 @@ td, p{
     font-family: Overlock, sans-serif;
 }
 
-table a, .responsive-card a {
+table a, .responsive-card a, .responsive-user-reservation a {
     color: #000000;
 }
 
@@ -63,7 +63,7 @@ table a, .responsive-card a {
     color: #ffffff;
 }
 
-.alert-reservation a:hover, .responsive-card a:hover, table a:hover {
+.alert-reservation a:hover, .responsive-card a:hover, table a:hover,  .responsive-user-reservation a:hover {
     color: #0DC9C9;
     text-decoration: underline;
 }
@@ -74,13 +74,18 @@ table a, .responsive-card a {
     font-weight: bold;
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1450px) {
     .actions{
         flex-direction: column;
+    }
+
+    .actions .btn{
+        margin: 4px 0;
     }
 }
 
 @media screen and (max-width: 992px) {
+    /* admin panel responsive */
     .large-main{
         display: none;
     }
@@ -97,7 +102,7 @@ table a, .responsive-card a {
         margin-bottom: 20px;
     }
 
-    .responsive-card .row{
+    .responsive-card .row, .responsive-user-reservation .row{
         margin-bottom: 0;
         padding: 10px 25px;
     }
@@ -108,6 +113,12 @@ table a, .responsive-card a {
         align-items: center;
         padding: 7px 0;
     }
+
+    /* user panel responsive */
+    .responsive-user-reservation .btn-container{
+        justify-content: center;
+    }
+
 }
 
 @media screen and (max-width: 350px) {

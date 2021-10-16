@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('books_reservations_new', {'id': book.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('create' ~ book.id) }}">
+    <button type="submit" class="btn waves-effect waves-light"> Je confirme </button>
+</form>

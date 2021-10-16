@@ -17,15 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/books")
- */
+
+#[Route('/books')]
 class BooksController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="books_index")
-     */
+    // Get the catalogue or search filter page
+    #[Route('/', name: 'books_index', methods: ['GET', 'POST'])]
     public function index(BooksRepository $booksRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $filterBooks = new FiltersBooks();
@@ -47,11 +45,10 @@ class BooksController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="books_new")
-     * @IsGranted("ROLE_EMPLOYEE", message="Vous n'êtes pas autorisé à acceder à cette page")
-     */
-    #Add new book method
+
+    // Add new book method
+    #[Route('/new', name: 'books_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
     public function new(Request $request, ImgUploader $uploader): Response
     {
         $book = new Books();
@@ -80,9 +77,7 @@ class BooksController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="books_show")
-     */
+    #[Route('/{id}', name: 'books_show', methods: ['GET'])]
     public function show(Books $book): Response
     {
         return $this->render('books/show.html.twig', [
@@ -90,9 +85,8 @@ class BooksController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/remove/{id}", name="books_delete", methods={"POST"})
-     */
+
+    #[Route('/remove/{id}', name: 'books_delete', methods: ['POST'])]
     public function delete(Request $request, Books $book, BooksReservationsRepository $reservationsRepository): Response
     {
 

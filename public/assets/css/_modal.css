@@ -2,6 +2,11 @@
     background-color: #0DC9C9 !important;
 }
 
+.modal-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
 .modal h4, .modal p, .modal a{
     font-family: Overlock, sans-serif;
     color: #FFFFFF;
