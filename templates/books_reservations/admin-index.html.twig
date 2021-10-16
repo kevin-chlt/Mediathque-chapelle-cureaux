@@ -5,7 +5,6 @@
 <link href="{{ asset('assets/css/reservations.css') }}" rel="stylesheet" />
 {% endblock %}
 
-
 {% block body %}
     {% if (is_granted("ROLE_EMPLOYEE")) %}
         {% include('headers/header-employee.html.twig') %}
@@ -76,7 +75,6 @@
             <div class="row center">
                 <span>Aucun emprunt n'est en cours</span>
             </div>
-
         {% endfor %}
         </div>
 
