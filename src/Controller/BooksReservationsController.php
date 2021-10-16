@@ -9,6 +9,7 @@ use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Repository\UsersRepository;
 use App\Services\OutdatedReservations;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -25,7 +26,7 @@ class BooksReservationsController extends AbstractController
      * @Route("/new/{id}", name="books_reservations_new", methods={"GET"})
      */
     # Get Book with Params ID, make the reservation
-    public function new(Books $book, UsersRepository $usersRepository, BooksRepository $booksRepository): Response
+    public function new(Books $book, UsersRepository $usersRepository, BooksRepository $booksRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $usersRepository->find($this->getUser()->getId());
         $filterForm = $this->createForm(FiltersType::class);
@@ -53,7 +54,7 @@ class BooksReservationsController extends AbstractController
         }
 
         return $this->render('books/index.html.twig', [
-            'books' => $booksRepository->getBooksByIsFree(),
+            'books' => $paginator->paginate($booksRepository->getBooksByIsFree(),$request->query->getInt('page', 1), 3),
             'filterForm' => $filterForm->createView()
         ]);
     }
@@ -74,25 +75,26 @@ class BooksReservationsController extends AbstractController
     }
 
     /**
-     * @Route("/cancel-reservation/{id}", name="cancel-reservation")
+     * @Route("/cancel-reservation/{id}", name="books_reservations_cancel", methods={"POST"})
      */
-    // Remove reservation if user doesn't collect his book
-    public function cancelReservationByUser (BooksReservations $booksReservations, BooksReservationsRepository $reservationsRepository, BooksRepository $booksRepository) : Response
+    // Cancel reservation and set book statut to free
+    public function cancelReservationByUser (Request $request, BooksReservations $booksReservations, BooksReservationsRepository $reservationsRepository, BooksRepository $booksRepository) : Response
     {
-        $book = $booksRepository->find($booksReservations->getBooks()->getId());
+        if ($this->isCsrfTokenValid('cancelReservation'.$booksReservations->getId(), $request->request->get('_token'))) {
+            $book = $booksRepository->find($booksReservations->getBooks()->getId());
+dd($booksReservations->getIsCollected());
+            if (($this->getUser()->getId() === $booksReservations->getUser()->getId()) && !$booksReservations->getIsCollected()) {
+                $book->setIsFree(true);
 
-        if (($this->getUser()->getId() === $booksReservations->getUser()->getId()) && !$booksReservations->getIsCollected() ) {
-            $book->setIsFree(true);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($booksReservations);
+                $entityManager->flush();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($booksReservations);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre emprunt à bien été annulé');
-        } else {
-            throw new AccessDeniedException("Vous n'avez pas le droit d'annuler cette emprunt");
+                $this->addFlash('success', 'Votre emprunt à bien été annulé');
+            } else {
+                throw new AccessDeniedException("Vous n'avez pas le droit d'annuler cette emprunt");
+            }
         }
-
 
         return $this->redirectToRoute('user_books_reservations', [
             'reservations' => $reservationsRepository->findBy(['user' => $this->getUser()->getId()])
@@ -124,20 +126,22 @@ class BooksReservationsController extends AbstractController
     }
 
     /**
-     * @Route("/customer-collect/{id}", name="books-update-collect")
+     * @Route("/customer-collect/{id}", name="books-update-collect", methods={"POST"})
      * @IsGranted("ROLE_EMPLOYEE", message="Vous n'êtes pas autorisé à effectué cette action")
      */
     // Change the collected status of book when employee do it
-    public function changeCollectStatus (BooksReservations $booksReservations) : Response
+    public function changeCollectStatus (BooksReservations $booksReservations, Request $request) : Response
     {
-        $booksReservations->getIsCollected() ?
-            $booksReservations->setIsCollected(false) : $booksReservations->setIsCollected(true);
+        if ($this->isCsrfTokenValid('updateCollect'.$booksReservations->getId(), $request->request->get('_token'))) {
+            $booksReservations->getIsCollected() ?
+                $booksReservations->setIsCollected(false) : $booksReservations->setIsCollected(true);
 
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
 
-        $this->addFlash('success', 'Mise à jour du statut effectué avec succès');
+            $this->addFlash('success', 'Mise à jour du statut effectué avec succès');
+        }
 
         return $this->redirectToRoute('books_reservations_index');
     }

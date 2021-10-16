@@ -21,21 +21,9 @@
                 <div class="row center">
                     <h1>Mes Emprunts</h1>
                 </div>
-                {% if outdatedReservations %}
-                    {% for reservation in outdatedReservations %}
-                        <div class="row alert-container">
-                            <div class="alert-img-container">
-                                <img src="{{ asset('assets/images/caution.png') }}" class=" responsive-img" />
-                            </div>
-                            <div>
-                                <h2>Vous avez dépasser le délai de garde de :</h2>
-                                <ul>
-                                    <li class="">{{ reservation.books.title }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endif %}
+
+                {% include('books_reservations/_alert-container_user.html.twig') %}
+
                 <div class="row">
                     <table class="table centered">
                         <thead>
@@ -53,7 +41,7 @@
                             <td style="width: 20%;">{{ reservation.reservedAt|date('d/m/Y H:i:s') }}</td>
                             <td style="width: 20%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y H:i:s') }}</td>
                             <td class="actions">
-                                <a class="waves-effect waves-light btn modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" href="#cancel-modal-large">Annuler l'emprunt</a>
+                                <a class="waves-effect waves-light btn modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" style="color: #FFFFFF" href="#cancel-modal-large">Annuler l'emprunt</a>
                             </td>
                         </tr>
 
@@ -63,7 +51,7 @@
                                 <p>Cette action est irréversible. Êtes-vous sûr d'annuler cette emprunt ? </p>
                             </div>
                             <div class="modal-footer">
-                                <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Confirmer</a>
+                                {% include('books_reservations/_cancel-reservation.html.twig') %}
                                 <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
                             </div>
                         </div>
@@ -114,7 +102,7 @@
                         <p>Cette action est irréversible. Êtes-vous sûr d'annuler cette emprunt ? </p>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ path('cancel-reservation', {'id': reservation.id}) }}" class="btn waves-effect waves-light">Confirmer</a>
+                        {% include('books_reservations/_cancel-reservation.html.twig') %}
                         <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
                     </div>
                 </div>

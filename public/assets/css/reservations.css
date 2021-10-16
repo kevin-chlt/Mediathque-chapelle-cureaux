@@ -18,13 +18,9 @@ main{
     display: none;
 }
 
-.container, .large-main{
-    padding: 10px 30px;
-    margin: 20px auto;
-}
-
 .large-main{
-    width: 95%;
+    width: 85%;
+    margin: 20px auto;
 }
 
 h1{
@@ -38,48 +34,89 @@ h1{
 
 .actions{
     display: flex;
-    flex-direction: column;
-}
-
-.actions a{
-    width: 65%;
-    margin: 2px auto;
+    justify-content: space-between;
 }
 
 td, p{
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
 }
 
 .table, h1{
     font-family: Overlock, sans-serif;
 }
 
+table a, .responsive-card a {
+    color: #000000;
+}
+
 .btn{
     background: #0DC9C9;
 }
 
+/*  dynamic class added by JS file background-reservation-alert.js  */
+.alert-reservation{
+    background: rgba(13,201,201,0.6);
+    color: #FFFFFF;
+}
+
+.alert-reservation a {
+    color: #ffffff;
+}
+
+.alert-reservation a:hover, .responsive-card a:hover, table a:hover {
+    color: #0DC9C9;
+    text-decoration: underline;
+}
+
+.alert-reservation p:first-of-type, .alert-reservation td:first-of-type{
+    color: red;
+    font-style: italic;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 1400px) {
+    .actions{
+        flex-direction: column;
+    }
+}
 
 @media screen and (max-width: 992px) {
-    main{
-        padding-top: 60px;
-    }
-
     .large-main{
         display: none;
+    }
+
+    main{
+        padding-top: 60px;
     }
 
     .responsive-main{
         display: block;
     }
 
+    .responsive-card{
+        margin-bottom: 20px;
+    }
+
+    .responsive-card .row{
+        margin-bottom: 0;
+        padding: 10px 25px;
+    }
+
     .btn-container{
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
+        padding: 7px 0;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .btn-container{
+        flex-direction: column;
     }
 
     .btn-container .btn{
         margin: 4px 0;
     }
+
 }

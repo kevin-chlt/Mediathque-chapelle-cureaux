@@ -42,8 +42,11 @@
                 <a class="btn waves-effect waves-light" href="{{ path('books_show', {'id': book.id}) }}">Voir le livre</a>
             </div>
         </div>
+        {% else %}
+        <div class="center">
+            <span>Aucun livre trouvé</span>
+        </div>
         {% endfor %}
-
         {{ knp_pagination_render(books) }}
         </main>
 

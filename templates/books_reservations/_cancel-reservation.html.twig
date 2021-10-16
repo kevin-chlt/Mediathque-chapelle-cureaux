@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('books_reservations_cancel', {'id': reservation.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('cancelReservation' ~ reservation.id) }}" />
+    <button type="submit" class="btn waves-effect waves-light"> Confirmer </button>
+</form>

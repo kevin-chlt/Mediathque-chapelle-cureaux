@@ -15,6 +15,7 @@
 
     <main>
         {% include('./_app-flashes.html.twig') %}
+        {# LISTE BIG SCREEN #}
         <div class="large-main">
             <div class="row center">
                 <h1>Liste des emprunts</h1>
@@ -23,11 +24,11 @@
                 <table class="table centered">
                     <thead>
                     <tr>
-                        <th>Statut</th>
-                        <th>Livre</th>
-                        <th>Utilisateur</th>
-                        <th>Date de réservation</th>
-                        <th>Date d'emprunt maximum</th>
+                        <th>Statuts</th>
+                        <th>Livres</th>
+                        <th>Utilisateurs</th>
+                        <th>Dates de réservation</th>
+                        <th>Dates d'emprunt maximum</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -36,12 +37,12 @@
                         <tr>
                             {% include('books_reservations/_status-text.html.twig') %}
                             <td style="width: 20%;"> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }} </a> </td>
-                            <td style="width: 20%;"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}} </td>
+                            <td style="width: 20%;"> <a href="mailto:{{ reservation.user.email }}"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}} </a></td>
                             <td style="width: 10%;">{{ reservation.reservedAt|date('d/m/Y H:m:s')}}</td>
                             <td style="width: 10%;">{{ reservation.reservedAt|date_modify('+3 weeks')|date('d/m/Y')}}</td>
                             <td class="actions">
-                                <a href="{{ path('books-update-collect', {'id': reservation.id}) }}" class="btn waves-effect waves-light {{ reservation.reservedAt|date_modify('+3 days') > date() ? '' : 'disabled' }} ">{{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }}</a>
                                 {% include('books_reservations/_delete_form.html.twig') %}
+                                {% include('books_reservations/_update-book-status.html.twig') %}
                             </td>
                         </tr>
                         {% else %}
@@ -52,23 +53,23 @@
             </div>
         </div>
 
-
+        {# LISTE RESPONSIVE  #}
         <div class="responsive-main">
             <div class="row center">
                 <h1>Liste des emprunts</h1>
             </div>
         {% for reservation in reservations %}
-            <div class="container z-depth-2">
+            <div class="container responsive-card z-depth-2">
                 <div class="row">
                     <p id="status"><u><b>Statut:</b></u> {% include('books_reservations/_status-text-responsive.html.twig') %} </p>
-                    <p><u><b>Livre:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }}</a></p>
-                    <p><u><b>Utilisateur:</b></u> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}}</p>
-                    <p><u><b>Date d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m:s')}}</p>
-                    <p><u><b>Date d'emprunt maximum:</b></u> {{ reservation.reservedAt|date_modify("+3 months")|date('d/m/Y à H:m:s') }}</p>
+                    <p><u><b>Livres:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }}</a></p>
+                    <p><u><b>Utilisateurs:</b></u> <a href="mailto:{{ reservation.user.email }}"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}}</a></p>
+                    <p><u><b>Dates d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m:s')}}</p>
+                    <p><u><b>Dates d'emprunt maximum:</b></u> {{ reservation.reservedAt|date_modify("+3 months")|date('d/m/Y à H:m:s') }}</p>
                 </div>
-                <div class="btn-container row">
-                    <a href="{{ path('books-update-collect', {'id': reservation.id}) }}" class="btn waves-effect waves-light">{{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }}</a>
+                <div class="btn-container">
                     {% include('books_reservations/_delete_form.html.twig') %}
+                    {% include('books_reservations/_update-book-status.html.twig') %}
                 </div>
             </div>
         {% else %}
