@@ -12,7 +12,6 @@ main{
     min-height: 85vh;
     background: rgba(38, 166, 154, 0.1);
     padding: 30px 0;
-
 }
 
 .container{
@@ -87,6 +86,10 @@ main{
 }
 
 @media screen and (max-width: 800px) {
+    main{
+        padding: 50px;
+    }
+
     .container{
         padding: 10px 15px 20px;
     }

@@ -29,6 +29,7 @@ de les rechercher grace à une barre de recherche
 `.env.local.php` 
 - Créer votre BDD avec `php bin/console doctrine:database:create`  
 - Créer vos tables ensuite avec `php bin/console doctrine:migrations:migrate`
-- Pour avoir un jeu de données factice, vous pouvez importer le fichier `import.sql` dans votdre BDD.
+- Pour avoir un jeu de données factice, vous pouvez importer le fichier `import.sql` dans votre BDD avec la commande 
+`php bin/console doctrine:database:import import.sql`
 
 Vous pouvez désormais naviguer sur le site.
