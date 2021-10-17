@@ -40,6 +40,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/books, roles: ROLE_USER, requires_channel: '%env(SECURE_SCHEME)%' }
-         - { path: ^/reservations, roles: ROLE_USER, requires_channel: '%env(SECURE_SCHEME)%' }
-         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%env(SECURE_SCHEME)%' }
+         - { path: ^/books, roles: ROLE_USER }
+         - { path: ^/reservations, roles: ROLE_USER }
+         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
