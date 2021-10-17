@@ -7,7 +7,7 @@ input.addEventListener('keydown', async () => {
 
 console.log(searchWord.length)
     if(searchWord.length >= 1){
-        let response = await fetch('http://127.0.0.1:8000/api/books');
+        let response = await fetch('https://mediatheque-chapelle-cureaux.herokuapp.com/api/books');
         if(response.ok && response.status === 200) {
             let data = await response.json();
             const searchResult = await data.filter(book => book.title.includes(searchWord))
@@ -26,7 +26,7 @@ const displayResults = (results) => {
     } else {
         for(let i = 0; i < results.length; i++) {
             const li = document.createElement('li');
-            li.insertAdjacentHTML('afterbegin', `<a href="http://127.0.0.1:8000/books/${results[i].id}"> ${results[i].title} </a>` )
+            li.insertAdjacentHTML('afterbegin', `<a href="https://mediatheque-chapelle-cureaux.herokuapp.com/books/${results[i].id}"> ${results[i].title} </a>` )
             dropdown.append(li)
         }
     }
