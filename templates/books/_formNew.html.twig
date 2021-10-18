@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr':{'class': 'z-depth-3'} }) }}
+{{ form_start(form, {'attr':{'class': 'z-depth-3 addBookForm'} }) }}
 <h1>Ajouter un livre dans le catalogue</h1>
 <div class="input-field">
     {{ form_label(form.title) }}
@@ -10,15 +10,17 @@
     {{ form_widget(form.parutedAt) }}
     {{ form_errors(form.parutedAt) }}
 </div>
-<div class="input-field">
+<div class="input-field author-field">
     {{ form_widget(form.authors) }}
     {{ form_label(form.authors) }}
     {{ form_errors(form.authors) }}
+    <a class="waves-effect waves-light btn btn-small modal-trigger" href="#newAuthor-modal"><i class="material-icons">add</i></a>
 </div>
-<div class="input-field">
+<div class="input-field category-field">
     {{ form_widget(form.categories) }}
     {{ form_label(form.categories) }}
     {{ form_errors(form.categories) }}
+    <a class="waves-effect waves-light btn btn-small modal-trigger" href="#newCategory-modal"><i class="material-icons">add</i></a>
 </div>
 <div class="input-field">
     {{ form_label(form.description) }}

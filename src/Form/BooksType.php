@@ -97,8 +97,7 @@ class BooksType extends AbstractType
                         'message' => 'Vous devez remplir ce champ.'
                     ])
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

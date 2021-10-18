@@ -3,7 +3,8 @@
 {% block title %}Ajouter{% endblock %}
 
 {% block stylesheets %}
-<link href="{{ asset('assets/css/newBook.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/_modal.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/newBook.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
@@ -11,11 +12,16 @@
 
 
     <main>
+        {% include('./_app-flashes.html.twig') %}
         {% include('books/_formNew.html.twig') %}
     </main>
 
     {% include('./_footer.html.twig') %}
 
+    {% include('authors/_formNew-modal.html.twig') %}
+    {% include('categories/_formNew-modal.html.twig') %}
+
     <script  src="{{ asset('assets/js/init-multipleSelect.js') }}" defer></script>
+    <script  src="{{ asset('assets/js/init-modal.js') }}" defer></script>
     <script  src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
 {% endblock %}

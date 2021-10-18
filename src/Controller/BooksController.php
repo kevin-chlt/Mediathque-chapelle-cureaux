@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Data\FiltersBooks;
 use App\Entity\Books;
+use App\Form\AuthorsType;
 use App\Form\BooksType;
+use App\Form\CategoriesType;
 use App\Form\FiltersType;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
@@ -21,7 +23,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/books')]
 class BooksController extends AbstractController
 {
-
     // Get the catalogue or search filter page
     #[Route('/', name: 'books_index', methods: ['GET', 'POST'])]
     public function index(BooksRepository $booksRepository, Request $request, PaginatorInterface $paginator): Response
@@ -46,13 +47,19 @@ class BooksController extends AbstractController
     }
 
 
-    // Add new book method
+    // Add new book method & render form add Author & Categories
     #[Route('/new', name: 'books_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
     public function new(Request $request, ImgUploader $uploader): Response
     {
         $book = new Books();
         $form = $this->createForm(BooksType::class, $book);
+        $newAuthorForm = $this->createForm(AuthorsType::class, null ,  [
+            'action' => $this->generateUrl('authors_new')
+        ]);
+        $newCategoryForm = $this->createForm(CategoriesType::class, null, [
+            'action' => $this->generateUrl('categories_new')
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,6 +81,8 @@ class BooksController extends AbstractController
         return $this->render('books/new.html.twig', [
             'book' => $book,
             'form' => $form->createView(),
+            'authorForm' => $newAuthorForm->createView(),
+            'categoryForm' => $newCategoryForm->createView()
         ]);
     }
 

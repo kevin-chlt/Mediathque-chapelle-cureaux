@@ -1,0 +1,16 @@
+<div id="newCategory-modal" class="modal">
+    <div class="modal-content">
+        <h4>Ajout d'une nouvelle catégorie</h4>
+        {{ form_start(categoryForm) }}
+        <div class="input-field">
+            {{ form_widget(categoryForm.name) }}
+            {{ form_label(categoryForm.name) }}
+            {{ form_errors(categoryForm.name) }}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
+        <button type="submit" class="btn">Créer</button>
+    </div>
+    {{ form_end(categoryForm) }}
+</div>
