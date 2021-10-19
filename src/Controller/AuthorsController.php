@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Authors;
 use App\Form\AuthorsType;
+use App\Repository\AuthorsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,15 +40,18 @@ class AuthorsController extends AbstractController
     }
 
 
-
-    #[Route('/{id}', name: 'authors_delete', methods: ['POST'])]
+    #[Route('/remove', name: 'authors_delete', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE',  message: 'Vous n\'êtes pas autorisé à effectué cette action')]
-    public function delete(Request $request, Authors $author): Response
+    public function delete(Request $request, AuthorsRepository $authorsRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$author->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$this->getUser()->getId(), $request->request->get('_token'))) {
+            $author = $authorsRepository->find((int) $request->get('author'));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($author);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Suppression de l\'auteur effectué avec succès');
         }
 
         return $this->redirectToRoute('books_new', [], Response::HTTP_SEE_OTHER);

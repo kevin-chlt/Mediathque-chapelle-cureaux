@@ -43,16 +43,8 @@ h1, .btn {
     font-family: Righteous, sans-serif;
 }
 
-input,label {
+input, select, label, h1{
     font-family: Overlock, sans-serif;
-}
-
-.author-field, .category-field{
-    display: flex;
-}
-
-.select-wrapper{
-    width: 90%;
 }
 
 .btn{
@@ -60,43 +52,108 @@ input,label {
     background: #0DC9C9;
 }
 
-ul{
+ul, .dropdown-content{
     margin: 0;
 }
 
+.select-wrapper{
+    width: 90%;
+}
+
+/* Errors message */
 form li {
     color: red;
     font-size: 0.8rem;
     font-style: italic;
 }
 
+/*  MODAL */
+.modal-content, .modal .modal-footer{
+    background: #0DC9C9;
+}
+
+.section-modal{
+    background: #FFFFFF;
+    margin: 20px 0;
+    padding: 15px 0;
+    border-radius: 10px;
+}
+
+.modal-content h4 {
+    color: #0DC9C9;
+    text-align: center;
+    text-decoration: underline #0DC9C9;
+    font-family: Overlock, sans-serif;
+}
+
+.author-field, .category-field, .category-delete, .form-modal, .author-delete{
+    display: flex;
+}
+
+.form-modal, .category-delete, .author-delete{
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-modal .input-field{
+    width: 75%;
+}
+
+.modal.modal-fixed-footer .modal-footer {
+    border-top: #FFFFFF 1px solid;
+}
+
+.modal .btn{
+    background: #FFFFFF;
+    color: #0DC9C9;
+}
+
+.modal .btn:hover{
+    background: #0DC9C9;
+    color: #FFFFFF;
+}
+
+
 @media screen and (max-width: 1450px){
-    form{
+    .addBookForm{
         width: 60%;
     }
 }
 
+
 @media screen and (max-width: 950px) {
-    form {
+    .addBookForm {
         width: 100%;
         border: 0;
         border-radius: 0;
     }
 }
 
-
 @media screen and (max-width: 400px){
-    .btn{
-        overflow: inherit;
-        margin: 0;
+    .addBookForm{
+        margin-top: 20px;
     }
 
-    form h1{
+    .addBookForm h1{
         font-size: 1.8rem;
     }
 
-    form{
-        margin-top: 20px;
+    .modal-content{
+        padding: 20px 0;
+    }
+
+    .modal{width: 95%;}
+
+    .modal-content h4{
+        font-size: 1.6rem;
+    }
+
+    .modal .modal-content{
+        padding: 10px 0;
+    }
+
+    .section-modal{
+        border-radius: 0;
     }
 
 }

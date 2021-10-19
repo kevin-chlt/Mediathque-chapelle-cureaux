@@ -8,8 +8,10 @@ use App\Form\AuthorsType;
 use App\Form\BooksType;
 use App\Form\CategoriesType;
 use App\Form\FiltersType;
+use App\Repository\AuthorsRepository;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
+use App\Repository\CategoriesRepository;
 use App\Services\ImgUploader;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -50,7 +52,7 @@ class BooksController extends AbstractController
     // Add new book method & render form add Author & Categories
     #[Route('/new', name: 'books_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
-    public function new(Request $request, ImgUploader $uploader): Response
+    public function new(Request $request, ImgUploader $uploader, CategoriesRepository $categoriesRepository, AuthorsRepository $authorsRepository): Response
     {
         $book = new Books();
         $form = $this->createForm(BooksType::class, $book);
@@ -79,7 +81,8 @@ class BooksController extends AbstractController
         }
 
         return $this->render('books/new.html.twig', [
-            'book' => $book,
+            'authors' => $authorsRepository->findAll(),
+            'categories' => $categoriesRepository->findAll(),
             'form' => $form->createView(),
             'authorForm' => $newAuthorForm->createView(),
             'categoryForm' => $newCategoryForm->createView()

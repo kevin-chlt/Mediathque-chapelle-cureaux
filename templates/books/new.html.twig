@@ -3,7 +3,6 @@
 {% block title %}Ajouter{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('assets/css/_modal.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/newBook.css') }}" rel="stylesheet" />
 {% endblock %}
 
@@ -18,8 +17,8 @@
 
     {% include('./_footer.html.twig') %}
 
-    {% include('authors/_formNew-modal.html.twig') %}
-    {% include('categories/_formNew-modal.html.twig') %}
+    {% include('authors/_modal-createDelete.html.twig') %}
+    {% include('categories/_modal-createDelete.html.twig') %}
 
     <script  src="{{ asset('assets/js/init-multipleSelect.js') }}" defer></script>
     <script  src="{{ asset('assets/js/init-modal.js') }}" defer></script>

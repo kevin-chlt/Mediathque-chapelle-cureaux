@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Categories;
 use App\Form\CategoriesType;
+use App\Repository\CategoriesRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,14 +40,17 @@ class CategoriesController extends AbstractController
     }
 
 
-    #[Route('/{id}', name: 'categories_delete', methods: ['POST'])]
+    #[Route('/remove', name: 'categories_delete', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE',  message: 'Vous n\'êtes pas autorisé à effectué cette action')]
-    public function delete(Request $request, Categories $category): Response
+    public function delete(Request $request, CategoriesRepository $categoriesRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$this->getUser()->getId(), $request->request->get('_token'))) {
+            $category = $categoriesRepository->find((int) $request->get('category'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($category);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Suppression de la catégorie effectué avec succès');
         }
 
         return $this->redirectToRoute('books_new', [], Response::HTTP_SEE_OTHER);

@@ -1,0 +1,37 @@
+<div id="newAuthor-modal" class="modal modal-fixed-footer">
+
+    <div class="modal-content">
+        <div class="section-modal">
+            <h4>Ajout d'un nouvel auteur</h4>
+            {{ form_start(authorForm, {'attr': {'class':'form-modal'}}) }}
+            <div class="input-field">
+                {{ form_widget(authorForm.name) }}
+                {{ form_label(authorForm.name) }}
+                {{ form_errors(authorForm.name) }}
+            </div>
+            <button type="submit" class="btn btn-small">Créer</button>
+            {{ form_end(authorForm) }}
+        </div>
+        <div class="section-modal">
+            <h4> Suppression d'un auteur </h4>
+            <form method="post" action="{{ path('authors_delete') }}" onsubmit="return confirm('La suppression est irréversible ! Êtes-vous sûr ?');">
+                <div class="input-field author-delete">
+                    <select name="author">
+                        <option selected disabled value="">Choisissez un auteur</option>
+                        {% for author in authors %}
+                            <option value="{{ author.id }}">{{ author.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+                    <button class="btn btn-small waves-effect waves-light">Effacer</button>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
+    </div>
+</div>

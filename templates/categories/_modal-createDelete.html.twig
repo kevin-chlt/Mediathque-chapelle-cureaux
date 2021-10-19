@@ -1,0 +1,36 @@
+<div id="newCategory-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <div class="section-modal">
+            <h4>Ajout d'une nouvelle catégorie</h4>
+            {{ form_start(categoryForm, {'attr': {'class':'form-modal'}}) }}
+            <div class="input-field">
+                {{ form_widget(categoryForm.name) }}
+                {{ form_label(categoryForm.name) }}
+                {{ form_errors(categoryForm.name) }}
+            </div>
+            <button type="submit" class="btn">Créer</button>
+            {{ form_end(categoryForm) }}
+        </div>
+
+        <div class="section-modal">
+            <h4> Suppression d'une catégorie </h4>
+            <form method="post" action="{{ path('categories_delete') }}" onsubmit="return confirm('La suppresion est irréversible ! Êtes-vous sûr ?');">
+                <div class="input-field category-delete">
+                    <select name="category">
+                        <option selected disabled value="">Choisissez une catégorie</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+                    <button class="btn btn-small waves-effect waves-light">Effacer</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn waves-effect waves-light modal-close">Annuler</a>
+    </div>
+</div>
