@@ -9,7 +9,7 @@
                 {{ form_label(authorForm.name) }}
                 {{ form_errors(authorForm.name) }}
             </div>
-            <button type="submit" class="btn btn-small">Créer</button>
+            <button type="submit" class="btn btn-small waves-effect waves-light">Créer</button>
             {{ form_end(authorForm) }}
         </div>
         <div class="section-modal">
@@ -17,7 +17,7 @@
             <form method="post" action="{{ path('authors_delete') }}" onsubmit="return confirm('La suppression est irréversible ! Êtes-vous sûr ?');">
                 <div class="input-field author-delete">
                     <select name="author">
-                        <option selected disabled value="">Choisissez un auteur</option>
+                        <option selected disabled>Choisissez un auteur</option>
                         {% for author in authors %}
                             <option value="{{ author.id }}">{{ author.name }}</option>
                         {% endfor %}

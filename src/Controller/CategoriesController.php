@@ -40,12 +40,22 @@ class CategoriesController extends AbstractController
     }
 
 
+    // Get the ID of category from request and delete entity
     #[Route('/remove', name: 'categories_delete', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE',  message: 'Vous n\'êtes pas autorisé à effectué cette action')]
     public function delete(Request $request, CategoriesRepository $categoriesRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$this->getUser()->getId(), $request->request->get('_token'))) {
-            $category = $categoriesRepository->find((int) $request->get('category'));
+        if((int)$request->get('category') === 0) {
+            return $this->redirectToRoute('books_new', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $category = $categoriesRepository->find((int) $request->get('category'));
+
+        if (!$category->getBooks()->isEmpty()) {
+            $this->addFlash('errors', 'Impossible de supprimer la catégorie, un ou plusieurs livres y sont rattachés');
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$this->getUser()->getId(), $request->request->get('_token')) && $category->getBooks()->isEmpty()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($category);
             $entityManager->flush();

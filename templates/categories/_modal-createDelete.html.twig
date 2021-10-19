@@ -8,7 +8,7 @@
                 {{ form_label(categoryForm.name) }}
                 {{ form_errors(categoryForm.name) }}
             </div>
-            <button type="submit" class="btn">Créer</button>
+            <button type="submit" class="btn btn-small waves-effect waves-light">Créer</button>
             {{ form_end(categoryForm) }}
         </div>
 
@@ -17,7 +17,7 @@
             <form method="post" action="{{ path('categories_delete') }}" onsubmit="return confirm('La suppresion est irréversible ! Êtes-vous sûr ?');">
                 <div class="input-field category-delete">
                     <select name="category">
-                        <option selected disabled value="">Choisissez une catégorie</option>
+                        <option selected disabled>Choisissez une catégorie</option>
                         {% for category in categories %}
                             <option value="{{ category.id }}">{{ category.name }}</option>
                         {% endfor %}

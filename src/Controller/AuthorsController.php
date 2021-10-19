@@ -44,9 +44,17 @@ class AuthorsController extends AbstractController
     #[IsGranted('ROLE_EMPLOYEE',  message: 'Vous n\'êtes pas autorisé à effectué cette action')]
     public function delete(Request $request, AuthorsRepository $authorsRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$this->getUser()->getId(), $request->request->get('_token'))) {
-            $author = $authorsRepository->find((int) $request->get('author'));
+        if((int)$request->get('author') === 0) {
+            return $this->redirectToRoute('books_new', [], Response::HTTP_SEE_OTHER);
+        }
 
+        $author = $authorsRepository->find((int) $request->get('author'));
+
+        if (!$author->getBooks()->isEmpty()) {
+            $this->addFlash('errors', 'Impossible de supprimer l\'auteur, un ou plusieurs livres y sont rattachés');
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$this->getUser()->getId(), $request->request->get('_token')) && $author->getBooks()->isEmpty()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($author);
             $entityManager->flush();

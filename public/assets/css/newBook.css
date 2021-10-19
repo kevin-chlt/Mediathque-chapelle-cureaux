@@ -71,6 +71,9 @@ form li {
 .modal-content, .modal .modal-footer{
     background: #0DC9C9;
 }
+.modal.modal-fixed-footer .modal-content, .modal{
+    overflow-y: initial;
+}
 
 .section-modal{
     background: #FFFFFF;
