@@ -1,4 +1,4 @@
-<form method="post" class=" {{ reservation.reservedAt|date_modify('+3 days') > date() ? '' : 'hide' }}" action="{{ path('books-update-collect', {'id': reservation.id}) }}">
+<form method="post" class=" {{ reservation.collectedAt|date_modify('+3 days') > date() ? '' : 'hide' }}" action="{{ path('books-update-collect', {'id': reservation.id}) }}">
     <input type="hidden" name="_token" value="{{ csrf_token('updateCollect' ~ reservation.id) }}">
-    <button type="submit" class="btn btn-small"> {{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }} </button>
+    <button type="submit" class="btn btn-small waves-effect waves-light"> {{ reservation.isCollected ? 'Annuler collecte' : 'Collecte client' }} </button>
 </form>

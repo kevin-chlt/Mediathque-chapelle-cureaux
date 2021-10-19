@@ -10,16 +10,18 @@ class OutdatedReservations
         $outdatedReservations = [];
 
         foreach ($reservations as $reservation) {
-            $reservedAt = new \DateTime($reservation->getReservedAt()->format('Y-m-d H:m:s'));
-            $date_now = new \DateTime();
-            if($reservation->getIsCollected() && ($reservedAt->add(new \DateInterval('P3W')) < $date_now) ) {
-                $outdatedReservations[] = $reservation;
+            if($reservation->getIsCollected()) {
+                $reservedAt = new \DateTime($reservation->getCollectedAt()->format('Y-m-d H:m:s'));
+                $date_now = new \DateTime();
+                if($reservation->getIsCollected() && ($reservedAt->add(new \DateInterval('P3W')) < $date_now) ) {
+                    $outdatedReservations[] = $reservation;
+                }
             }
         }
         return $outdatedReservations;
     }
 
-    #Select reservation outdated since 3day, used for admin panel
+    #Select for remove reservation outdated since 3day, used for admin panel
     public function getOutdatedReservationAdminPanel (array $reservations) : array
     {
         $outdatedReservations = [];

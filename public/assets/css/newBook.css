@@ -103,7 +103,7 @@ form li {
 }
 
 .modal.modal-fixed-footer .modal-footer {
-    border-top: #FFFFFF 1px solid;
+    border-top: 0;
 }
 
 .modal .btn{

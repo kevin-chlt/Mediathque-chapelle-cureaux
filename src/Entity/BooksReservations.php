@@ -39,6 +39,11 @@ class BooksReservations
      */
     private $isCollected = false;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $collectedAt;
+
 
     public function __construct()
     {
@@ -95,6 +100,18 @@ class BooksReservations
     public function setIsCollected(bool $isCollected): self
     {
         $this->isCollected = $isCollected;
+
+        return $this;
+    }
+
+    public function getCollectedAt(): ?\DateTimeInterface
+    {
+        return $this->collectedAt;
+    }
+
+    public function setCollectedAt(?\DateTimeInterface $collectedAt): self
+    {
+        $this->collectedAt = $collectedAt;
 
         return $this;
     }

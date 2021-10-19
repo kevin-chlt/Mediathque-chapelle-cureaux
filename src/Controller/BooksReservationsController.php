@@ -98,7 +98,7 @@ class BooksReservationsController extends AbstractController
     // Get all the reservation | Admin panel
     #[Route('/administration', name: 'books_reservations_index', methods: ['GET'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à acceder à cette page')]
-    public function adminPanel(BooksRepository $booksRepository, BooksReservationsRepository $booksReservationsRepository, OutdatedReservations $outdatedReservations): Response
+    public function adminPanel(BooksReservationsRepository $booksReservationsRepository, OutdatedReservations $outdatedReservations): Response
     {
         // Check the date and delete the reservation not recolted since 3 days
         $reservations = $booksReservationsRepository->findAll();
@@ -123,9 +123,13 @@ class BooksReservationsController extends AbstractController
     public function changeCollectStatus (BooksReservations $booksReservations, Request $request) : Response
     {
         if ($this->isCsrfTokenValid('updateCollect'.$booksReservations->getId(), $request->request->get('_token'))) {
-            $booksReservations->getIsCollected() ?
-                $booksReservations->setIsCollected(false) : $booksReservations->setIsCollected(true);
-
+            if($booksReservations->getIsCollected()) {
+                $booksReservations->setIsCollected(false);
+                $booksReservations->setCollectedAt(null);
+            } else {
+                $booksReservations->setIsCollected(true);
+                $booksReservations->setCollectedAt(new \DateTime());
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
