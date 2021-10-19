@@ -28,4 +28,4 @@ INSERT INTO books_authors (books_id, authors_id) VALUES (5, 4), (6, 6), (7, 5), 
 INSERT INTO books_categories (books_id, categories_id) VALUES
 (1, 3), (1, 5), (2, 2), (2, 5), (2, 3), (3, 2), (4, 6), (5, 3), (5, 2), (6, 3), (6, 5), (7, 1), (8, 4), (9, 4);
 
-INSERT INTO books_reservations (user_id, books_id, reserved_at, is_collected) VALUES ('a1331cb6-2873-11ec-a7e7-309c23ed1c26', 1, '2021-09-11 15:47:06', 1), ('960c82fe-2cf6-11ec-9c98-309c23ed1c26', 2, '2021-06-14 16:07:13', 1), ('960c82fe-2cf6-11ec-9c98-309c23ed1c26', 4, '2021-10-08 16:07:53', 1), ( 'd71c4dc2-2cf7-11ec-9c98-309c23ed1c26', 9, '2021-07-14 16:08:24', 1);
+INSERT INTO books_reservations (user_id, books_id, reserved_at, is_collected, collected_at) VALUES ('a1331cb6-2873-11ec-a7e7-309c23ed1c26', 1, '2021-09-11 15:47:06', 1, '2021-09-12 13:32:33'), ('960c82fe-2cf6-11ec-9c98-309c23ed1c26', 2, '2021-06-14 16:07:13', 1, '2021-06-15 13:22:33'), ('960c82fe-2cf6-11ec-9c98-309c23ed1c26', 4, '2021-10-08 16:07:53', 1, '2021-10-09 17:30:33'), ( 'd71c4dc2-2cf7-11ec-9c98-309c23ed1c26', 9, '2021-07-14 16:08:24', 1, '2021-07-14 17:03:33');
