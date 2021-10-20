@@ -39,7 +39,9 @@ class BooksReservationsController extends AbstractController
             if ($book->getIsFree() && $user->getBooksReservations()->count() < 10) {
                 $booksReservation = new BooksReservations();
                 $booksReservation->setBooks($book)
-                    ->setUser($user);
+                    ->setUser($user)
+                    ->setReservedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+
 
                 $book->setIsFree(false);
 
@@ -128,7 +130,7 @@ class BooksReservationsController extends AbstractController
                 $booksReservations->setCollectedAt(null);
             } else {
                 $booksReservations->setIsCollected(true);
-                $booksReservations->setCollectedAt(new \DateTime());
+                $booksReservations->setCollectedAt(new \DateTime('now',  new \DateTimeZone('Europe/Paris')));
             }
 
             $entityManager = $this->getDoctrine()->getManager();

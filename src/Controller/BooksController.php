@@ -34,10 +34,8 @@ class BooksController extends AbstractController
         $filterForm->handleRequest($request);
 
         if($filterForm->isSubmitted() && $filterForm->isValid()) {
-           $result = $paginator->paginate($booksRepository->getBookByCategory($filterBooks), $request->query->getInt('page', 1), 3);
-
            return $this->render('books/index.html.twig', [
-                'books' => $result,
+                'books' => $booksRepository->getBookByCategory($filterBooks)->getResult(),
                 'filterForm' => $filterForm->createView()
             ]);
         }
@@ -101,7 +99,6 @@ class BooksController extends AbstractController
     #[Route('/remove/{id}', name: 'books_delete', methods: ['POST'])]
     public function delete(Request $request, Books $book, BooksReservationsRepository $reservationsRepository): Response
     {
-
         $reservations = $reservationsRepository->findOneBy(['books' => $book->getId()]);
         if($reservations) {
             $this->addFlash('errors', 'Un emprunt est en cours pour ce livre, veuillez le supprimer avant de supprimer ce livre');

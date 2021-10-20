@@ -47,7 +47,9 @@
             <span>Aucun livre trouvé</span>
         </div>
         {% endfor %}
-        {{ knp_pagination_render(books) }}
+        {% if app.request.method is same as 'GET' %}
+            {{ knp_pagination_render(books) }}
+        {% endif %}
         </main>
 
     {% include('./_footer.html.twig') %}
