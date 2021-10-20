@@ -6,12 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    {% if (is_granted("ROLE_EMPLOYEE")) %}
-        {% include('headers/header-employee.html.twig') %}
-    {% else %}
-        {% include('headers/header-user.html.twig') %}
-    {% endif %}
-
+    {% include('headers/header-employee.html.twig') %}
     <main>
         {% include('./_app-flashes.html.twig') %}
         {# LISTE BIG SCREEN #}
@@ -37,7 +32,7 @@
                             {% include('books_reservations/_status-text.html.twig') %}
                             <td style="width: 20%;"> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }} </a> </td>
                             <td style="width: 20%;"> <a href="mailto:{{ reservation.user.email }}"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}} </a></td>
-                            <td style="width: 10%;">{{ reservation.reservedAt|date('d/m/Y H:m:s') }}</td>
+                            <td style="width: 10%;">{{ reservation.reservedAt|date('d/m/Y à H:m:s') }}</td>
                             <td style="width: 10%;">{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:i:s') : ' - ' }} </td>
                             <td class="actions">
                                 {% include('books_reservations/_delete_form.html.twig') %}

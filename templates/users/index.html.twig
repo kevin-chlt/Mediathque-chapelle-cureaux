@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes d'adhésion{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/reservations.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    {% include('headers/header-employee.html.twig') %}
+    <main>
+        {% include('./_app-flashes.html.twig') %}
+        {# LISTE BIG SCREEN #}
+        <div class="large-main">
+            <div class="row center">
+                <h1>Demandes d'adhésion</h1>
+            </div>
+            <div class="row">
+                <table class="table centered">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Adresse email</th>
+                        <th>Date de naissance</th>
+                        <th>Adresse</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td style="width: 15%"> {{ user.firstname|upper }} </td>
+                            <td style="width: 15%;"> {{ user.lastname }} </td>
+                            <td style="width: 20%;"> <a href="mailto:{{ user.email }}"> {{ user.email }} </a></td>
+                            <td style="width: 10%;">{{ user.birthdate|date('d/m/Y') }}</td>
+                            <td style="width: 20%;">{{ user.address }} </td>
+                            <td class="actions">
+                                {% include('users/_accept-registration.html.twig') %}
+                                {% include('users/_reject-registration.html.twig') %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <td colspan="6">Aucune nouvelle demande.</td>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {# LISTE RESPONSIVE  #}
+        <div class="responsive-main">
+            <div class="row center">
+                <h1>Demandes d'adhésion</h1>
+            </div>
+            {% for user in users %}
+                <div class="container responsive-card z-depth-2">
+                    <div class="row">
+                        <p id="status"><u><b>Nom:</b></u> {{ user.firstname|upper}} </p>
+                        <p><u><b>Prénom:</b></u> {{ user.lastname }} </p>
+                        <p><u><b>Adresse email:</b></u> <a href="mailto:{{ user.email }}"> {{ user.email }} </a></p>
+                        <p><u><b>Date de naissance:</b></u> {{ user.birthdate|date('d/m/Y')}}</p>
+                        <p><u><b>Adresse:</b></u> {{ user.address }} </p>
+                    </div>
+                    <div class="btn-container">
+                        {% include('users/_accept-registration.html.twig') %}
+                        {% include('users/_reject-registration.html.twig') %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="row center">
+                    <span>Aucun emprunt n'est en cours</span>
+                </div>
+            {% endfor %}
+        </div>
+
+    </main>
+    {% include('./_footer.html.twig') %}
+    <script src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+{% endblock %}
