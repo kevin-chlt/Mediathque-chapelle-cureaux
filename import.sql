@@ -13,12 +13,12 @@ INSERT INTO books (title, description, paruted_at, is_free, cover) VALUES
 INSERT INTO authors (name) VALUES ('John Doe'), ('Morgan Ortin'), ('Agnès Ledig'), ('Lucinda Riley'), ('Dora Mutot'), ('Olivier Bonnasies'), ('Jerome Pascalin'), ('Stephanie Abellin'), ('Michel-Yves Bolloré'), ('Stephen King');
 
 INSERT INTO users (id, email, roles, password, lastname, firstname, address, birthdate, is_validate) VALUES
-('54381990-2cf7-11ec-9c98-309c23ed1c26', 'lanc@sar.fr', '[]', '$2y$13$5xnme/74h.wChOdLXdDn8OJbjYKx9lpeGDT1c06CRkZpAh9kxzh2K', 'Sarah', 'Lancaster', '48 avenue de la Mouette', '1994-09-05', 1),
+('54381990-2cf7-11ec-9c98-309c23ed1c26', 'lanc@sar.fr', '[]', '$2y$13$5xnme/74h.wChOdLXdDn8OJbjYKx9lpeGDT1c06CRkZpAh9kxzh2K', 'Sarah', 'Lancaster', '48 avenue de la Mouette', '1994-09-05', 0),
 ('6f630271-2cf6-11ec-9c98-309c23ed1c26', 'john@doe.fr', '[]', '$2y$13$eaa1LbEAxZHHKV9uG9B16.WPM3W/1Hf3COCLlMa0XOEzc0bl9PNtS', 'John', 'Doe', '10 rue des palmiers', '2000-04-02', 1),
 ('960c82fe-2cf6-11ec-9c98-309c23ed1c26', 'maria@orvald.fr', '[]', '$2y$13$7mgE4O0ARQOurB2.qS6xa.wtK4riMTx5ZmR4bij3Y7w/DIpPutLqa', 'Maria', 'Orvald', '14 rue des Boulons', '1964-12-12', 1),
 ('a1331cb6-2873-11ec-a7e7-309c23ed1c26', 'admin@admin.fr', '["ROLE_EMPLOYEE"]', '$2y$13$aV2sTrKMIa3/gXMw8RMXHOux.nWqANkw9Xgh7AoNxTN9ywjNcyaqG', 'David', 'Webb', '8 rue du Plessis', '1996-02-14', 1),
 ('d71c4dc2-2cf7-11ec-9c98-309c23ed1c26', 'riul@dani.fr', '[]', '$2y$13$y93ExKCU3dbV.o5yQvOukuyFE/frRlICE/HiG/fZxOWRsQqXqmRFu', 'Daniel', 'Riul', '132 rue des coquelicots', '1945-05-28', 1),
-('f533ec96-2cf6-11ec-9c98-309c23ed1c26', 'loiseau@marc.fr', '[]', '$2y$13$.LjPCr6x9SJzoP7Iso4kO.oe.x6BDLsnL.FiLlK3GcaqHez.XG8dq', 'Marc', 'Loiseau', '14 rue du citronnier', '1992-06-28', 1);
+('f533ec96-2cf6-11ec-9c98-309c23ed1c26', 'loiseau@marc.fr', '[]', '$2y$13$.LjPCr6x9SJzoP7Iso4kO.oe.x6BDLsnL.FiLlK3GcaqHez.XG8dq', 'Marc', 'Loiseau', '14 rue du citronnier', '1992-06-28', 0);
 
 INSERT INTO categories (name) VALUES
 ('Roman'), ('SF'), ('Histoire'), ('BD & Jeunesse'), ('Sciences'), ('Nature & Loisirs');
