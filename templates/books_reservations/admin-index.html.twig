@@ -33,7 +33,7 @@
                             <td style="width: 20%;"> <a href="{{ path('books_show', {'id': reservation.books.id}) }}" target="_blank"> {{ reservation.books.title }} </a> </td>
                             <td style="width: 20%;"> <a href="mailto:{{ reservation.user.email }}"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}} </a></td>
                             <td style="width: 10%;">{{ reservation.reservedAt|date('d/m/Y H:m') }}</td>
-                            <td style="width: 10%;">{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:i') : ' - ' }} </td>
+                            <td style="width: 10%;">{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:m') : ' - ' }} </td>
                             <td class="actions">
                                 {% include('books_reservations/_delete_form.html.twig') %}
                                 {% include('books_reservations/_update-book-status.html.twig') %}
@@ -59,7 +59,7 @@
                     <p><u><b>Livres:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}" target="_blank"> {{ reservation.books.title }}</a></p>
                     <p><u><b>Utilisateurs:</b></u> <a href="mailto:{{ reservation.user.email }}"> {{ reservation.user.lastname }} {{ reservation.user.firstname|upper}}</a></p>
                     <p><u><b>Dates d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m')}}</p>
-                    <p><u><b>Dates d'emprunt maximum:</b></u> {{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:i') : ' - ' }} </p>
+                    <p><u><b>Dates d'emprunt maximum:</b></u> {{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:m') : ' - ' }} </p>
                 </div>
                 <div class="btn-container">
                     {% include('books_reservations/_delete_form.html.twig') %}

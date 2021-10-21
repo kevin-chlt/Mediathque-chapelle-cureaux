@@ -38,8 +38,8 @@
                         <tr>
                             {% for reservation in reservations %}
                             <td style="width: 30%;"><a href="{{ path('books_show', {'id': reservation.books.id}) }}" target="_blank"> {{ reservation.books.title }} </a></td>
-                            <td style="width: 20%;">{{ reservation.reservedAt|date('d/m/Y H:i') }}</td>
-                            <td style="width: 20%;">{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:i') : ' - ' }}</td>
+                            <td style="width: 20%;">{{ reservation.reservedAt|date('d/m/Y H:m') }}</td>
+                            <td style="width: 20%;">{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:m') : ' - ' }}</td>
                             <td class="actions">
                                 <a class="waves-effect waves-light btn modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" style="color: #FFFFFF" href="#cancel-modal-large-{{ loop.index }}">Annuler l'emprunt</a>
                             </td>
@@ -89,7 +89,7 @@
                     <div class="row">
                         <p><u><b>Livre:</b></u> <a href="{{ path('books_show', {'id': reservation.books.id}) }}"> {{ reservation.books.title }}</a></p>
                         <p><u><b>Date d'emprunt:</b></u> {{ reservation.reservedAt|date('d/m/Y à H:m')}}</p>
-                        <p><u><b>Date d'emprunt maximum:</b></u>{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:i') : ' - ' }}</p>
+                        <p><u><b>Date d'emprunt maximum:</b></u>{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:m') : ' - ' }}</p>
                     </div>
                     <div class="btn-container row">
                         <a class="waves-effect waves-light btn btn-small modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" href="#cancel-modal-responsive-{{ loop.index }}" style="color: #FFFFFF"> Annuler l'emprunt </a>
