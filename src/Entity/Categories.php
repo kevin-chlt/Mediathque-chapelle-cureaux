@@ -7,10 +7,12 @@ use App\Repository\CategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"})
  * @ORM\Entity(repositoryClass=CategoriesRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Une catégorie existe déjà avec ce nom.")
  */
 class Categories
 {

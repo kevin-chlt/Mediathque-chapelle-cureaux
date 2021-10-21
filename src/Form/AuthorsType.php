@@ -27,7 +27,7 @@ class AuthorsType extends AbstractType
                         'maxMessage' => 'ERREUR AJOUT AUTEUR: Le titre doit contenir au maximum {{ limit }} caractères.',
                     ]),
                     new Type([
-                        'type' => 'alpha',
+                        'type' => 'string',
                         'message' => 'ERREUR AJOUT AUTEUR: Veuillez utiliser seulement des lettres.'
                     ])
                 ]

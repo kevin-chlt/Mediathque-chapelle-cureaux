@@ -27,7 +27,7 @@ class CategoriesType extends AbstractType
                         'maxMessage' => 'ERREUR AJOUT CATEGORIE: Le titre doit contenir au maximum {{ limit }} caractères.',
                     ]),
                     new Type([
-                        'type' => 'alpha',
+                        'type' => 'string',
                         'message' => 'ERREUR AJOUT CATEGORIE: Veuillez utiliser seulement des lettres.'
                     ])
                 ]
