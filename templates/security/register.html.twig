@@ -7,43 +7,8 @@
 
 {% block body %}
         <button class="btn back-btn"> <a href="{{ path('app_login') }}"> Connexion </a><i class="material-icons left">supervisor_account</i></button>
-
-        {{ form_start(registrationForm, {'attr': {'class': 'z-depth-3'} }) }}
         <h1 class="center">Inscription</h1>
-        <div class="input-field">
-                {{ form_label(registrationForm.firstname) }}
-                {{ form_widget(registrationForm.firstname) }}
-                {{ form_errors(registrationForm.firstname) }}
-        </div>
-        <div class="input-field">
-                {{ form_label(registrationForm.lastname) }}
-                {{ form_widget(registrationForm.lastname) }}
-                {{ form_errors(registrationForm.lastname) }}
-        </div>
-        <div class="input-field">
-                {{ form_label(registrationForm.email) }}
-                {{ form_widget(registrationForm.email) }}
-                {{ form_errors(registrationForm.email) }}
-        </div>
-        <div class="input-field">
-                {{ form_label(registrationForm.plainPassword) }}
-                {{ form_widget(registrationForm.plainPassword) }}
-                {{ form_errors(registrationForm.plainPassword) }}
-        </div>
-        <div class="input-field">
-                {{ form_label(registrationForm.address) }}
-                {{ form_widget(registrationForm.address) }}
-                {{ form_errors(registrationForm.address) }}
-        </div>
-        <div>
-                {{ form_label(registrationForm.birthdate) }}
-                {{ form_widget(registrationForm.birthdate) }}
-                {{ form_errors(registrationForm.birthdate) }}
-        </div>
 
-        <button type="submit" class="btn waves-effect waves-light"> Enregistrer <i class="material-icons right">send</i></button>
-
-        {{ form_end(registrationForm) }}
-
+        {% include('users/_form.html.twig') %}
 
 {% endblock %}

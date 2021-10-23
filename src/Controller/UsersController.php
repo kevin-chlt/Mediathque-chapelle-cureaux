@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Users;
+use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersController extends AbstractController
 {
     // Return user no validate by employee
-    #[Route('/', name: 'users_index')]
-    public function index (UsersRepository $usersRepository) : Response
+    #[Route('/administration', name: 'users_index')]
+    public function panelAdmin (UsersRepository $usersRepository) : Response
     {
-        return $this->render('users/index.html.twig', [
+        return $this->render('users/admin-index.html.twig', [
             'users' => $usersRepository->findBy(['isValidate' => false])
         ]);
     }
@@ -50,6 +51,25 @@ class UsersController extends AbstractController
             $this->addFlash('success', 'Action bien prise en compte.');
         }
             return $this->redirectToRoute('users_index');
+    }
+
+    // Get user details and form for update user details.
+    #[Route('/', name: 'user_details', methods: ['GET', 'POST'])]
+    public function getUserDetails (Request $request, UsersRepository $usersRepository) : Response
+    {
+        $user = $usersRepository->find($this->getUser());
+        $form = $this->createForm(RegistrationFormType::class, $user, ['is_edit' => true]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre profil à été validé avec succès.');
+        }
+
+        return $this->render('users/user-index.html.twig',[
+            'form' => $form->createView(),
+        ]);
     }
 
 }

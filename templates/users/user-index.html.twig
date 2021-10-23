@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %} Mon compte {% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/update-user.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    {% if (is_granted("ROLE_EMPLOYEE")) %}
+        {% include('headers/header-employee.html.twig') %}
+    {% else %}
+        {% include('headers/header-user.html.twig') %}
+    {% endif %}
+
+    <main>
+        <div class="container">
+            {% include('users/_form.html.twig') %}
+        </div>
+    </main>
+
+    {% include('./_footer.html.twig') %}
+
+    <script src="{{ asset('assets/js/init-modal.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+{% endblock %}

@@ -6,9 +6,13 @@ use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
@@ -22,6 +26,8 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'label' => 'Adresse e-mail',
+                'disabled' => $options['is_edit'],
                 'constraints' => [
                     new notBlank([
                         'message' => 'Vous devez remplir ce champ.',
@@ -34,24 +40,38 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
                 'mapped' => false,
-                'label' => 'Mot de passe',
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez remplir ce champ.',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                        'max' => 255,
-                        'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.',
-                    ]),
+                'invalid_message' => 'Les 2 mots de passe doivent être identiques',
+                'first_options' => [
+                    'label' => 'Mot de passe',
+                    'attr' => ['autocomplete' => 'new-password'],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Vous devez remplir ce champ.',
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+                            'max' => 255,
+                            'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.',
+                        ]),
+                    ],
                 ],
+                'second_options' => [
+                    'label' => 'Confirmer votre mot de passe',
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Vous devez remplir ce champ.',
+                        ]),
+                    ],
+                ]
+
             ])
         ->add('lastname', TextType::class, [
-            'label' => 'Prenom',
+            'label' => 'Prénom',
+            'disabled' => $options['is_edit'],
             'constraints' => [
                 new NotBlank([
                     'message' => 'Vous devez remplir ce champ.'
@@ -70,6 +90,7 @@ class RegistrationFormType extends AbstractType
         ])
             ->add('firstname', TextType::class, [
                 'label' => 'Nom',
+                'disabled' => $options['is_edit'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Vous devez remplir ce champ.'
@@ -101,6 +122,7 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('birthdate', BirthdayType::class, [
+                'disabled' => $options['is_edit'],
                 'label' => 'Date de naissance',
                 'widget'=> 'single_text',
                 'constraints' => [
@@ -117,13 +139,28 @@ class RegistrationFormType extends AbstractType
                     ])
                 ]
             ])
-        ;
+        ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $events){
+            $form = $events->getForm();
+            $user = $events->getData();
+
+            if (!empty($user->getEmail())) {
+                $form->add('oldPassword', PasswordType::class, [
+                    'mapped' => false,
+                    'label' => 'Ancien mot de passe',
+                    'constraints' => [
+                        new UserPassword(['message' => 'Le mot de passe n\'est pas valide'
+                        ])
+                    ]
+                ]);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
+            'is_edit' => false,
         ]);
     }
 }

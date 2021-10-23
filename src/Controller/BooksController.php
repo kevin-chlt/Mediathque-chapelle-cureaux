@@ -100,6 +100,7 @@ class BooksController extends AbstractController
     public function delete(Request $request, Books $book, BooksReservationsRepository $reservationsRepository): Response
     {
         $reservations = $reservationsRepository->findOneBy(['books' => $book->getId()]);
+
         if($reservations) {
             $this->addFlash('errors', 'Un emprunt est en cours pour ce livre, veuillez le supprimer avant de supprimer ce livre');
         } elseif ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {

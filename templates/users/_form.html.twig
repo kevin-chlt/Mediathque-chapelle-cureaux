@@ -1,0 +1,46 @@
+{{ form_start(form, {'attr': {'class': 'z-depth-3'} }) }}
+<div class="input-field">
+    {{ form_label(form.firstname) }}
+    {{ form_widget(form.firstname) }}
+    {{ form_errors(form.firstname) }}
+</div>
+<div class="input-field">
+    {{ form_label(form.lastname) }}
+    {{ form_widget(form.lastname) }}
+    {{ form_errors(form.lastname) }}
+</div>
+<div class="input-field">
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email) }}
+    {{ form_errors(form.email) }}
+</div>
+<div class="input-field">
+    {{ form_label(form.plainPassword.first) }}
+    {{ form_widget(form.plainPassword.first) }}
+    {{ form_errors(form.plainPassword.first) }}
+</div>
+<div class="input-field">
+    {{ form_label(form.plainPassword.second) }}
+    {{ form_widget(form.plainPassword.second) }}
+    {{ form_errors(form.plainPassword.second) }}
+</div>
+<div class="input-field">
+    {{ form_label(form.address) }}
+    {{ form_widget(form.address) }}
+    {{ form_errors(form.address) }}
+</div>
+<div>
+    {{ form_label(form.birthdate) }}
+    {{ form_widget(form.birthdate) }}
+    {{ form_errors(form.birthdate) }}
+</div>
+
+{% if app.user is null %}
+    <button type="submit" class="btn waves-effect waves-light"> Enregistrer <i class="material-icons right">send</i></button>
+{% else %}
+    <a class="waves-effect waves-light btn modal-trigger" href="#oldPasswordModal"> Valider <i class="material-icons right">border_color</i></a>
+
+    {% include('users/_oldPasswordForm-modal.html.twig') %}
+
+{% endif %}
+{{ form_end(form) }}

@@ -15,6 +15,10 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
+        if($this->getUser()){
+            return $this->redirectToRoute('books_index');
+        }
+
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -32,7 +36,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('security/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }
