@@ -43,14 +43,13 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
+                'required' => !$options['is_edit'],
                 'invalid_message' => 'Les 2 mots de passe doivent être identiques',
                 'first_options' => [
                     'label' => 'Mot de passe',
                     'attr' => ['autocomplete' => 'new-password'],
+                    'required' => !$options['is_edit'],
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Vous devez remplir ce champ.',
-                        ]),
                         new Length([
                             'min' => 6,
                             'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
@@ -61,13 +60,16 @@ class RegistrationFormType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => 'Confirmer votre mot de passe',
+                    'required' => !$options['is_edit'],
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Vous devez remplir ce champ.',
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+                            'max' => 255,
+                            'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.',
                         ]),
                     ],
                 ]
-
             ])
         ->add('lastname', TextType::class, [
             'label' => 'Prénom',
@@ -84,7 +86,7 @@ class RegistrationFormType extends AbstractType
                 ]),
                 new Type([
                     'type' => 'alpha',
-                    'message' => 'Votre prénom doit être composé uniquement de lettre.',
+                    'message' => 'Votre prénom doit être composé uniquement de lettres et sans caractères spécial.',
                 ])
             ]
         ])
@@ -103,7 +105,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Type([
                         'type' => 'alpha',
-                        'message' => 'Votre nom doit être composé uniquement de lettre.',
+                        'message' => 'Votre nom doit être composé uniquement de lettres et sans caractères spécial.',
                     ])
                 ]
             ])
@@ -134,8 +136,8 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Date de naissance incorrect.'
                     ]),
                     new LessThan([
-                        'value' => '+5 years',
-                        'message' => 'Date de naissance incorrect.'
+                        'value' => '-6 years',
+                        'message' => 'Vous devez avoir 6 ans minimum pour adhérer à la médiathèque.'
                     ])
                 ]
             ])
@@ -146,11 +148,11 @@ class RegistrationFormType extends AbstractType
             if (!empty($user->getEmail())) {
                 $form->add('oldPassword', PasswordType::class, [
                     'mapped' => false,
-                    'label' => 'Ancien mot de passe',
+                    'label' => 'Mot de passe',
                     'error_bubbling' => true,
                     'constraints' => [
                         new UserPassword([
-                            'message' => 'L\'ancien mot de passe n\'est pas valide.'
+                            'message' => 'Mot de passe invalide.'
                         ])
                     ]
                 ]);

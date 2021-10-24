@@ -45,5 +45,5 @@ security:
          - { path: ^/reservations, roles: ROLE_USER }
          - { path: ^/categories, roles: ROLE_EMPLOYEE }
          - { path: ^/authors, roles: ROLE_EMPLOYEE }
-         - { path: ^/users, roles: ROLE_EMPLOYEE }
+         - { path: ^/users, roles: ROLE_USER }
          - { path: ^/, roles: PUBLIC_ACCESS }

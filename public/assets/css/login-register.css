@@ -21,13 +21,14 @@ body{
     background: rgba(38, 166, 154, 0.1);
     position: relative;
     flex-direction: column;
+    padding: 20px 0;
 }
 
 
 form{
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 50%;
     padding: 10px 30px 20px;
     border: 2px #0DC9C9 solid;
     border-radius: 15px;
@@ -62,6 +63,7 @@ input,label {
     left: 10px;
 }
 
+/* ERROR FORM */
 ul{
     margin: 0;
 }
@@ -72,18 +74,25 @@ ul{
     color: red;
 }
 
+/* PASSWORD ICON VIEWER */
+.icon-pass-view, .icon-pass-hide{
+    position: absolute;
+    bottom: 50%;
+    right: 5%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+.icon-pass-hide{
+    display: none;
+}
+
+
 @media screen and (max-width: 950px) {
     form {
         width: 100%;
         border: 0;
         border-radius: 0;
     }
-}
-
-
-@media screen and (max-width: 400px){
-    .btn{
-        overflow: inherit;
-    }
-
 }

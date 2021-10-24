@@ -10,6 +10,7 @@
 
 main{
     padding: 30px 0;
+    background: rgba(38, 166, 154, 0.1);
 }
 
 /* TITLE */
@@ -29,6 +30,9 @@ h1{
 /* FORM */
 form{
     padding: 30px 40px 10px;
+    border: #0DC9C9 2px solid;
+    margin-bottom: 20px;
+    border-radius: 15px;
 }
 
 .civility-container{
@@ -57,6 +61,14 @@ form{
     padding: 10px 0;
 }
 
+fieldset{
+    border-color: #0DC9C9;
+}
+
+legend{
+    color: #0DC9C9;
+}
+
 /* MODAL */
 .modal{
     width: 35%;
@@ -72,7 +84,7 @@ form{
     text-decoration: #0DC9C9;
 }
 
-.btn{
+.btn, .modal-close{
     background: #0DC9C9;
 }
 
@@ -87,4 +99,27 @@ form{
 /* TEXT */
 .modal h4, .modal p, form, input, h1, .introduce-container p{
     font-family: Overlock, sans-serif;
+}
+
+@media screen and (max-width: 950px) {
+    .container {
+        width: 100%;
+    }
+
+    form{
+        border: 0;
+        border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .modal{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    main{
+        padding: 50px 0;
+    }
 }

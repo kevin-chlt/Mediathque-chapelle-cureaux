@@ -11,9 +11,10 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a class="nav-link" href="{{ path('books_index') }}">Catalogue</a></li>
                 <li><a class="nav-link" href="{{ path('user_books_reservations') }}">Emprunts</a></li>
+                <li><a class="nav-link" href="{{ path('user_update') }}">Mon profil</a></li>
                 <li><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
             </ul>
-
+            <!-- DROPDOWN RESPONSIVE -->
             <a class='dropdown-trigger waves-effect waves-light btn hide-on-large-only' href='#' data-target='dropdown-menu'>
                 Menu
             </a>
@@ -22,20 +23,11 @@
                 <li class="divider" tabindex="-1"></li>
                 <li><a href="{{ path('user_books_reservations') }}">Emprunts</a></li>
                 <li class="divider" tabindex="-1"></li>
+                <li><a href="{{ path('user_update') }}">Mon profil</a></li>
+                <li class="divider" tabindex="-1"></li>
                 <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
             </ul>
+            <!-- FIN DROPDOWN RESPONSIVE -->
         </div>
     </nav>
 </header>
-
-<script defer>
-    document.addEventListener('DOMContentLoaded', function() {
-        const elems = document.querySelectorAll('.dropdown-trigger');
-        const options = {
-            'alignment': 'center',
-            'coverTrigger': false,
-            'constrainWidth': false
-        }
-        const instances = M.Dropdown.init(elems, options);
-    });
-</script>

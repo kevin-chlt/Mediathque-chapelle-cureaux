@@ -6,16 +6,20 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 #[Route('/users')]
 class UsersController extends AbstractController
 {
     // Return user no validate by employee
     #[Route('/administration', name: 'users_index')]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à acceder à cette page')]
     public function panelAdmin (UsersRepository $usersRepository) : Response
     {
         return $this->render('users/admin-index.html.twig', [
@@ -25,6 +29,7 @@ class UsersController extends AbstractController
 
     // Delete the user when employee refuse the registration
     #[Route('remove/{id}', name: 'user_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à effectué cette action')]
     public function delete(Request $request, Users $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
@@ -41,6 +46,7 @@ class UsersController extends AbstractController
 
     //Accept user and change validate bool at true
     #[Route('/accept/{id}', name: 'user_accept', methods: ['POST'])]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à effectué cette action')]
     public function accept (Request $request, Users $user) : Response
     {
         if ($this->isCsrfTokenValid('accept'.$user->getId(), $request->request->get('_token'))) {
@@ -55,14 +61,16 @@ class UsersController extends AbstractController
 
     // Get user details and form for update user details.
     #[Route('/', name: 'user_update', methods: ['GET', 'POST'])]
-    public function userUpdate (Request $request, UsersRepository $usersRepository) : Response
+    public function userUpdate (Request $request, UsersRepository $usersRepository, UserPasswordHasherInterface $hasher) : Response
     {
         $user = $usersRepository->find($this->getUser());
         $form = $this->createForm(RegistrationFormType::class, $user, ['is_edit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $usersRepository->upgradePassword($user, $form->get('plainPassword')->getData());
+            if(!$form->get('plainPassword')->isEmpty()){
+                $user->setPassword($hasher->hashPassword($user, $form->get('plainPassword')->getData()));
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
