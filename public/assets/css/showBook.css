@@ -87,11 +87,12 @@ main{
 
 @media screen and (max-width: 800px) {
     main{
-        padding: 50px;
+        padding: 50px 0;
     }
 
     .container{
-        padding: 10px 15px 20px;
+        padding: 20px 10px;
+        width: 95%;
     }
 
     .book-img-container{
@@ -113,9 +114,5 @@ main{
 
     .row{
         margin-bottom: 0;
-    }
-
-    .material-icons {
-        display: none;
     }
 }
