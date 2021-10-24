@@ -213,7 +213,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|BooksReservations[]
+     * @return Collection
      */
     public function getBooksReservations(): Collection
     {

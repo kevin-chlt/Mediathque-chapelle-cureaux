@@ -54,17 +54,19 @@ class UsersController extends AbstractController
     }
 
     // Get user details and form for update user details.
-    #[Route('/', name: 'user_details', methods: ['GET', 'POST'])]
-    public function getUserDetails (Request $request, UsersRepository $usersRepository) : Response
+    #[Route('/', name: 'user_update', methods: ['GET', 'POST'])]
+    public function userUpdate (Request $request, UsersRepository $usersRepository) : Response
     {
         $user = $usersRepository->find($this->getUser());
         $form = $this->createForm(RegistrationFormType::class, $user, ['is_edit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $usersRepository->upgradePassword($user, $form->get('plainPassword')->getData());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-            $this->addFlash('success', 'Votre profil à été validé avec succès.');
+            $this->addFlash('success', 'Votre profil à été mise à jour avec succès.');
         }
 
         return $this->render('users/user-index.html.twig',[

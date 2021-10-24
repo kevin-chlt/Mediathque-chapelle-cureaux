@@ -1,13 +1,25 @@
 {{ form_start(form, {'attr': {'class': 'z-depth-3'} }) }}
-<div class="input-field">
-    {{ form_label(form.firstname) }}
-    {{ form_widget(form.firstname) }}
-    {{ form_errors(form.firstname) }}
+<div class="civility-container">
+    <div class="input-field">
+        {{ form_label(form.firstname) }}
+        {{ form_widget(form.firstname) }}
+        {{ form_errors(form.firstname) }}
+    </div>
+    <div class="input-field">
+        {{ form_label(form.lastname) }}
+        {{ form_widget(form.lastname) }}
+        {{ form_errors(form.lastname) }}
+    </div>
+</div>
+<div>
+    {{ form_label(form.birthdate) }}
+    {{ form_widget(form.birthdate) }}
+    {{ form_errors(form.birthdate) }}
 </div>
 <div class="input-field">
-    {{ form_label(form.lastname) }}
-    {{ form_widget(form.lastname) }}
-    {{ form_errors(form.lastname) }}
+    {{ form_label(form.address) }}
+    {{ form_widget(form.address) }}
+    {{ form_errors(form.address) }}
 </div>
 <div class="input-field">
     {{ form_label(form.email) }}
@@ -17,30 +29,24 @@
 <div class="input-field">
     {{ form_label(form.plainPassword.first) }}
     {{ form_widget(form.plainPassword.first) }}
+    <i class="material-icons icon-pass-view" id="view1">visibility</i>
+    <i class="material-icons icon-pass-hide" id="hide1">visibility_off</i>
     {{ form_errors(form.plainPassword.first) }}
 </div>
 <div class="input-field">
     {{ form_label(form.plainPassword.second) }}
     {{ form_widget(form.plainPassword.second) }}
+    <i class="material-icons icon-pass-view" id="view2">visibility</i>
+    <i class="material-icons icon-pass-hide" id="hide2">visibility_off</i>
     {{ form_errors(form.plainPassword.second) }}
-</div>
-<div class="input-field">
-    {{ form_label(form.address) }}
-    {{ form_widget(form.address) }}
-    {{ form_errors(form.address) }}
-</div>
-<div>
-    {{ form_label(form.birthdate) }}
-    {{ form_widget(form.birthdate) }}
-    {{ form_errors(form.birthdate) }}
 </div>
 
 {% if app.user is null %}
     <button type="submit" class="btn waves-effect waves-light"> Enregistrer <i class="material-icons right">send</i></button>
 {% else %}
-    <a class="waves-effect waves-light btn modal-trigger" href="#oldPasswordModal"> Valider <i class="material-icons right">border_color</i></a>
-
+    <div class="center btn-container">
+        <a class="waves-effect waves-light btn modal-trigger" href="#oldPasswordModal"> Valider <i class="material-icons right">border_color</i></a>
+    </div>
     {% include('users/_oldPasswordForm-modal.html.twig') %}
-
 {% endif %}
 {{ form_end(form) }}

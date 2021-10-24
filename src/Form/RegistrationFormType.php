@@ -147,8 +147,10 @@ class RegistrationFormType extends AbstractType
                 $form->add('oldPassword', PasswordType::class, [
                     'mapped' => false,
                     'label' => 'Ancien mot de passe',
+                    'error_bubbling' => true,
                     'constraints' => [
-                        new UserPassword(['message' => 'Le mot de passe n\'est pas valide'
+                        new UserPassword([
+                            'message' => 'L\'ancien mot de passe n\'est pas valide.'
                         ])
                     ]
                 ]);

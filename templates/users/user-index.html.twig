@@ -12,7 +12,17 @@
     {% endif %}
 
     <main>
+        {% include('./_app-flashes.html.twig') %}
+        <div class="row center">
+            <h1>Mon profil</h1>
+        </div>
+        <div class="row center introduce-container">
+            <p> Gérer votre profil et changer certaines informations personnelles de votre compte.</p>
+        </div>
         <div class="container">
+            <div class="error-container center">
+                {{ form_errors(form) }}
+            </div>
             {% include('users/_form.html.twig') %}
         </div>
     </main>
@@ -21,4 +31,5 @@
 
     <script src="{{ asset('assets/js/init-modal.js') }}" defer></script>
     <script src="{{ asset('assets/js/init-dropdown.js') }}" defer></script>
+    <script src="{{ asset('assets/js/passViewerIcon.js') }}" defer></script>
 {% endblock %}
