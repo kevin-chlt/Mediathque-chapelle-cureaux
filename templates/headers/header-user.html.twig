@@ -4,16 +4,17 @@
             <div class="brand-logo">
                 <span class="flow-text">
                     <i class="cloud-logo material-icons left">cloud</i>
-                    Médiathèque La Chapelle-Curreaux
+                    Médiathèque La Chapelle-Cureaux
                 </span>
             </div>
-
+            <!-- MENU -->
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a class="nav-link" href="{{ path('books_index') }}">Catalogue</a></li>
-                <li><a class="nav-link" href="{{ path('user_books_reservations') }}">Emprunts</a></li>
+                <li><a class="nav-link" href="{{ path('user_books_reservations') }}">Mes Emprunts</a></li>
                 <li><a class="nav-link" href="{{ path('user_update') }}">Mon profil</a></li>
                 <li><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
             </ul>
+
             <!-- DROPDOWN RESPONSIVE -->
             <a class='dropdown-trigger waves-effect waves-light btn hide-on-large-only' href='#' data-target='dropdown-menu'>
                 Menu
@@ -21,11 +22,11 @@
             <ul id='dropdown-menu' class='dropdown-content'>
                 <li><a href="{{ path('books_index') }}">Catalogue</a></li>
                 <li class="divider" tabindex="-1"></li>
-                <li><a href="{{ path('user_books_reservations') }}">Emprunts</a></li>
+                <li><a href="{{ path('user_books_reservations') }}">Mes Emprunts</a></li>
                 <li class="divider" tabindex="-1"></li>
                 <li><a href="{{ path('user_update') }}">Mon profil</a></li>
                 <li class="divider" tabindex="-1"></li>
-                <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
             </ul>
             <!-- FIN DROPDOWN RESPONSIVE -->
         </div>
