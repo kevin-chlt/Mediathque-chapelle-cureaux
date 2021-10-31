@@ -46,4 +46,4 @@ security:
          - { path: ^/categories, roles: ROLE_EMPLOYEE }
          - { path: ^/authors, roles: ROLE_EMPLOYEE }
          - { path: ^/users, roles: ROLE_USER }
-         - { path: ^/, roles: PUBLIC_ACCESS, requires_channel: https }
+         - { path: ^/, roles: PUBLIC_ACCESS }
