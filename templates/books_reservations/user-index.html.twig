@@ -92,7 +92,8 @@
                         <p><u><b>Date d'emprunt maximum:</b></u>{{ reservation.isCollected ? reservation.collectedAt|date_modify('+3 weeks')|date('d/m/Y H:m') : ' - ' }}</p>
                     </div>
                     <div class="btn-container row">
-                        <a class="waves-effect waves-light btn btn-small modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}" href="#cancel-modal-responsive-{{ loop.index }}" style="color: #FFFFFF"> Annuler l'emprunt </a>
+                        <a class="waves-effect waves-light btn btn-small modal-trigger {{ reservation.isCollected ? 'disabled' : '' }}"
+                           href="#cancel-modal-responsive-{{ loop.index }}" style="color: #FFFFFF">Annuler l'emprunt</a>
                     </div>
                 </div>
 

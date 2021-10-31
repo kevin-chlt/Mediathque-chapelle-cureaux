@@ -68,6 +68,9 @@ class BooksController extends AbstractController
             if($file instanceof UploadedFile){
                 $filename = $uploader->getFileName($file);
                 $book->setCover("uploads/$filename");
+            } else {
+                $this->addFlash('errors', 'Une erreur est apparu lors du chargement de votre image, veuillez réessayer.');
+                return $this->redirectToRoute('books_index');
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -102,7 +105,7 @@ class BooksController extends AbstractController
         $reservations = $reservationsRepository->findOneBy(['books' => $book->getId()]);
 
         if($reservations) {
-            $this->addFlash('errors', 'Un emprunt est en cours pour ce livre, veuillez le supprimer avant de supprimer ce livre');
+            $this->addFlash('errors', 'Un emprunt est en cours pour ce livre');
         } elseif ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($book);

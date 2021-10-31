@@ -59,9 +59,9 @@ class BooksType extends AbstractType
             ])
             ->add('cover', FileType::class, [
                 'label' => 'Couverture',
-                'required' => false,
                 'label_attr' => ['style' => 'color: #FFFFFF'],
                 'constraints' => [
+                    new NotBlank(['message' => 'Vous devez remplir le champ.']),
                     new File([
                         'maxSize' => '2048k',
                         'maxSizeMessage' => 'Taille de fichier maximum autorisé: {{ limit }}',

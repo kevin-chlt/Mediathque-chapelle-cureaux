@@ -23,11 +23,7 @@
             </div>
             <div class="row">
                 <div class="book-img-container left">
-                    {% if book.cover %}
-                        <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture livre"/>
-                    {% else %}
-                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}"  alt="image couverture livre par defaut"/>
-                    {% endif %}
+                    <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture livre"/>
                 </div>
                 <div class="book-text-container">
                     <p>
@@ -56,7 +52,8 @@
                 {% if (is_granted("ROLE_EMPLOYEE")) %}
                     {%  include('books/_delete_form.html.twig') %}
                 {% endif %}
-                <a class="waves-effect waves-light btn modal-trigger btn-small {{ book.isFree ? '' : 'disabled' }}" href="#emprunte-modal"><i class="material-icons right">add</i>Emprunter</a>
+                <a class="waves-effect waves-light btn modal-trigger btn-small {{ book.isFree ? '' : 'disabled' }}" href="#emprunte-modal">
+                    <i class="material-icons right">add</i>Emprunter</a>
             </div>
         </div>
     </main>

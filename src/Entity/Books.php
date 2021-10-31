@@ -44,7 +44,7 @@ class Books
     private $isFree = true;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $cover;
 
@@ -117,12 +117,12 @@ class Books
         return $this;
     }
 
-    public function getCover(): ?string
+    public function getCover(): string
     {
         return $this->cover;
     }
 
-    public function setCover(?string $cover): self
+    public function setCover(string $cover): self
     {
         $this->cover = $cover;
 

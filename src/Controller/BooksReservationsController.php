@@ -19,14 +19,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/reservations')]
 class BooksReservationsController extends AbstractController
 {
-
     // Get Book with Params ID, make the reservation
     #[Route('/new/{id}', name: 'books_reservations_new', methods: ['POST'])]
     public function new(Books $book, UsersRepository $usersRepository, Request $request): Response
     {
         if ($this->isCsrfTokenValid('create'.$book->getId(), $request->request->get('_token'))) {
 
-            $user = $usersRepository->find($this->getUser()->getId());
+            $user = $usersRepository->find($this->getUser());
 
             if (!$book->getIsFree()) {
                 $this->addFlash('errors', 'Le livre n\'est pas disponible');
@@ -42,13 +41,11 @@ class BooksReservationsController extends AbstractController
                     ->setUser($user)
                     ->setReservedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
-
                 $book->setIsFree(false);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($booksReservation);
                 $entityManager->flush();
-
                 $this->addFlash('success', 'Vous pouvez venir chercher votre livre dès maintenant à la médiathèque.');
             }
         }
@@ -61,7 +58,7 @@ class BooksReservationsController extends AbstractController
     #[Route('/', name: 'user_books_reservations', methods: ['GET'])]
     public function getUserReservation (BooksReservationsRepository $reservationsRepository, OutdatedReservations $outdatedReservations) : Response
     {
-        $reservations = $reservationsRepository->findBy(['user' => $this->getUser()->getId()], ['reservedAt' => 'ASC']);
+        $reservations = $reservationsRepository->findBy(['user' => $this->getUser()], ['reservedAt' => 'ASC']);
         $outdatedReservations = $outdatedReservations->getOutdatedReservation($reservations);
 
         return $this->render('books_reservations/user-index.html.twig', [
@@ -73,12 +70,12 @@ class BooksReservationsController extends AbstractController
 
     // Cancel reservation and set book statut to free
     #[Route('/cancel-reservation/{id}', name: 'books_reservations_cancel', methods: ['POST'])]
-    public function cancelReservationByUser (Request $request, BooksReservations $booksReservations, BooksReservationsRepository $reservationsRepository, BooksRepository $booksRepository) : Response
+    public function cancelReservation (Request $request, BooksReservations $booksReservations, BooksReservationsRepository $reservationsRepository, BooksRepository $booksRepository) : Response
     {
         if ($this->isCsrfTokenValid('cancelReservation'.$booksReservations->getId(), $request->request->get('_token'))) {
             $book = $booksRepository->find($booksReservations->getBooks()->getId());
 
-            if (($this->getUser()->getId() === $booksReservations->getUser()->getId()) && !$booksReservations->getIsCollected()) {
+            if (($this->getUser() === $booksReservations->getUser()) && !$booksReservations->getIsCollected()) {
                 $book->setIsFree(true);
 
                 $entityManager = $this->getDoctrine()->getManager();
@@ -92,14 +89,14 @@ class BooksReservationsController extends AbstractController
         }
 
         return $this->redirectToRoute('user_books_reservations', [
-            'reservations' => $reservationsRepository->findBy(['user' => $this->getUser()->getId()])
+            'reservations' => $reservationsRepository->findBy(['user' => $this->getUser()])
         ]);
     }
 
 
     // Get all the reservation | Admin panel
-    #[Route('/administration', name: 'books_reservations_index', methods: ['GET'])]
-    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à acceder à cette page')]
+    #[Route('/admin', name: 'books_reservations_index', methods: ['GET'])]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
     public function adminPanel(BooksReservationsRepository $booksReservationsRepository, OutdatedReservations $outdatedReservations): Response
     {
         // Check the date and delete the reservation not recolted since 3 days

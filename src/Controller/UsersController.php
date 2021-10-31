@@ -18,8 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersController extends AbstractController
 {
     // Return user no validate by employee
-    #[Route('/administration', name: 'users_index')]
-    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à acceder à cette page')]
+    #[Route('/admin', name: 'users_index')]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
     public function panelAdmin (UsersRepository $usersRepository) : Response
     {
         return $this->render('users/admin-index.html.twig', [

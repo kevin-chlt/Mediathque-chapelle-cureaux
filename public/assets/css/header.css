@@ -9,13 +9,10 @@ nav{
     padding: 0 15px;
 }
 
-.nav-link{
-    font-size: 1.15rem;
-}
-
-#dropdown-admin .nav-link{
-    color: #0DC9C9;
-}
+nav .brand-logo {font-size: 1.4rem;}
+nav .material-icons{margin-left: 8px;}
+.nav-link {font-size: 1.15rem;}
+#dropdown-admin .nav-link{color: #0DC9C9;}
 
 @media screen and (max-width: 992px) {
     nav .brand-logo{

@@ -61,14 +61,6 @@ class RegistrationFormType extends AbstractType
                 'second_options' => [
                     'label' => 'Confirmer votre mot de passe',
                     'required' => !$options['is_edit'],
-                    'constraints' => [
-                        new Length([
-                            'min' => 6,
-                            'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                            'max' => 255,
-                            'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.',
-                        ]),
-                    ],
                 ]
             ])
         ->add('lastname', TextType::class, [
