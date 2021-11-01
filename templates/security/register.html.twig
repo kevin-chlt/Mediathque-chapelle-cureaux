@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block body %}
-        <button class="btn back-btn"> <a href="{{ path('app_login') }}"> Connexion </a><i class="material-icons left">supervisor_account</i></button>
+    <button class="btn back-btn"> <a href="{{ path('app_login') }}"> Connexion </a><i class="material-icons left">supervisor_account</i></button>
 
-    <h1 class="center">Inscription</h1>
+
     {% include('users/_form.html.twig') %}
 
 

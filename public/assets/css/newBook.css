@@ -14,19 +14,14 @@ main{
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
-    width: 100%;
     background: rgba(87, 193, 188, 0.1);
-    padding: 20px 0;
 }
-
 
 .addBookForm{
     display: flex;
     flex-direction: column;
     width: 40%;
     padding: 10px 30px 20px;
-    border: 2px #0DC9C9 solid;
-    border-radius: 15px;
 }
 
 
@@ -43,7 +38,7 @@ h1, .btn {
     font-family: Righteous, sans-serif;
 }
 
-input, select, label, h1{
+input, select, label{
     font-family: Overlock, sans-serif;
 }
 
@@ -126,9 +121,7 @@ form li {
 
 @media screen and (max-width: 950px) {
     .addBookForm {
-        width: 100%;
-        border: 0;
-        border-radius: 0;
+        width: 95%;
     }
 }
 

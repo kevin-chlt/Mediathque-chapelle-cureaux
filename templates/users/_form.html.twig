@@ -1,4 +1,7 @@
 {{ form_start(form, {'attr': {'class': 'z-depth-3'} }) }}
+{% if app.user is null %}
+    <h1 class="center">Inscription</h1>
+{% endif %}
 <div class="civility-container">
     <div class="input-field">
         {{ form_label(form.firstname) }}

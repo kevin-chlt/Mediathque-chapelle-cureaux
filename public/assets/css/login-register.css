@@ -21,7 +21,6 @@ body{
     background: rgba(38, 166, 154, 0.1);
     position: relative;
     flex-direction: column;
-    padding: 20px 0;
 }
 
 
@@ -30,8 +29,6 @@ form{
     flex-direction: column;
     width: 50%;
     padding: 10px 30px 20px;
-    border: 2px #0DC9C9 solid;
-    border-radius: 15px;
 }
 
 
@@ -39,8 +36,8 @@ h1{
     color: #0DC9C9;
     text-decoration: underline #0DC9C9;
     font-size: 3rem;
-    padding: 10px;
-    margin-top: 20px;
+    padding: 10px 0;
+    margin: 0;
 }
 
 h1, .btn {
@@ -91,8 +88,6 @@ ul{
 
 @media screen and (max-width: 950px) {
     form {
-        width: 100%;
-        border: 0;
-        border-radius: 0;
+           width: 95%;
     }
 }

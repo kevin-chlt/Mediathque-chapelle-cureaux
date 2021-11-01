@@ -104,7 +104,7 @@ table a, .responsive-card a, .responsive-user-reservation a {
 
     .responsive-card .row, .responsive-user-reservation .row{
         margin-bottom: 0;
-        padding: 10px 25px;
+        padding: 5px 15px 0 15px;
     }
 
     .btn-container{
@@ -117,6 +117,12 @@ table a, .responsive-card a, .responsive-user-reservation a {
     /* user panel responsive */
     .responsive-user-reservation .btn-container{
         justify-content: center;
+    }
+
+    .responsive-user-reservation{
+        width: 90%;
+        margin: 0 auto;
+        padding-bottom: 10px;
     }
 
 }
