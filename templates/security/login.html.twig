@@ -20,8 +20,10 @@
                 <label for="email">Email</label>
             </div>
             <div class="input-field">
-                <input id="password" type="password" name="password" required  />
                 <label for="password" >Mot de passe</label>
+                <input id="password" type="password" name="password" required  />
+                <i class="material-icons icon-pass-view" id="view1">visibility</i>
+                <i class="material-icons icon-pass-hide" id="hide1">visibility_off</i>
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -32,4 +34,6 @@
                 <span class="error-msg">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
             {% endif %}
         </form>
+
+    <script src="{{ asset('assets/js/loginPassViewerIcon.js') }}" defer></script>
 {% endblock %}

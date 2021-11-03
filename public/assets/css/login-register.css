@@ -70,6 +70,16 @@ ul{
     margin-top: 10px;
     color: red;
 }
+/* Inscription civility */
+.civility-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.civility-container .input-field{
+    width: 40%;
+}
+/* END CIVILITY CONTAINER */
 
 /* PASSWORD ICON VIEWER */
 .icon-pass-view, .icon-pass-hide{
