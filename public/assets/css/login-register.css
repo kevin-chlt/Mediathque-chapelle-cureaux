@@ -29,6 +29,7 @@ form{
     flex-direction: column;
     width: 50%;
     padding: 10px 30px 20px;
+    position: relative;
 }
 
 
@@ -44,7 +45,7 @@ h1, .btn {
     font-family: Righteous, sans-serif;
 }
 
-input,label {
+input,label, .tooltip-text {
     font-family: Overlock, sans-serif;
 }
 
@@ -80,6 +81,23 @@ ul{
     width: 40%;
 }
 /* END CIVILITY CONTAINER */
+
+/* TOOLTIP INTERROGATION MARK LOGIN PAGE */
+.tooltipped {
+    position: absolute;
+    right: 10px;
+    color: #0DC9C9;
+    cursor: pointer;
+}
+
+.material-tooltip{
+    background: #0DC9C9;
+}
+
+.tooltip-text{
+    font-size: 0.9rem;
+}
+/* END TOOLTIP */
 
 /* PASSWORD ICON VIEWER */
 .icon-pass-view, .icon-pass-hide{

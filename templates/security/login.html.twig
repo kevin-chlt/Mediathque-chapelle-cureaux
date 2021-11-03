@@ -14,6 +14,7 @@
     <button class="btn back-btn"> <a href={{ path('app_register') }}> Inscription </a><i class="material-icons left">create</i></button>
 
         <form class="center z-depth-3" method="POST">
+            <a class=" tooltipped" data-position="left" ><i class="material-icons">help</i></a>
             <h1 class="">Connexion</h1>
             <div class="input-field">
                 <input id="email" value="{{ last_username }}" name="email" required autofocus type="email"  />
@@ -36,4 +37,5 @@
         </form>
 
     <script src="{{ asset('assets/js/loginPassViewerIcon.js') }}" defer></script>
+    <script src="{{ asset('assets/js/init-tooltip.js') }}" defer></script>
 {% endblock %}
