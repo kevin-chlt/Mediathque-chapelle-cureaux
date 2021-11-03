@@ -50,7 +50,6 @@ class Authenticator extends AbstractLoginFormAuthenticator
         //    return new RedirectResponse($targetPath);
         //}
 
-
         return new RedirectResponse($this->urlGenerator->generate('books_index'));
 
     }

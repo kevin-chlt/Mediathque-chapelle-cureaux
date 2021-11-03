@@ -19,7 +19,6 @@ security:
                 class: App\Entity\Users
                 property: email
     firewalls:
-
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -27,7 +26,9 @@ security:
             access_denied_handler: App\Security\AccessDeniedHandler
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\Authenticator
+            custom_authenticator:
+                - App\Security\Authenticator
+                - App\Security\SocialAuthenticator
             logout:
                 path: app_logout
                 target: app_login
