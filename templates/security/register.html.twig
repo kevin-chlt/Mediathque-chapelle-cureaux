@@ -7,7 +7,9 @@
 
 {% block body %}
     <button class="btn back-btn"> <a href="{{ path('app_login') }}"> Connexion </a><i class="material-icons left">supervisor_account</i></button>
-
+    <div class="center">
+        {% include('./_app-flashes.html.twig') %}
+    </div>
 
     {% include('users/_form.html.twig') %}
 

@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
+    {% block title %}Connexion{% endblock %}
 
-{% block title %}Connexion{% endblock %}
-
-{% block stylesheets %}
-    <link href="{{ asset('assets/css/login-register.css') }}" rel="stylesheet" />
-{% endblock %}
+    {% block stylesheets %}
+        <link href="{{ asset('assets/css/login-register.css') }}" rel="stylesheet" />
+    {% endblock %}
 
 {% block body %}
     <div class="center">
@@ -13,7 +12,7 @@
 
     <button class="btn back-btn"> <a href={{ path('app_register') }}> Inscription </a><i class="material-icons left">create</i></button>
 
-        <form class="center z-depth-3" method="POST">
+        <form class="center z-depth-3 login-form" method="POST">
             <a class=" tooltipped" data-position="left" ><i class="material-icons">help</i></a>
             <h1 class="">Connexion</h1>
             <div class="input-field">
@@ -34,7 +33,7 @@
             {% if error %}
                 <span class="error-msg">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
             {% endif %}
-            {% include('security/google-connect-btn.html.twig') %}
+            {% include('security/_google-connect-btn.html.twig') %}
 
         </form>
 
