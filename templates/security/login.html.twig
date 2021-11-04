@@ -34,6 +34,8 @@
             {% if error %}
                 <span class="error-msg">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
             {% endif %}
+            {% include('security/google-connect-btn.html.twig') %}
+
         </form>
 
     <script src="{{ asset('assets/js/loginPassViewerIcon.js') }}" defer></script>
