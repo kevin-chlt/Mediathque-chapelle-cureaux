@@ -63,12 +63,7 @@ class SocialAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        // get the login error if there is one
-        $error = $this->authenticationUtils->getLastAuthenticationError();
-
-
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
-        $request->getSession()->getFlashBag()->add('errors',  $error);
+        $request->getSession()->getFlashBag()->add('errors',  'Erreur d\'authentification');
 
         return new RedirectResponse($this->router->generate('app_login'));
     }
