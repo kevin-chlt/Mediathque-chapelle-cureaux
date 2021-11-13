@@ -24,7 +24,8 @@ class ImportCSVType extends AbstractType
                         'maxSize' => '5096k',
                         'maxSizeMessage' => 'Taille de fichier maximum autorisé: {{ limit }}',
                         'mimeTypes' => [
-                            'text/csv'
+                            'text/csv',
+                            'application/csv'
                         ],
                         'mimeTypesMessage' => 'Fichier .csv uniquement autorisé.',
                     ])

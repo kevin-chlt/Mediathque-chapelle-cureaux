@@ -120,8 +120,20 @@ class BooksController extends AbstractController
 
     #[Route('/import', name: 'books_import', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
-    public function importCSV(): Response
+    public function importCSV(Request $request): Response
     {
+        $form = $this->createForm(ImportCSVType::class);
+        $form->handleRequest($request) ;
+
+        if ($form->isValid()) {
+           dd('ok');
+        } else {
+            $errors = $form->getErrors(true);
+            foreach ($errors as $error) {
+                $this->addFlash('errors', $error->getMessage());
+            }
+        }
+
         return $this->redirectToRoute('books_new');
     }
 
