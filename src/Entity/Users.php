@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
@@ -27,7 +26,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    #[Assert\Length(min: 3, minMessage: 'Vous devez avoir {{ limit }} caractères minimum dans le champ "{{ label }}".')]
     private $email;
 
     /**
@@ -39,35 +37,26 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    #[Assert\Length(min: 6, minMessage: 'Vous devez avoir {{ limit }} caractères minimum dans le champ "{{ label }}".')]
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Assert\Length(min: 3, minMessage: 'Vous devez avoir {{ limit }} caractères minimum dans le champ "{{ label }}".')]
-    #[Assert\Regex('/^[A-zÀ-ÿ-]+$/', message: 'Ce "{{ label }}" n\'est pas valide.')]
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Assert\Length(min: 3, minMessage: 'Vous devez avoir {{ limit }} caractères minimum dans le champ "{{ label }}".')]
-    #[Assert\Regex('/^[A-zÀ-ÿ-]+$/', message: 'Ce "{{ label }}" n\'est pas valide.')]
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Assert\Length(min: 6, minMessage: 'Vous devez avoir {{ limit }} caractères minimum dans le champ "{{ label }}".')]
     private $address;
 
     /**
      * @ORM\Column(type="date")
      */
-    #[Assert\NotBlank]
-    #[Assert\LessThan(value: '-6 years', message: 'Vous devez avoir 6 ans minimum pour adhérer à la médiathèque.')]
-    #[Assert\GreaterThan(value: '-120 years', message: 'Date de naissance invalide')]
     private $birthdate;
 
     /**

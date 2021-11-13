@@ -138,6 +138,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.4.0"
     },
+    "league/csv": {
+        "version": "9.7.2"
+    },
     "league/oauth2-client": {
         "version": "2.6.0"
     },

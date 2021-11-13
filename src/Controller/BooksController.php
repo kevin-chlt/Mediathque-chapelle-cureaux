@@ -15,13 +15,14 @@ use App\Repository\BooksReservationsRepository;
 use App\Repository\CategoriesRepository;
 use App\Services\ImgUploader;
 use Knp\Component\Pager\PaginatorInterface;
+use League\Csv\Reader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/books')]
 class BooksController extends AbstractController
@@ -120,13 +121,30 @@ class BooksController extends AbstractController
 
     #[Route('/import', name: 'books_import', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
-    public function importCSV(Request $request): Response
+    public function importCSV(Request $request, ValidatorInterface $validator): Response
     {
         $form = $this->createForm(ImportCSVType::class);
-        $form->handleRequest($request) ;
+        $form->handleRequest($request);
 
+
+        $csv = Reader::createFromFileObject(new \SplFileObject($form['import']->getData()))
+        ->setHeaderOffset(0);
+
+        $constraints = $validator->getMetadataFor(BooksType::class);
+
+        foreach($csv as $row) {
+            $errors = $validator->validate($row['title'], $constraints->findConstraints('title'));
+            dd($errors);
+            if($errors){
+                dump($row['title']);
+            }else {
+                dump($errors);
+            }
+        }
+
+die();
         if ($form->isValid()) {
-           dd('ok');
+            //$reader::
         } else {
             $errors = $form->getErrors(true);
             foreach ($errors as $error) {

@@ -11,7 +11,7 @@ class UsersTest extends KernelTestCase
         return (new Users())
             ->setFirstname('John')
             ->setLastname('Doe')
-            ->setEmail('john@doe.fr')
+            ->setEmail('johen@doe.fr')
             ->setPassword('password');
     }
 
