@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class BooksType extends AbstractType
 {
@@ -32,6 +33,10 @@ class BooksType extends AbstractType
                     new Length([
                         'max' => 255,
                         'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[A-zÀ-ÿ -]+$/',
+                        'message' => 'Veuillez utiliser seulement des lettres, les espaces sont autorisés.'
                     ])
                 ]
             ])

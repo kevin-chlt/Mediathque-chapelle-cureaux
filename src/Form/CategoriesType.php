@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class CategoriesType extends AbstractType
 {
@@ -26,8 +26,8 @@ class CategoriesType extends AbstractType
                         'max' => 255,
                         'maxMessage' => 'ERREUR AJOUT CATEGORIE: Le titre doit contenir au maximum {{ limit }} caractères.',
                     ]),
-                    new Type([
-                        'type' => 'string',
+                    new Regex([
+                        'pattern' => '/^[A-z0-9À-ÿ \/-]+$/',
                         'message' => 'ERREUR AJOUT CATEGORIE: Veuillez utiliser seulement des lettres.'
                     ])
                 ]

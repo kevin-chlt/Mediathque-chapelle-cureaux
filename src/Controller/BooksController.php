@@ -8,6 +8,7 @@ use App\Form\AuthorsType;
 use App\Form\BooksType;
 use App\Form\CategoriesType;
 use App\Form\FiltersType;
+use App\Form\ImportCSVType;
 use App\Repository\AuthorsRepository;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
@@ -54,12 +55,9 @@ class BooksController extends AbstractController
     {
         $book = new Books();
         $form = $this->createForm(BooksType::class, $book);
-        $newAuthorForm = $this->createForm(AuthorsType::class, null ,  [
-            'action' => $this->generateUrl('authors_new')
-        ]);
-        $newCategoryForm = $this->createForm(CategoriesType::class, null, [
-            'action' => $this->generateUrl('categories_new')
-        ]);
+        $newAuthorForm = $this->createForm(AuthorsType::class, null, ['action' => $this->generateUrl('authors_new')]);
+        $newCategoryForm = $this->createForm(CategoriesType::class, null, ['action' => $this->generateUrl('categories_new')]);
+        $importCSVForm = $this->createForm(ImportCSVType::class, null, ['action' => $this->generateUrl('books_import')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,7 +84,8 @@ class BooksController extends AbstractController
             'categories' => $categoriesRepository->findAll(),
             'form' => $form->createView(),
             'authorForm' => $newAuthorForm->createView(),
-            'categoryForm' => $newCategoryForm->createView()
+            'categoryForm' => $newCategoryForm->createView(),
+            'importForm' => $importCSVForm->createView()
         ]);
     }
 
@@ -100,6 +99,7 @@ class BooksController extends AbstractController
 
 
     #[Route('/remove/{id}', name: 'books_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette fonctionnalité')]
     public function delete(Request $request, Books $book, BooksReservationsRepository $reservationsRepository): Response
     {
         $reservations = $reservationsRepository->findOneBy(['books' => $book->getId()]);
@@ -116,4 +116,13 @@ class BooksController extends AbstractController
 
         return $this->redirectToRoute('books_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/import', name: 'books_import', methods: ['POST'])]
+    #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
+    public function importCSV(): Response
+    {
+        return $this->redirectToRoute('books_new');
+    }
+
 }

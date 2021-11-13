@@ -1,0 +1,21 @@
+
+
+<div id="importCSV-modal" class="modal">
+    <div class="modal-content">
+        <div class="section-modal">
+            <h4>Importer un fichier CSV</h4>
+            {{ form_start(importForm, {'attr': {'class':'form-modal'}}) }}
+            <div class="file-field input-field">
+                <div class="btn-small">
+                    {{ form_label(importForm.import) }}
+                    {{ form_widget(importForm.import) }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path" type="text">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-small waves-effect waves-light">Importer</button>
+            {{ form_end(importForm) }}
+        </div>
+    </div>
+</div>

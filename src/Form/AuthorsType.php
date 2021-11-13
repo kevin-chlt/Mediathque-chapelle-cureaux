@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
 
 class AuthorsType extends AbstractType
@@ -26,8 +27,8 @@ class AuthorsType extends AbstractType
                         'max' => 255,
                         'maxMessage' => 'ERREUR AJOUT AUTEUR: Le titre doit contenir au maximum {{ limit }} caractères.',
                     ]),
-                    new Type([
-                        'type' => 'string',
+                    new Regex([
+                        'pattern' => '/^[.A-z0-9À-ÿ \/-]+$/',
                         'message' => 'ERREUR AJOUT AUTEUR: Veuillez utiliser seulement des lettres.'
                     ])
                 ]

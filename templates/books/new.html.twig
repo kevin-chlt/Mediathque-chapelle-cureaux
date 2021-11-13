@@ -11,12 +11,13 @@
 
 
     <main>
+        <a class="waves-effect waves-light btn btn-small modal-trigger import-btn" href="#importCSV-modal">Importer</a>
         {% include('./_app-flashes.html.twig') %}
         {% include('books/_formNew.html.twig') %}
     </main>
-
     {% include('./_footer.html.twig') %}
 
+    {% include('books/_modal-importCSVForm.html.twig') %}
     {% include('authors/_modal-createDelete.html.twig') %}
     {% include('categories/_modal-createDelete.html.twig') %}
 
