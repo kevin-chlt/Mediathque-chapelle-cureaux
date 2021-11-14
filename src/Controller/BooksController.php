@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Data\FiltersBooks;
+use App\Entity\Authors;
 use App\Entity\Books;
+use App\Entity\Categories;
 use App\Form\AuthorsType;
 use App\Form\BooksType;
 use App\Form\CategoriesType;
@@ -14,6 +16,7 @@ use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Repository\CategoriesRepository;
 use App\Services\ImgUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use League\Csv\Reader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -121,34 +124,51 @@ class BooksController extends AbstractController
 
     #[Route('/import', name: 'books_import', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
-    public function importCSV(Request $request, ValidatorInterface $validator): Response
+    public function importCSV(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, CategoriesRepository $categoriesRepository, AuthorsRepository $authorsRepository): Response
     {
         $form = $this->createForm(ImportCSVType::class);
         $form->handleRequest($request);
 
-
         $csv = Reader::createFromFileObject(new \SplFileObject($form['import']->getData()))
         ->setHeaderOffset(0);
 
-        $constraints = $validator->getMetadataFor(BooksType::class);
-
-        foreach($csv as $row) {
-            $errors = $validator->validate($row['title'], $constraints->findConstraints('title'));
-            dd($errors);
-            if($errors){
-                dump($row['title']);
-            }else {
-                dump($errors);
-            }
-        }
-
-die();
         if ($form->isValid()) {
-            //$reader::
-        } else {
-            $errors = $form->getErrors(true);
-            foreach ($errors as $error) {
-                $this->addFlash('errors', $error->getMessage());
+            $count = 0;
+            foreach ($csv as $row) {
+                $count++;
+
+                $category = (new Categories())->setName($row['category']);
+                $author = (new Authors())->setName($row['author']);
+
+                if (!$categoriesRepository->findOneBy(['name' => $category->getName()])) {
+                    $entityManager->persist($category);
+                    $entityManager->flush();
+                }
+
+                if (!$authorsRepository->findOneBy(['name' => $author->getName()])) {
+                    $entityManager->persist($author);
+                    $entityManager->flush();
+                }
+
+                $books = (new Books())
+                    ->setTitle($row['title'])
+                    ->setDescription($row['description'])
+                    ->setParutedAt(new \DateTime($row['parutedAt']))
+                    ->addCategory($categoriesRepository->findOneBy(['name' => $category->getName()]))
+                    ->addAuthor($authorsRepository->findOneBy(['name' => $author->getName()]));
+
+                $errors = $validator->validate($books);
+
+                if ($errors) {
+                    foreach ($errors as $error) {
+                        $this->addFlash('errors', 'INSERTION STOPPÉ - Ligne ' . $count . ': ' . $error->getMessage());
+                        return $this->redirectToRoute('books_new');
+                    }
+                }
+
+                //$entityManager->persist($books);
+                //$entityManager->flush();
+                $this->addFlash('success', 'Ligne ' . $count . ': Insertion effectué avec succès.');
             }
         }
 

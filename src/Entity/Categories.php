@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"})
@@ -25,6 +26,8 @@ class Categories
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ {{ label }} doit être renseigné")
+     * @Assert\Regex(pattern="/^[A-z0-9À-ÿ \/-]+$/", message="Nom de catégorie incorrectes.")
      */
     private $name;
 

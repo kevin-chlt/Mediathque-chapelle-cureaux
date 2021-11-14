@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"}, formats={"json"})
@@ -25,16 +27,23 @@ class Books
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ 'title' doit être renseigné")
+     * @Assert\Length(min=3, minMessage="Le champ 'title' doit contenir au minimum {{ limit }} caractères.",
+     *     max=255, maxMessage="Le champ 'title' doit contenir au maximum {{ limit }} caractères.")
+     * @Assert\Regex(pattern="/^[A-zÀ-ÿ -]+$/", message=" 'title': Veuillez utiliser seulement des lettres, les espaces sont autorisés.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Le champ 'description' doit être renseigné")
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Le champ 'parutedAt' doit être renseigné")
+     * @Assert\LessThan(value="+5 years", message="Date incorrecte.")
      */
     private $parutedAt;
 
@@ -45,6 +54,7 @@ class Books
 
     /**
      * @ORM\Column(type="string", length=255)
+
      */
     private $cover;
 
