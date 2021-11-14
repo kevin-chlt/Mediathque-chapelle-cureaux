@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 /**
  * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"}, formats={"json"})
@@ -30,7 +30,7 @@ class Books
      * @Assert\NotBlank(message="Le champ 'title' doit être renseigné")
      * @Assert\Length(min=3, minMessage="Le champ 'title' doit contenir au minimum {{ limit }} caractères.",
      *     max=255, maxMessage="Le champ 'title' doit contenir au maximum {{ limit }} caractères.")
-     * @Assert\Regex(pattern="/^[A-zÀ-ÿ -]+$/", message=" 'title': Veuillez utiliser seulement des lettres, les espaces sont autorisés.")
+     * @Assert\Regex(pattern="/^[.A-z0-9À-ÿ \/'-]+$/", message=" 'title': Veuillez utiliser seulement des lettres, les espaces sont autorisés.")
      */
     private $title;
 
@@ -59,12 +59,12 @@ class Books
     private $cover;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="books")
+     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="books", cascade={"persist"})
      */
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Authors::class, inversedBy="books")
+     * @ORM\ManyToMany(targetEntity=Authors::class, inversedBy="books", cascade={"persist"})
      */
     private $authors;
 

@@ -18,6 +18,7 @@ use App\Repository\CategoriesRepository;
 use App\Services\ImgUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use League\Csv\CharsetConverter;
 use League\Csv\Reader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,8 +39,8 @@ class BooksController extends AbstractController
         $filterForm = $this->createForm(FiltersType::class, $filterBooks);
         $filterForm->handleRequest($request);
 
-        if($filterForm->isSubmitted() && $filterForm->isValid()) {
-           return $this->render('books/index.html.twig', [
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            return $this->render('books/index.html.twig', [
                 'books' => $booksRepository->getBookByCategory($filterBooks)->getResult(),
                 'filterForm' => $filterForm->createView()
             ]);
@@ -67,7 +68,7 @@ class BooksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Give new name if an image has been uploaded //
             $file = $form['cover']->getData();
-            if($file instanceof UploadedFile){
+            if ($file instanceof UploadedFile) {
                 $filename = $uploader->getFileName($file);
                 $book->setCover("uploads/$filename");
             } else {
@@ -108,9 +109,9 @@ class BooksController extends AbstractController
     {
         $reservations = $reservationsRepository->findOneBy(['books' => $book->getId()]);
 
-        if($reservations) {
+        if ($reservations) {
             $this->addFlash('errors', 'Un emprunt est en cours pour ce livre');
-        } elseif ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
+        } elseif ($this->isCsrfTokenValid('delete' . $book->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($book);
             $entityManager->flush();
@@ -129,49 +130,59 @@ class BooksController extends AbstractController
         $form = $this->createForm(ImportCSVType::class);
         $form->handleRequest($request);
 
+
         $csv = Reader::createFromFileObject(new \SplFileObject($form['import']->getData()))
-        ->setHeaderOffset(0);
+            ->setHeaderOffset(0)
+            ->setDelimiter(';')
+        ;
 
-        if ($form->isValid()) {
-            $count = 0;
-            foreach ($csv as $row) {
-                $count++;
 
-                $category = (new Categories())->setName($row['category']);
-                $author = (new Authors())->setName($row['author']);
+        $count = 0;
+        foreach ($csv as $row) {
+            $count++;
 
-                if (!$categoriesRepository->findOneBy(['name' => $category->getName()])) {
-                    $entityManager->persist($category);
+            $books = (new Books())
+                ->setTitle($row['title'])
+                ->setDescription($row['description'])
+                ->setParutedAt(new \DateTime($row['parutedAt']));
+
+            $explodeAuthors = explode(',',$row['authors']);
+            foreach($explodeAuthors as $author) {
+                $authorObj = (new Authors())->setName(trim($author));
+
+                if (!$authorsRepository->findOneBy(['name' => $authorObj->getName()])) {
+                    $entityManager->persist($authorObj);
                     $entityManager->flush();
+                    $this->addFlash('success', 'Auteur créer');
                 }
-
-                if (!$authorsRepository->findOneBy(['name' => $author->getName()])) {
-                    $entityManager->persist($author);
-                    $entityManager->flush();
-                }
-
-                $books = (new Books())
-                    ->setTitle($row['title'])
-                    ->setDescription($row['description'])
-                    ->setParutedAt(new \DateTime($row['parutedAt']))
-                    ->addCategory($categoriesRepository->findOneBy(['name' => $category->getName()]))
-                    ->addAuthor($authorsRepository->findOneBy(['name' => $author->getName()]));
-
-                $errors = $validator->validate($books);
-
-                if ($errors) {
-                    foreach ($errors as $error) {
-                        $this->addFlash('errors', 'INSERTION STOPPÉ - Ligne ' . $count . ': ' . $error->getMessage());
-                        return $this->redirectToRoute('books_new');
-                    }
-                }
-
-                //$entityManager->persist($books);
-                //$entityManager->flush();
-                $this->addFlash('success', 'Ligne ' . $count . ': Insertion effectué avec succès.');
+                $books->addAuthor($authorObj);
             }
-        }
 
+
+            $explodeCategories = explode(',',$row['category']);
+            foreach($explodeCategories as $category) {
+                $categoryObj = (new Categories())->setName(trim($category));
+
+                if (!$categoriesRepository->findOneBy(['name' => $categoryObj->getName()])) {
+                    $entityManager->persist($categoryObj);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'category créer');
+                }
+                $books->addCategory($categoryObj);
+            }
+
+            $errors = $validator->validate($books);
+
+            foreach ($errors as $error) {
+                $this->addFlash('errors', 'INSERTION STOPPÉ - Ligne ' . $count . ': ' . $error->getMessage());
+                return $this->redirectToRoute('books_new');
+            }
+
+
+            $entityManager->persist($books);
+            $entityManager->flush();
+            $this->addFlash('success', 'Ligne ' . $count . ': Insertion effectué avec succès.');
+        }
         return $this->redirectToRoute('books_new');
     }
 
