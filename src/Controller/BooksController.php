@@ -144,13 +144,16 @@ class BooksController extends AbstractController
             $books = (new Books())
                 ->setTitle($row['title'])
                 ->setDescription($row['description'])
-                ->setParutedAt(new \DateTime($row['parutedAt']));
+                ->setParutedAt(new \DateTime($row['parutedAt']))
+                ->setCover('images/image-default.jpg');
+
+            $entityManager->persist($books);
 
             $explodeAuthors = explode(',',$row['authors']);
             foreach($explodeAuthors as $author) {
                 $authorObj = (new Authors())->setName(trim($author));
 
-                if (!$authorsRepository->findOneBy(['name' => $authorObj->getName()])) {
+                if ($authorsRepository->findOneBy(['name' => $authorObj->getName()])) {
                     $entityManager->persist($authorObj);
                     $entityManager->flush();
                     $this->addFlash('success', 'Auteur créer');
@@ -163,7 +166,7 @@ class BooksController extends AbstractController
             foreach($explodeCategories as $category) {
                 $categoryObj = (new Categories())->setName(trim($category));
 
-                if (!$categoriesRepository->findOneBy(['name' => $categoryObj->getName()])) {
+                if ($categoriesRepository->findOneBy(['name' => $categoryObj->getName()])) {
                     $entityManager->persist($categoryObj);
                     $entityManager->flush();
                     $this->addFlash('success', 'category créer');
@@ -179,7 +182,7 @@ class BooksController extends AbstractController
             }
 
 
-            $entityManager->persist($books);
+            //$entityManager->persist($books);
             $entityManager->flush();
             $this->addFlash('success', 'Ligne ' . $count . ': Insertion effectué avec succès.');
         }
