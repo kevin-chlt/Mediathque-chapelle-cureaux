@@ -18,6 +18,8 @@ class CsvToBooks
     private $validator;
     private $authorRepository;
     private $categoryRepository;
+    private $statusOfRequest = [];
+    private int $count = 0;
 
 
     public function __construct( EntityManagerInterface $entityManager, ValidatorInterface $validator, AuthorsRepository $authorRepository, CategoriesRepository $categoryRepository)
@@ -28,40 +30,52 @@ class CsvToBooks
         $this->categoryRepository = $categoryRepository;
     }
 
-
+    // This method call all other method in this service for check the entites and return the state of the import
     public function main (Reader $csvContent) : array
     {
-        // Call method who gonna check each header of the csvContent
-        $statusOfRequest = [];
-        $count = 0;
+        if (!$this->checkHeader($csvContent)) {
+            $this->statusOfRequest['errors'] = 'Les titres de vos colonnes sont invalides.';
+            return $this->statusOfRequest;
+        }
+        // Check all books
         foreach ($csvContent as $row) {
-            $count++;
+            $this->count++;
 
             $books = (new Books())
-                ->setTitle($row['title'])
-                ->setDescription($row['description'])
-                ->setParutedAt(new \DateTime($row['parutedAt']))
+                ->setTitle($row['Titre'])
+                ->setDescription($row['Description'])
+                ->setParutedAt(new \DateTime($row['Parution']))
                 ->setCover('images/image-default.jpg');
 
-            $booksWithAuthor = $this->authors($books, $row['authors']);
-            $booksWithCategory = $this->category($booksWithAuthor, $row['category']);
+            // if an error, $books === null and error will be returned
+            $booksWithAuthor = $this->authors($books, $row['Auteurs']);
+            if($booksWithAuthor === null) {
+                $this->statusOfRequest['errors'] = 'INSERTION STOPPÉ - Ligne ' . $this->count . ': Une erreur sur l\'auteur à été lévé.';
+                return $this->statusOfRequest;
+            }
 
+            $booksWithCategory = $this->category($booksWithAuthor, $row['Categories']);
+            if($booksWithCategory === null) {
+                $this->statusOfRequest['errors'] = 'INSERTION STOPPÉ - Ligne ' . $this->count . ': Une erreur sur la catégorie à été lévé.';
+                return $this->statusOfRequest;
+            }
+
+            //Check the final $books and persist him if is OK or return error to user.
             $errors = $this->validator->validate($booksWithCategory);
-
             foreach ($errors as $error) {
-                $statusOfRequest['errors'] = 'INSERTION STOPPÉ - Ligne ' . $count . ': ' . $error->getMessage();
-                return $statusOfRequest;
+                $this->statusOfRequest['errors'] = 'INSERTION STOPPÉ - Ligne ' . $this->count . ': ' . $error->getMessage();
+                return $this->statusOfRequest;
             }
             $this->entityManager->persist($books);
         }
 
-        $statusOfRequest['success'] = 'Insertion effectué avec succès.';
+        $this->statusOfRequest['success'] = 'Insertion effectué avec succès.';
         $this->entityManager->flush();
-        return $statusOfRequest;
+        return $this->statusOfRequest;
     }
 
-
-    public function authors (Books $books, string $authorRow) : Books
+    // Check each authors in each row and persist him if he isn't in DB or return null if an error occurred.
+    private function authors (Books $books, string $authorRow) : ?Books
     {
         $explodeAuthors = explode(',', $authorRow);
 
@@ -70,6 +84,12 @@ class CsvToBooks
             $authorFromDB = $this->authorRepository->findOneBy(['name' => $newAuthorObj->getName()]);
 
             if ($authorFromDB === null) {
+                $errors = $this->validator->validate($newAuthorObj);
+
+                foreach ($errors as $ignored) {
+                    return null;
+                }
+
                 $this->entityManager->persist($newAuthorObj);
                 $this->entityManager->flush();
                 $books->addAuthor($newAuthorObj);
@@ -81,8 +101,8 @@ class CsvToBooks
         return $books;
     }
 
-
-    public function category (Books $books, string $categoryRow) : Books
+    // Same as authors but for categories of the books
+    private function category (Books $books, string $categoryRow) : ?Books
     {
         $explodeCategories = explode(',', $categoryRow);
 
@@ -91,6 +111,12 @@ class CsvToBooks
             $categoryFromDB = $this->categoryRepository->findOneBy(['name' => $newCategoryObj->getName()]);
 
             if ($categoryFromDB === null) {
+                $errors = $this->validator->validate($newCategoryObj);
+
+                foreach ($errors as $ignored) {
+                    return null;
+                }
+
                 $this->entityManager->persist($newCategoryObj);
                 $this->entityManager->flush();
                 $books->addCategory($newCategoryObj);
@@ -100,6 +126,19 @@ class CsvToBooks
         }
 
         return $books;
+    }
+
+    // Check the first line and return error if a line isn't exist in array headerAccepted.
+    private function checkHeader (Reader $csvContent) : bool
+    {
+        $headersAccepted = ['Titre', 'Parution', 'Description', 'Auteurs', 'Categories'];
+        foreach ($csvContent->getHeader() as $header) {
+            if(!in_array($header, $headersAccepted)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

@@ -127,7 +127,6 @@ class BooksController extends AbstractController
         $form = $this->createForm(ImportCSVType::class);
         $form->handleRequest($request);
 
-
         $csv = Reader::createFromFileObject(new \SplFileObject($form['import']->getData()))
             ->setHeaderOffset(0)
             ->setDelimiter(';');
@@ -135,6 +134,8 @@ class BooksController extends AbstractController
         $flashMessage = $csvToBooks->main($csv);
         $flashMessageKey = key($flashMessage);
         $this->addFlash($flashMessageKey, $flashMessage[$flashMessageKey]);
+
+
         return $this->redirectToRoute('books_new');
     }
 
