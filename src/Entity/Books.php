@@ -54,7 +54,6 @@ class Books
 
     /**
      * @ORM\Column(type="string", length=255)
-
      */
     private $cover;
 
@@ -127,7 +126,7 @@ class Books
         return $this;
     }
 
-    public function getCover(): string
+    public function getCover(): ?string
     {
         return $this->cover;
     }
@@ -140,7 +139,7 @@ class Books
     }
 
     /**
-     * @return Collection|Categories[]
+     * @return Collection
      */
     public function getCategories(): Collection
     {
@@ -164,7 +163,7 @@ class Books
     }
 
     /**
-     * @return Collection|Authors[]
+     * @return Collection
      */
     public function getAuthors(): Collection
     {

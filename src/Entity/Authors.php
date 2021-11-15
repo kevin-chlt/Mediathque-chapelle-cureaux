@@ -26,7 +26,7 @@ class Authors
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex(pattern="/^[A-z0-9À-ÿ \/-]+$/", message=" Nom d'auteur incorrectes.")
+     * @Assert\Regex(pattern="/^[.A-z0-9À-ÿ \/'-]+$/", message=" Nom d'auteur incorrectes.")
      * @Assert\NotBlank(message="Le champ {{ label }} doit être renseigné")
      */
     private $name;

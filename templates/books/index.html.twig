@@ -22,7 +22,11 @@
             {% include('books/_btn-dispo-book.html.twig') %}
             <div class="row">
                 <div class="col l3 s4 book-img-container">
-                    <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture"/>
+                    {% if (book.cover is null) %}
+                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}" alt="image couverture livre"/>
+                    {% else %}
+                        <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture livre"/>
+                    {% endif %}
                 </div>
                 <div class="book-text-container col l9  s8">
                     <h1>{{ book.title }}</h1>

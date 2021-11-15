@@ -23,7 +23,11 @@
             </div>
             <div class="row">
                 <div class="book-img-container left">
-                    <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture livre"/>
+                    {% if (book.cover is null) %}
+                        <img class="responsive-img" src="{{ asset('assets/images/image-default.jpg') }}" alt="image couverture livre"/>
+                    {% else %}
+                        <img class="responsive-img" src="{{ asset(book.cover) }}" alt="image couverture livre"/>
+                    {% endif %}
                 </div>
                 <div class="book-text-container">
                     <p>

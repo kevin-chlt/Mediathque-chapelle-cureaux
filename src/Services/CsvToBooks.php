@@ -44,8 +44,7 @@ class CsvToBooks
             $books = (new Books())
                 ->setTitle($row['Titre'])
                 ->setDescription($row['Description'])
-                ->setParutedAt(new \DateTime($row['Parution']))
-                ->setCover('images/image-default.jpg');
+                ->setParutedAt(new \DateTime($row['Parution']));
 
             // if an error, $books === null and error will be returned
             $booksWithAuthor = $this->authors($books, $row['Auteurs']);
