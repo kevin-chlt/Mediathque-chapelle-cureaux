@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Data\FiltersBooks;
-use App\Entity\Authors;
 use App\Entity\Books;
-use App\Entity\Categories;
 use App\Form\AuthorsType;
 use App\Form\BooksType;
 use App\Form\CategoriesType;
@@ -15,10 +13,9 @@ use App\Repository\AuthorsRepository;
 use App\Repository\BooksRepository;
 use App\Repository\BooksReservationsRepository;
 use App\Repository\CategoriesRepository;
+use App\Services\CsvToBooks;
 use App\Services\ImgUploader;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use League\Csv\CharsetConverter;
 use League\Csv\Reader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +23,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 #[Route('/books')]
 class BooksController extends AbstractController
@@ -125,7 +122,7 @@ class BooksController extends AbstractController
 
     #[Route('/import', name: 'books_import', methods: ['POST'])]
     #[IsGranted('ROLE_EMPLOYEE', message: 'Vous n\'êtes pas autorisé à accéder à cette page')]
-    public function importCSV(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, CategoriesRepository $categoriesRepository, AuthorsRepository $authorsRepository): Response
+    public function importCSV(Request $request, CsvToBooks $csvToBooks): Response
     {
         $form = $this->createForm(ImportCSVType::class);
         $form->handleRequest($request);
@@ -133,59 +130,11 @@ class BooksController extends AbstractController
 
         $csv = Reader::createFromFileObject(new \SplFileObject($form['import']->getData()))
             ->setHeaderOffset(0)
-            ->setDelimiter(';')
-        ;
+            ->setDelimiter(';');
 
-
-        $count = 0;
-        foreach ($csv as $row) {
-            $count++;
-
-            $books = (new Books())
-                ->setTitle($row['title'])
-                ->setDescription($row['description'])
-                ->setParutedAt(new \DateTime($row['parutedAt']))
-                ->setCover('images/image-default.jpg');
-
-            $entityManager->persist($books);
-
-            $explodeAuthors = explode(',',$row['authors']);
-            foreach($explodeAuthors as $author) {
-                $authorObj = (new Authors())->setName(trim($author));
-
-                if ($authorsRepository->findOneBy(['name' => $authorObj->getName()])) {
-                    $entityManager->persist($authorObj);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Auteur créer');
-                }
-                $books->addAuthor($authorObj);
-            }
-
-
-            $explodeCategories = explode(',',$row['category']);
-            foreach($explodeCategories as $category) {
-                $categoryObj = (new Categories())->setName(trim($category));
-
-                if ($categoriesRepository->findOneBy(['name' => $categoryObj->getName()])) {
-                    $entityManager->persist($categoryObj);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'category créer');
-                }
-                $books->addCategory($categoryObj);
-            }
-
-            $errors = $validator->validate($books);
-
-            foreach ($errors as $error) {
-                $this->addFlash('errors', 'INSERTION STOPPÉ - Ligne ' . $count . ': ' . $error->getMessage());
-                return $this->redirectToRoute('books_new');
-            }
-
-
-            //$entityManager->persist($books);
-            $entityManager->flush();
-            $this->addFlash('success', 'Ligne ' . $count . ': Insertion effectué avec succès.');
-        }
+        $flashMessage = $csvToBooks->main($csv);
+        $flashMessageKey = key($flashMessage);
+        $this->addFlash($flashMessageKey, $flashMessage[$flashMessageKey]);
         return $this->redirectToRoute('books_new');
     }
 
