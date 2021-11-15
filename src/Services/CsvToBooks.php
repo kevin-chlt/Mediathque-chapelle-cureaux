@@ -30,21 +30,27 @@ class CsvToBooks
         $this->categoryRepository = $categoryRepository;
     }
 
-    // This method call all other method in this service for check the entites and return the state of the import
+    // This method call all other method in this service for check the entities and return the state of the import
     public function main (Reader $csvContent) : array
     {
         if (!$this->checkHeader($csvContent)) {
             $this->statusOfRequest['errors'] = 'Les titres de vos colonnes sont invalides.';
             return $this->statusOfRequest;
         }
-        // Check all books
+
         foreach ($csvContent as $row) {
             $this->count++;
+
+            // Check if the given date is valid
+            if(!\DateTime::createFromFormat('d/m/Y', $row['Parution'])) {
+                $this->statusOfRequest['errors'] = 'INSERTION STOPPÉ - Ligne ' . $this->count . ': La date de parution est au mauvais format, format autorisé: jj/mm/aaaa.';
+                return $this->statusOfRequest;
+            }
 
             $books = (new Books())
                 ->setTitle($row['Titre'])
                 ->setDescription($row['Description'])
-                ->setParutedAt(new \DateTime($row['Parution']));
+                ->setParutedAt(\DateTime::createFromFormat('d/m/Y', $row['Parution']));
 
             // if an error, $books === null and error will be returned
             $booksWithAuthor = $this->authors($books, $row['Auteurs']);

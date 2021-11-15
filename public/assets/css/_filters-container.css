@@ -100,6 +100,8 @@ input[type="text"]:not(.browser-default):active{
     .filters-container{
         width: 100%;
         justify-content: center;
+        border-left: none;
+        border-right: none;
     }
 }
 

@@ -4,6 +4,22 @@
     <div class="modal-content">
         <div class="section-modal">
             <h4>Importer un fichier CSV</h4>
+            <p><b><u>Pour importer un fichier excel, vous devez remplir les conditions suivantes:</u></b></p>
+            <ul>
+                <li>Votre fichier doit être enregistré au format UTF-8 et avoir comme séparateur les point virgule « ; »</li>
+                <li>
+                    Il doit comporter obligatoirement les colonnes suivantes :
+                    <ul>
+                        <li>- Titre</li>
+                        <li>- Description</li>
+                        <li>- Parution, date au format jj/mm/yyyy</li>
+                        <li>- Auteurs</li>
+                        <li>- Categories</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b><u>Exemple fichier excel valide:</u></b></p>
+            <img src="{{ asset('assets/images/excel-import-screen.png') }}" class="responsive-img" alt="image exemple tableau excel" />
             {{ form_start(importForm, {'attr': {'class':'form-modal'}}) }}
             <div class="file-field input-field">
                 <div class="btn-small">

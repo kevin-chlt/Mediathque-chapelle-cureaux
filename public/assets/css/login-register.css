@@ -134,7 +134,9 @@ ul{
 
 
 @media screen and (max-width: 950px) {
-    form {
+    .subscribe-form, .login-form {
            width: 95%;
     }
+
+
 }

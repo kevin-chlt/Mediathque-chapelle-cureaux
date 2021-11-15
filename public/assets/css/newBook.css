@@ -84,7 +84,7 @@ form li {
 .section-modal{
     background: #FFFFFF;
     margin: 20px 0;
-    padding: 15px 0;
+    padding: 15px;
     border-radius: 10px;
 }
 
@@ -157,6 +157,8 @@ form li {
     .modal .modal-content{
         padding: 10px 0;
     }
+
+    .import-btn{margin: 7px 0}
 
     .section-modal{
         border-radius: 0;
