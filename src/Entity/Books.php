@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(collectionOperations={"GET"}, itemOperations={"GET"}, formats={"json"})
  * @ORM\Entity(repositoryClass=BooksRepository::class)
- * @UniqueEntity(fields={"title"}, message="Un livre avec ce titre existe déjà.")
+ * @UniqueEntity(fields={"title"}, message="Un livre existe déjà avec ce titre.")
  */
 class Books
 {
@@ -27,22 +27,22 @@ class Books
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le champ 'title' doit être renseigné")
-     * @Assert\Length(min=3, minMessage="Le champ 'title' doit contenir au minimum {{ limit }} caractères.",
-     *     max=255, maxMessage="Le champ 'title' doit contenir au maximum {{ limit }} caractères.")
-     * @Assert\Regex(pattern="/^[.A-z0-9À-ÿ \/'-]+$/", message=" 'title': Veuillez utiliser seulement des lettres, les espaces sont autorisés.")
+     * @Assert\NotBlank(message="Le champ 'Titre' doit être renseigné")
+     * @Assert\Length(min=3, minMessage="Le champ 'Titre' doit contenir au minimum {{ limit }} caractères.",
+     *     max=255, maxMessage="Le champ 'Titre' doit contenir au maximum {{ limit }} caractères.")
+     * @Assert\Regex(pattern="/^[.A-z0-9À-ÿ \/'-?!]+$/", message=" 'Titre': Veuillez utiliser seulement des lettres, les espaces sont autorisés.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Le champ 'description' doit être renseigné")
+     * @Assert\NotBlank(message="Le champ 'Description' doit être renseigné")
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank(message="Le champ 'parutedAt' doit être renseigné")
+     * @Assert\NotBlank(message="Le champ 'Parution' doit être renseigné")
      * @Assert\LessThan(value="+5 years", message="Date incorrecte.")
      */
     private $parutedAt;
@@ -54,16 +54,21 @@ class Books
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ 'Couverture' doit être renseigné")
+     * @Assert\File(mimeTypes={"image/jpeg","image/png","image/svg+xml"}, mimeTypesMessage="Type d'images acceptées: PNG, JPG, SVG",
+     *     maxSize="2048k", maxSizeMessage="Taille de fichier maximum autorisé: {{ limit }}")
      */
     private $cover;
 
     /**
      * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="books", cascade={"persist"})
+     * @Assert\NotBlank(message="Le champ 'Categories' doit être renseigné")
      */
     private $categories;
 
     /**
      * @ORM\ManyToMany(targetEntity=Authors::class, inversedBy="books", cascade={"persist"})
+     * @Assert\NotBlank(message="Le champ 'Auteurs' doit être renseigné")
      */
     private $authors;
 

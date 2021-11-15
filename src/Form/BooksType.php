@@ -13,11 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+
 
 class BooksType extends AbstractType
 {
@@ -26,58 +22,18 @@ class BooksType extends AbstractType
         $builder
             ->add('title', TextType::class,[
                 'label' => 'Titre',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez remplir ce champ.'
-                    ]),
-                    new Length([
-                        'max' => 255,
-                        'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères.',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^[A-zÀ-ÿ -]+$/',
-                        'message' => 'Veuillez utiliser seulement des lettres, les espaces sont autorisés.'
-                    ])
-                ]
             ])
             ->add('description',TextareaType::class,[
                 'label' => 'Synopsis',
                 'attr' => ['class'=> 'materialize-textarea'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez remplir ce champ.'
-                    ]),
-                ]
             ])
             ->add('parutedAt', DateType::class, [
                 'label' => 'Date de parution',
                 'widget' => 'single_text',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez remplir ce champ.'
-                    ]),
-                    new LessThan([
-                        'value' => '+5 years',
-                        'message' => 'Date incorrecte.'
-                    ])
-                ]
             ])
             ->add('cover', FileType::class, [
                 'label' => 'Couverture',
                 'label_attr' => ['style' => 'color: #FFFFFF'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Vous devez remplir le champ.']),
-                    new File([
-                        'maxSize' => '2048k',
-                        'maxSizeMessage' => 'Taille de fichier maximum autorisé: {{ limit }}',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'image/svg+xml'
-                        ],
-                        'mimeTypesMessage' => 'Type d\'images acceptées: PNG, JPG, SVG',
-                    ])
-                ],
             ])
             ->add('categories', EntityType::class, [
                 'label' => 'Type(s) de livre',
@@ -85,11 +41,6 @@ class BooksType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'attr' => ['class' => 'multiple'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez remplir ce champ.'
-                    ])
-                ]
             ])
             ->add('authors', EntityType::class, [
                 'label' => 'Auteur(s)',
@@ -97,11 +48,6 @@ class BooksType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'attr' => ['class' => 'multiple'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez remplir ce champ.'
-                    ])
-                ]
             ]);
     }
 
