@@ -1,20 +1,22 @@
 # [Evaluation Studi] Plateforme en ligne de la médiathèque La Chapelle-Cureaux
 
-## 1. Contexte de l'évaluation:
+## 1. Contexte de l'évaluation 
 Lors du premier confinement, les bibliothèques et centres de documentation, au même titre que d'autres établissements recevant du public, ont dû fermer leurs portes.  
-La médiathèque de La Chapelle-Curreaux souhaite en profiter pour développer en interne une solution d’emprunt en ligne.
+La médiathèque de La Chapelle-Cureaux souhaite en profiter pour développer en interne une solution d’emprunt en ligne.
 
-Fonctionnalitées désirées:  
-- Création de compte 
-- Accès au site par authentification utilisateur
+#### Fonctionnalitées désirées :
+- Création de compte.
+- Accès au site par authentification utilisateur.
+- Un espace employé pour gérer les demandes d'inscription utilisateur et les emprunts en cours.
 - Affichage du catalogue de livre avec possibilité de filtrer les livres et 
-de les rechercher grace à une barre de recherche
-- Formulaire d'enregistrement d'un nouveau livre
-- Système de réservation/emprunt de livre
+de les rechercher grâce à une barre de recherche.
+- Formulaire d'enregistrement d'un nouveau livre.
+- Système de réservation/emprunt de livre.
+- Possibilité d'importer un fichier .csv dans le catalogue.
 
 ## 2. Environnement technique
 
-- Front: HTLM 5 / CSS 3 & Framework MaterializeCSS  / JS Vanilla
+- Front: HTML 5 / CSS 3 & Framework MaterializeCSS  / JS Vanilla
 - Back: PHP 7.4 à 8 / Symfony 5.3.9 / BDD relationnelle MySQL (SGBDR: Maria DB)
 - Serveur: Local: Symfony Local Web Server / Prod: HEROKU
 
